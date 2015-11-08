@@ -18,7 +18,8 @@ public interface BattleshipModelInterface {
      */
     Status markShot(Location loc);
     Boolean placeShip(ShipType ship, Location loc, Direction direction);
-    Player whoseTurn()
+    Player whoseTurn();
+    Square getSquare(Board board, Location loc);
 }
 
 //-----
