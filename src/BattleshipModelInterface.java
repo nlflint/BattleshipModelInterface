@@ -16,10 +16,24 @@ public interface BattleshipModelInterface {
      * @return The status of the shot. See the status constants
      * @throws IllegalStateException The game is not in Play Mode
      */
-    Status markShot(Location loc);
-    Boolean placeShip(ShipType ship, Location loc, Direction direction);
-    Player whoseTurn();
-    Square getSquare(Board board, Location loc);
+     
+     //methods for set up mode
+     Boolean placeShip(ShipType ship, Location loc, Direction direction);
+     int numberOfSpacesPerShip(ShipType ship);
+      Boolean gameReady();
+      
+     //methods for play mode
+     Status markShot(Location loc);
+     Player whoseTurn();
+     Square getSquare(Board board, Location loc);
+      String printDefBoard(Player player);
+      String printOffBoard(Player player);
+     
+     //methods for when game is over
+    Boolean isGameOver();
+    Player getWinner();
+    void resetBoard();
+    
 }
 
 //-----
