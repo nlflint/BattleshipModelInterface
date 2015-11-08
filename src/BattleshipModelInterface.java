@@ -16,8 +16,9 @@ public interface BattleshipModelInterface {
      * @return The status of the shot. See the status constants
      * @throws IllegalStateException The game is not in Play Mode
      */
-    Status MarkShot(Location loc);
-    Boolean PlaceShip(ShipType ship, Location loc, Direction direction);
+    Status markShot(Location loc);
+    Boolean placeShip(ShipType ship, Location loc, Direction direction);
+    Player whoseTurn()
 }
 
 //-----
@@ -74,4 +75,26 @@ enum Direction {
     SOUTHWEST,
     WEST,
     NORTHWEST
+}
+
+enum Player {
+    PLAYER1,
+    PLAYER2
+}
+
+enum Board {
+    PLAYER1_OFFENSIVE,
+    PLAYER1_DEFENSIVE,
+    PLAYER2_OFFENSIVE,
+    PLAYER2_DEFENSIVE
+}
+
+enum Square {
+    NOTHING,
+    HIT,
+    MISS,
+    AIRCRAFT_CARRIER,
+    BATTLESHIP,
+    CRUISER,
+    DESTROYER
 }
