@@ -1,5 +1,5 @@
 /**
- * The programatic interface for the Battleship Model class.
+ * The programmatic interface for the Battleship Model class.
  * This interface supports communication with both the view
  * and controller classes in the Battleship application.
  *
@@ -16,9 +16,29 @@ public interface BattleshipModelInterface {
      * @return The status of the shot. See the status constants
      * @throws IllegalStateException The game is not in Play Mode
      */
-    Status markShot(Location loc);
+    Status markShot(Location loc) throws IllegalStateException;
+
+    /**
+     * Places a ship with a starting location and a particular orientation (direction)
+     * @param ship The ShipType object to place
+     * @param loc  The Location on the board to place the first square of the ship
+     * @param direction The orientation of the ship in relation to Location
+     * @return true if ship was placed successfully, false otherwise
+     */
     Boolean placeShip(ShipType ship, Location loc, Direction direction);
+
+    /**
+     * Returns the player whose turn it is
+     * @return the player whose turn it is
+     */
     Player whoseTurn();
+
+    /**
+     * Return the status of the requested square on the board
+     * @param board Board object to evaluate
+     * @param loc   Location on Board of interest
+     * @return status of requested square as an enum type
+     */
     Square getSquare(Board board, Location loc);
 }
 
@@ -58,7 +78,7 @@ enum Status {
     SUNK_AIRCRAFT_CARRIER,
     // return status, location was already played or invalid
     DO_OVER
-};
+}
 
 enum ShipType {
     AIRCRACT_CARRIER,
