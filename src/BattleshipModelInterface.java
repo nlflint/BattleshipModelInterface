@@ -3,10 +3,10 @@
  * This interface supports communication with both the view
  * and controller classes in the Battleship application.
  *
- * @author Flopsy Rabbit
- * @author Mopsy Rabbit
- * @author Cottontail Rabbit
- * @author Cottontail Rabbit
+ * @author Duri Balat
+ * @author Jeremy Duke
+ * @author Nathan Flint
+ * @author Bradley Baumel
  */
 public interface BattleshipModelInterface {
     /**
@@ -27,10 +27,11 @@ public interface BattleshipModelInterface {
     int numberOfSpacesPerShip(ShipType ship);
 
     /**
-     * Determine if setup has been completed and game can begin
+     * Determine if setup has been completed and starts the game if so.
+     * If the game is not setup, the game will remain in setup mode.
      * @return true if setup is completed, false otherwise
      */
-    Boolean gameReady();
+    Boolean startGame();
 
     /**
      * Makes a shot during Play Mode.
@@ -54,11 +55,6 @@ public interface BattleshipModelInterface {
      */
     Square getSquare(Board board, Location loc);
 
-
-    //We should probably move board representation to the view
-    String printDefBoard(Player player);
-    String printOffBoard(Player player);
-
     //methods for when game is over
     /**
      * Determine if game is in progress or not
@@ -78,8 +74,6 @@ public interface BattleshipModelInterface {
      */
     void resetBoard();
 }
-
-//-----
 
 /**
  * A helper class for location
@@ -128,7 +122,8 @@ enum ShipType {
 }
 
 /**
- * The players. Identifies whose turn it is, and which player is place a ship during setup.
+ * The players.
+ * Identifies whose turn it is, and which player is placing a ship during setup.
  */
 enum Player {
     PLAYER1,
@@ -136,8 +131,7 @@ enum Player {
 }
 
 /**
- * Identifies the playing boards. Used when requesting state
- * of a board.
+ * Identifies the playing boards. Used when requesting the state game boards.
  */
 enum Board {
     PLAYER1_OFFENSIVE,
