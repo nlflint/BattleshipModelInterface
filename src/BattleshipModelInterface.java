@@ -128,7 +128,7 @@ enum ShipType {
 }
 
 /**
- * The players
+ * The players. Identifies whose turn it is, and which player is place a ship during setup.
  */
 enum Player {
     PLAYER1,
