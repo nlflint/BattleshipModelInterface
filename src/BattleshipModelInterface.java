@@ -3,10 +3,10 @@
  * This interface supports communication with both the view
  * and controller classes in the Battleship application.
  *
- * @author Flopsy Rabbit
- * @author Mopsy Rabbit
- * @author Cottontail Rabbit
- * @author Cottontail Rabbit
+ * @author Duri Balat
+ * @author Jeremy Duke
+ * @author Nathan Flint
+ * @author Bradley Baumel
  */
 public interface BattleshipModelInterface {
     /**
@@ -55,11 +55,6 @@ public interface BattleshipModelInterface {
      */
     Square getSquare(Board board, Location loc);
 
-
-    //We should probably move board representation to the view
-    String printDefBoard(Player player);
-    String printOffBoard(Player player);
-
     //methods for when game is over
     /**
      * Determine if game is in progress or not
@@ -79,8 +74,6 @@ public interface BattleshipModelInterface {
      */
     void resetBoard();
 }
-
-//-----
 
 /**
  * A helper class for location
