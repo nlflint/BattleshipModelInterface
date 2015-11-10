@@ -9,37 +9,45 @@
  * @author Cottontail Rabbit
  */
 public interface BattleshipModelInterface {
-
-    /**
-     * Makes a shot during Play Mode.
-     * @param loc The designator for the shot
-     * @return The status of the shot. See the status constants
-     * @throws IllegalStateException The game is not in Play Mode
-     */
-    Status markShot(Location loc) throws IllegalStateException;
-
-    /**
+     /**
      * Places a ship with a starting location and a particular orientation (direction)
      * @param ship The ShipType object to place
      * @param loc  The Location on the board to place the first square of the ship
      * @param direction The orientation of the ship in relation to Location
      * @return true if ship was placed successfully, false otherwise
      */
-    Boolean placeShip(ShipType ship, Location loc, Direction direction);
-
-    /**
+     Boolean placeShip(ShipType ship, Location loc, Direction direction);
+     int numberOfSpacesPerShip(ShipType ship);
+     Boolean gameReady();
+      
+     /**
+     * Makes a shot during Play Mode.
+     * @param loc The designator for the shot
+     * @return The status of the shot. See the status constants
+     * @throws IllegalStateException The game is not in Play Mode
+     */
+     Status markShot(Location loc) throws IllegalStateException;
+     
+     /**
      * Returns the player whose turn it is
      * @return the player whose turn it is
      */
-    Player whoseTurn();
-
-    /**
+     Player whoseTurn();
+     
+     /**
      * Return the status of the requested square on the board
      * @param board Board object to evaluate
      * @param loc   Location on Board of interest
      * @return status of requested square as an enum type
      */
-    Square getSquare(Board board, Location loc);
+     Square getSquare(Board board, Location loc);
+     String printDefBoard(Player player);
+     String printOffBoard(Player player);
+     
+     //methods for when game is over
+    Boolean isGameOver();
+    Player getWinner();
+    void resetBoard();
 }
 
 //-----
