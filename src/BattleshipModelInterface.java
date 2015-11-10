@@ -11,9 +11,9 @@
 public interface BattleshipModelInterface {
     /**
      * Places a ship with a starting location and a particular orientation (direction)
-     * @param ship  The ShipType object to place
-     * @param start The Location to place the first square of the ship
-     * @param end   The ending Location of the ship to be placed
+     * @param ship The ShipType object to place
+     * @param start  The Location on the board to place the first square of the ship
+     * @param end The Location on the board to place the last square of the ship
      * @return true if ship was placed successfully, false otherwise
      */
     Boolean placeShip(ShipType ship, Location start, Location end);
