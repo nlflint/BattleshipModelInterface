@@ -27,10 +27,11 @@ public interface BattleshipModelInterface {
     int numberOfSpacesPerShip(ShipType ship);
 
     /**
-     * Determine if setup has been completed and game can begin
+     * Determine if setup has been completed and starts the game if so.
+     * If the game is not setup, the game will remain in setup mode.
      * @return true if setup is completed, false otherwise
      */
-    Boolean gameReady();
+    Boolean startGame();
 
     /**
      * Makes a shot during Play Mode.
