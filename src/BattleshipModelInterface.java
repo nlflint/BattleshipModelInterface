@@ -11,12 +11,13 @@
 public interface BattleshipModelInterface {
     /**
      * Places a ship with a starting location and a particular orientation (direction)
+     * @param player The player who is placing the ship
      * @param ship The ShipType object to place
      * @param start  The Location on the board to place the first square of the ship
      * @param end The Location on the board to place the last square of the ship
      * @return true if ship was placed successfully, false otherwise
      */
-    Boolean placeShip(ShipType ship, Location start, Location end);
+    Boolean placeShip(Player player, ShipType ship, Location start, Location end);
 
     /**
      * Get the size of a ship based on ShipType
@@ -116,6 +117,9 @@ enum Status {
     DO_OVER
 }
 
+/**
+ * All ship types. Used to place ships.
+ */
 enum ShipType {
     AIRCRACT_CARRIER,
     BATTLESHIP,
@@ -123,11 +127,18 @@ enum ShipType {
     DESTROYER
 }
 
+/**
+ * The players
+ */
 enum Player {
     PLAYER1,
     PLAYER2
 }
 
+/**
+ * Identifies the playing boards. Used when requesting state
+ * of a board.
+ */
 enum Board {
     PLAYER1_OFFENSIVE,
     PLAYER1_DEFENSIVE,
@@ -135,6 +146,10 @@ enum Board {
     PLAYER2_DEFENSIVE
 }
 
+/**
+ * Represents squares on the playing boards.
+ * Used by the view to draw the current state of the board.
+ */
 enum Square {
     NOTHING,
     HIT,
