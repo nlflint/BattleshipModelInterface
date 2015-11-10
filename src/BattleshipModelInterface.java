@@ -128,7 +128,8 @@ enum ShipType {
 }
 
 /**
- * The players. Identifies whose turn it is, and which player is place a ship during setup.
+ * The players.
+ * Identifies whose turn it is, and which player is placing a ship during setup.
  */
 enum Player {
     PLAYER1,
@@ -136,8 +137,7 @@ enum Player {
 }
 
 /**
- * Identifies the playing boards. Used when requesting state
- * of a board.
+ * Identifies the playing boards. Used when requesting the state game boards.
  */
 enum Board {
     PLAYER1_OFFENSIVE,
