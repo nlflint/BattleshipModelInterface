@@ -16,7 +16,7 @@ public interface BattleshipModelInterface {
      * @param direction The orientation of the ship in relation to Location
      * @return true if ship was placed successfully, false otherwise
      */
-    Boolean placeShip(ShipType ship, Location loc, Direction direction);
+    Boolean placeShip(ShipType ship, Location start, Location end);
 
     /**
      * Get the size of a ship based on ShipType
@@ -121,17 +121,6 @@ enum ShipType {
     BATTLESHIP,
     CRUISER,
     DESTROYER
-}
-
-enum Direction {
-    NORTH,
-    NORTHEAST,
-    EAST,
-    SOUTHEAST,
-    SOUTH,
-    SOUTHWEST,
-    WEST,
-    NORTHWEST
 }
 
 enum Player {
