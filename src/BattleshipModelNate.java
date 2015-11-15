@@ -19,7 +19,8 @@ public class BattleshipModelNate implements BattleshipModelInterface {
         ShipLocation shipEnd = new ShipLocation(end);
 
         ArrayList<ShipLocation> locations = generateShipLocationsFromRange(shipStart, shipEnd);
-        if (!areWithinBoardRange(locations))
+        if (!areWithinBoardRange(locations) ||
+                !isCorrectShipLength(locations, shipType))
             return false;
 
         Ship ship = new Ship(shipType, locations);
@@ -28,6 +29,24 @@ public class BattleshipModelNate implements BattleshipModelInterface {
 
 
         return true;
+    }
+
+    private boolean isCorrectShipLength(ArrayList<ShipLocation> locations, ShipType shipType) {
+        int expectedLength = getExpectedShipLength(shipType);
+        return locations.size() == expectedLength;
+    }
+
+    private int getExpectedShipLength(ShipType shipType) {
+        switch (shipType) {
+            case AIRCRACT_CARRIER:
+                return 5;
+            case BATTLESHIP:
+                return 4;
+            case CRUISER:
+                return 3;
+            default:
+                return 2;
+        }
     }
 
     private boolean areWithinBoardRange(ArrayList<ShipLocation> locations) {
