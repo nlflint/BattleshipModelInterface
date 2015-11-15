@@ -8,7 +8,7 @@ public class PlaceShipTests {
 
     @Before
     public void BeforeEachTest() {
-        //model = new BattleshipModel();
+        model = new BattleshipModelNate();
     }
 
     @Test
@@ -189,7 +189,8 @@ public class PlaceShipTests {
     }
 
     private int getRangeLength(int start, int end) {
-        return Math.abs(start - end);
+        int direction = (end >= start) ? 1 : -1;
+        return Math.abs(start - end + direction);
     }
 
     private int[] getRange(int start, int end, int length) {
