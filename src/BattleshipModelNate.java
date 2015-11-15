@@ -144,8 +144,10 @@ public class BattleshipModelNate implements BattleshipModelInterface {
         }
 
         public boolean ContainsLocation(ShipLocation location) {
-            for (ShipLocation loc : locations)
-                return loc.equals(location);
+            for (ShipLocation loc : locations) {
+                if (loc.equals(location))
+                    return true;
+            }
             return false;
         }
     }

@@ -32,7 +32,7 @@ public class PlaceShipTests {
     @Test
     public void placeShip_whenPlacingBattleshipDiagonally_ThenGetSquareReturnsShipAtFourLocations() {
         // Act
-        model.placeShip(Player.PLAYER1, ShipType.CRUISER, getLoc(1, 'a'), getLoc(4, 'd'));
+        model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(1, 'a'), getLoc(4, 'd'));
 
         // Assert
         assertSquareEqualsLocationRange(Board.PLAYER1_DEFENSIVE, getLoc(1, 'a'), getLoc(4, 'd'), Square.BATTLESHIP);
@@ -41,7 +41,7 @@ public class PlaceShipTests {
     @Test
     public void placeShip_whenPlacingAircraftCarrierRightToLeft_ThenGetSquareReturnsShipAtFiveLocations() {
         // Act
-        model.placeShip(Player.PLAYER2, ShipType.CRUISER, getLoc(5, 'a'), getLoc(1, 'a'));
+        model.placeShip(Player.PLAYER2, ShipType.AIRCRACT_CARRIER, getLoc(5, 'a'), getLoc(1, 'a'));
 
         // Assert
         assertSquareEqualsLocationRange(Board.PLAYER2_DEFENSIVE, getLoc(5, 'a'), getLoc(1, 'a'), Square.AIRCRAFT_CARRIER);
@@ -133,7 +133,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenPlacingShipAtNon45DegreeAgnle_ThenPlacementNotAllowedAndLastShipNotPlaced() {
+    public void placeShip_whenPlacingShipAtNon45DegreeAngle_ThenPlacementNotAllowedAndLastShipNotPlaced() {
         // Act
         boolean result = model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(1, 'a'), getLoc(4, 'b'));
 
@@ -185,11 +185,11 @@ public class PlaceShipTests {
         int[] rowRange = getRange(start.row, end.row, longestRange);
 
         for (int i = 0; i < columnRange.length; i++)
-            assertEquals(model.getSquare(board, getLoc(columnRange[i], (char) rowRange[i])), square);
+            assertEquals(square, model.getSquare(board, getLoc(columnRange[i], (char) rowRange[i])));
     }
 
     private int getRangeLength(int start, int end) {
-        int direction = (end >= start) ? 1 : -1;
+        int direction = (start >= end) ? 1 : -1;
         return Math.abs(start - end + direction);
     }
 
