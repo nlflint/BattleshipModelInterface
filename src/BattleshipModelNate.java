@@ -15,16 +15,62 @@ public class BattleshipModelNate implements BattleshipModelInterface {
 
     @Override
     public Boolean placeShip(Player player, ShipType shipType, Location start, Location end) {
-
         ShipLocation shipStart = new ShipLocation(start);
         ShipLocation shipEnd = new ShipLocation(end);
 
-        Ship ship = new Ship(shipType, shipStart, shipEnd);
+        ArrayList<ShipLocation> locations = generateShipLocationsFromRange(shipStart, shipEnd);
+        if (!areWithinBoardRange(locations))
+            return false;
+
+        Ship ship = new Ship(shipType, locations);
         ArrayList<Ship> ships = getPlayerShips(player);
         ships.add(ship);
 
 
         return true;
+    }
+
+    private boolean areWithinBoardRange(ArrayList<ShipLocation> locations) {
+        for (ShipLocation location : locations)
+            if (location.Column > 9 || location.Row > 9)
+                return false;
+        return true;
+    }
+
+    private ArrayList<ShipLocation> generateShipLocationsFromRange(ShipLocation start, ShipLocation end) {
+        ArrayList<ShipLocation> locations = new ArrayList<>();
+        int longestRange = Math.max(
+                getRangeLength(start.Column, end.Column),
+                getRangeLength(start.Row, end.Row));
+
+        int[] verticalRange = getRange(start.Row, end.Row, longestRange);
+        int[] horizontalRange = getRange(start.Column, end.Column, longestRange);
+
+        for (int i = 0; i < longestRange; i++) {
+            int row = verticalRange[i];
+            int column = horizontalRange[i];
+            ShipLocation shipLocation = new ShipLocation(row, column);
+            locations.add(shipLocation);
+        }
+        return locations;
+    }
+
+    private int getRangeLength(int start, int end) {
+        int direction = (start >= end) ? 1 : -1;
+        return Math.abs(start - end + direction);
+    }
+
+    private int[] getRange(int start, int end, int length) {
+        int direction = (end >= start) ? 1 : -1;
+        double delta = (end - start + direction) / ((double) length);
+
+        int[] range = new int[length];
+        for (int i = 0; i < length; i++) {
+            double val = (start + (i * delta));
+            range[i] = (int) (val);
+        }
+
+        return range;
     }
 
     private ArrayList<Ship> getPlayerShips(Player player) {
@@ -106,41 +152,9 @@ public class BattleshipModelNate implements BattleshipModelInterface {
         ArrayList<ShipLocation> locations;
         ShipType type;
 
-        public Ship(ShipType shipType, ShipLocation start, ShipLocation end) {
+        public Ship(ShipType shipType, ArrayList<ShipLocation> locations) {
             type = shipType;
-            locations = new ArrayList<ShipLocation>();
-
-            int longestRange = Math.max(
-                    getRangeLength(start.Column, end.Column),
-                    getRangeLength(start.Row, end.Row));
-
-            int[] verticalRange = getRange(start.Row, end.Row, longestRange);
-            int[] horizontalRange = getRange(start.Column, end.Column, longestRange);
-
-            for (int i = 0; i < longestRange; i++) {
-                int row = verticalRange[i];
-                int column = horizontalRange[i];
-                ShipLocation shipLocation = new ShipLocation(row, column);
-                locations.add(shipLocation);
-            }
-        }
-
-        private int getRangeLength(int start, int end) {
-            int direction = (start >= end) ? 1 : -1;
-            return Math.abs(start - end + direction);
-        }
-
-        private int[] getRange(int start, int end, int length) {
-            int direction = (end >= start) ? 1 : -1;
-            double delta = (end - start + direction) / ((double) length);
-
-            int[] range = new int[length];
-            for (int i = 0; i < length; i++) {
-                double val = (start + (i * delta));
-                range[i] = (int) (val);
-            }
-
-            return range;
+            this.locations = locations;
         }
 
         public boolean ContainsLocation(ShipLocation location) {
@@ -151,8 +165,6 @@ public class BattleshipModelNate implements BattleshipModelInterface {
             return false;
         }
     }
-
-
 
     private class ShipLocation {
         public final int Row;
