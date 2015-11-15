@@ -118,7 +118,8 @@ enum ShipType {
     AIRCRACT_CARRIER,
     BATTLESHIP,
     CRUISER,
-    DESTROYER
+    DESTROYER1,
+    DESTROYER2
 }
 
 /**

@@ -14,7 +14,7 @@ public class PlaceShipTests {
     @Test
     public void placeShip_whenPlacingDestoryerHorizontally_ThenGetSquareReturnsShipAtTwoLocations() {
         // Act
-        model.placeShip(Player.PLAYER1, ShipType.DESTROYER, getLoc(1, 'a'), getLoc(1, 'b'));
+        model.placeShip(Player.PLAYER1, ShipType.DESTROYER1, getLoc(1, 'a'), getLoc(1, 'b'));
 
         // Assert
         assertSquareEqualsLocationRange(Board.PLAYER1_DEFENSIVE, getLoc(1, 'a'), getLoc(1, 'b'), Square.DESTROYER);
@@ -50,7 +50,7 @@ public class PlaceShipTests {
     @Test
     public void placeShip_whenPlacingToValidLocation_ThenPlaceShipReturnsTrue() {
         // Act
-        boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER, getLoc(1, 'a'), getLoc(1, 'b'));
+        boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER1, getLoc(1, 'a'), getLoc(1, 'b'));
 
         // Assert
         assertTrue(result);
@@ -59,7 +59,7 @@ public class PlaceShipTests {
     @Test
     public void placeShip_whenPlacingShipOffEdgeOfBoard_ThenPlaceShipReturnsFalseAndShipIsNotPlaced() {
         // Act
-        boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER, getLoc(10, 'a'), getLoc(11, 'a'));
+        boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, getLoc(10, 'a'), getLoc(11, 'a'));
 
         // Assert
         assertFalse(result);
@@ -87,6 +87,16 @@ public class PlaceShipTests {
     }
 
     @Test
+    public void placeShip_whenDiagonalPlacementLongerThanShipType_ThenPlaceShipReturnsFalseAndShipIsNotPlaced() {
+        // Act
+        boolean result = model.placeShip(Player.PLAYER1, ShipType.CRUISER, getLoc(4, 'b'), getLoc(7, 'e'));
+
+        // Assert
+        assertFalse(result);
+        assertSquareEqualsLocationRange(Board.PLAYER1_DEFENSIVE, getLoc(1, 'a'), getLoc(7, 'a'), Square.NOTHING);
+    }
+
+    @Test
     public void placeShip_whenOnPlayer1Board_ThenAllBoardExceptPlayer1DefensiveShowNothing() {
         // Act
         boolean result = model.placeShip(Player.PLAYER1, ShipType.CRUISER, getLoc(1, 'a'), getLoc(3, 'a'));
@@ -101,22 +111,36 @@ public class PlaceShipTests {
     public void placeShip_whenPlacingShipOverAnotherShip_ThenPlacementNotAllowedAndLastShipNotPlaced() {
         // Act
         model.placeShip(Player.PLAYER1, ShipType.CRUISER, getLoc(1, 'a'), getLoc(3, 'a'));
-        boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER, getLoc(2, 'a'), getLoc(3, 'a'));
+        boolean result = model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(3, 'a'), getLoc(6, 'a'));
 
         // Assert
         assertFalse(result);
-        assertSquareEqualsLocationRange(Board.PLAYER1_OFFENSIVE, getLoc(1, 'a'), getLoc(3, 'a'), Square.CRUISER);
+        assertSquareEqualsLocationRange(Board.PLAYER1_DEFENSIVE, getLoc(1, 'a'), getLoc(3, 'a'), Square.CRUISER);
+        assertSquareEqualsLocationRange(Board.PLAYER1_DEFENSIVE, getLoc(4, 'a'), getLoc(6, 'a'), Square.NOTHING);
+
     }
 
     @Test
-    public void placeShip_whenPlacingTwoBattleships_ThenPlacementNotAllowedAndLastShipNotPlaced() {
+    public void placeShip_whenPlacingTwoBattleships_ThenFirstShipLocationChangesToSecondPlacement() {
         // Act
-        model.placeShip(Player.PLAYER1, ShipType.CRUISER, getLoc(1, 'a'), getLoc(3, 'a'));
-        boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER, getLoc(2, 'a'), getLoc(3, 'a'));
+        model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(1, 'a'), getLoc(4, 'a'));
+        boolean result = model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(3, 'a'), getLoc(6, 'a'));
 
         // Assert
         assertFalse(result);
-        assertSquareEqualsLocationRange(Board.PLAYER1_OFFENSIVE, getLoc(1, 'a'), getLoc(3, 'a'), Square.CRUISER);
+        assertSquareEqualsLocationRange(Board.PLAYER1_DEFENSIVE, getLoc(1, 'a'), getLoc(2, 'a'), Square.NOTHING);
+        assertSquareEqualsLocationRange(Board.PLAYER1_DEFENSIVE, getLoc(3, 'a'), getLoc(6, 'a'), Square.BATTLESHIP);
+    }
+
+    @Test
+    public void placeShip_whenPlacingShipAtNon45DegreeAgnle_ThenPlacementNotAllowedAndLastShipNotPlaced() {
+        // Act
+        boolean result = model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(1, 'a'), getLoc(4, 'b'));
+
+        // Assert
+        assertFalse(result);
+        assertSquareEqualsLocationRange(Board.PLAYER1_DEFENSIVE, getLoc(1, 'a'), getLoc(4, 'a'), Square.NOTHING);
+        assertSquareEqualsLocationRange(Board.PLAYER1_DEFENSIVE, getLoc(1, 'b'), getLoc(4, 'b'), Square.NOTHING);
     }
 
     @Test
@@ -169,7 +193,7 @@ public class PlaceShipTests {
     }
 
     private int[] getRange(int start, int end, int length) {
-        int direction = end >= start ? 1 : -1;
+        int direction = (end >= start) ? 1 : -1;
         double delta = (end - start + direction) / ((double) length);
 
         int[] range = new int[length];
