@@ -1,6 +1,4 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 /**
  * Created by nate on 11/15/15.
@@ -27,7 +25,8 @@ public class BattleshipModelNate implements BattleshipModelInterface {
         if (!areWithinBoardRange(locations) ||
                 !isCorrectShipLength(locations, shipType) ||
                 isOverlappingAnotherShip(locations, otherships) ||
-                !shipAngleIs45Degrees(shipStart, shipEnd))
+                !shipAngleIs45Degrees(shipStart, shipEnd) ||
+                isDiagonallyCrossingAnother(otherships, shipStart, shipEnd))
             return false;
 
         Ship ship = new Ship(shipType, locations);
@@ -39,6 +38,10 @@ public class BattleshipModelNate implements BattleshipModelInterface {
 
 
         return true;
+    }
+
+    private boolean isDiagonallyCrossingAnother(ArrayList<Ship> otherships, ShipLocation shipStart, ShipLocation shipEnd) {
+        return false;
     }
 
     private ArrayList<Ship> filterOutShipsMatchingType(ShipType shipType, ArrayList<Ship> ships) {
@@ -173,8 +176,10 @@ public class BattleshipModelNate implements BattleshipModelInterface {
                 return Square.BATTLESHIP;
             case CRUISER:
                 return Square.CRUISER;
+            case DESTROYER1:
+                return Square.DESTROYER1;
             default:
-                return Square.DESTROYER;
+                return Square.DESTROYER2;
         }
     }
 
