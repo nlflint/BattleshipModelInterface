@@ -1,5 +1,6 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Created by nate on 11/15/15.
@@ -21,18 +22,29 @@ public class BattleshipModelNate implements BattleshipModelInterface {
 
         ArrayList<Ship> ships = getPlayerShips(player);
 
+        ArrayList<Ship> otherships = filterOutShipsMatchingType(shipType, ships);
+
         if (!areWithinBoardRange(locations) ||
                 !isCorrectShipLength(locations, shipType) ||
-                isOverlappingAnotherShip(locations, ships) ||
+                isOverlappingAnotherShip(locations, otherships) ||
                 !shipAngleIs45Degrees(shipStart, shipEnd))
             return false;
 
         Ship ship = new Ship(shipType, locations);
 
+        ships.clear();
+        ships.addAll(otherships);
         ships.add(ship);
 
 
+
         return true;
+    }
+
+    private ArrayList<Ship> filterOutShipsMatchingType(ShipType shipType, ArrayList<Ship> ships) {
+        ArrayList<Ship> filteredShips = new ArrayList<>();
+        ships.stream().filter(x -> !x.type.equals(shipType)).forEach(filteredShips::add);
+        return filteredShips;
     }
 
     private boolean shipAngleIs45Degrees(ShipLocation start, ShipLocation end) {
