@@ -24,7 +24,7 @@ public class PlaceShipTests {
     @Test
     public void placeShip_whenPlacingDestoryer2_ThenGetSquareReturnsShipAtTwoLocations() {
         // Act
-        boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, getLoc(9, 'j'), getLoc(10, 'j'));
+        boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, getLoc(10, 'j'), getLoc(9, 'j'));
 
         // Assert
         assertTrue(result);
@@ -34,14 +34,23 @@ public class PlaceShipTests {
     @Test
     public void placeShip_whenPlacingCrusierVertically_ThenGetSquareReturnsShipAtThreeLocations() {
         // Act
-        model.placeShip(Player.PLAYER2, ShipType.CRUISER, getLoc(1, 'a'), getLoc(3, 'a'));
+        model.placeShip(Player.PLAYER2, ShipType.CRUISER, getLoc(1, 'a'), getLoc(1, 'c'));
 
         // Assert
-        assertSquareEqualsLocationRange(Board.PLAYER2_DEFENSIVE, getLoc(1, 'a'), getLoc(3, 'a'), Square.CRUISER);
+        assertSquareEqualsLocationRange(Board.PLAYER2_DEFENSIVE, getLoc(1, 'a'), getLoc(1, 'c'), Square.CRUISER);
     }
 
     @Test
-    public void placeShip_whenPlacingBattleshipDiagonally_ThenGetSquareReturnsShipAtFourLocations() {
+    public void placeShip_whenPlacingCrusierBottomToTop_ThenGetSquareReturnsShipAtThreeLocations() {
+        // Act
+        model.placeShip(Player.PLAYER2, ShipType.CRUISER, getLoc(1, 'c'), getLoc(1, 'a'));
+
+        // Assert
+        assertSquareEqualsLocationRange(Board.PLAYER2_DEFENSIVE, getLoc(1, 'a'), getLoc(1, 'c'), Square.CRUISER);
+    }
+
+    @Test
+    public void placeShip_whenPlacingBattleshipDiagonallyNWtoSE_ThenGetSquareReturnsShipAtFourLocations() {
         // Act
         model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(1, 'a'), getLoc(4, 'd'));
 
@@ -50,12 +59,30 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenPlacingAircraftCarrierRightToLeft_ThenGetSquareReturnsShipAtFiveLocations() {
+    public void placeShip_whenPlacingAircraftCarrierDiagonallySWtoNE_ThenGetSquareReturnsShipAtFiveLocations() {
         // Act
-        model.placeShip(Player.PLAYER2, ShipType.AIRCRACT_CARRIER, getLoc(5, 'a'), getLoc(1, 'a'));
+        model.placeShip(Player.PLAYER2, ShipType.AIRCRACT_CARRIER, getLoc(1, 'a'), getLoc(5, 'e'));
 
         // Assert
-        assertSquareEqualsLocationRange(Board.PLAYER2_DEFENSIVE, getLoc(5, 'a'), getLoc(1, 'a'), Square.AIRCRAFT_CARRIER);
+        assertSquareEqualsLocationRange(Board.PLAYER2_DEFENSIVE, getLoc(5, 'e'), getLoc(1, 'a'), Square.AIRCRAFT_CARRIER);
+    }
+
+    @Test
+    public void placeShip_whenPlacingAircraftCarrierDiagonallySEtoNW_ThenGetSquareReturnsShipAtFiveLocations() {
+        // Act
+        model.placeShip(Player.PLAYER2, ShipType.AIRCRACT_CARRIER, getLoc(1, 'e'), getLoc(5, 'a'));
+
+        // Assert
+        assertSquareEqualsLocationRange(Board.PLAYER2_DEFENSIVE, getLoc(5, 'a'), getLoc(1, 'e'), Square.AIRCRAFT_CARRIER);
+    }
+
+    @Test
+    public void placeShip_whenPlacingAircraftCarrierDiagonallyNEtoSW_ThenGetSquareReturnsShipAtFiveLocations() {
+        // Act
+        model.placeShip(Player.PLAYER2, ShipType.AIRCRACT_CARRIER, getLoc(1, 'e'), getLoc(5, 'a'));
+
+        // Assert
+        assertSquareEqualsLocationRange(Board.PLAYER2_DEFENSIVE, getLoc(5, 'a'), getLoc(1, 'e'), Square.AIRCRAFT_CARRIER);
     }
 
     @Test
