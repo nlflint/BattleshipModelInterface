@@ -1,4 +1,7 @@
+import javax.sound.sampled.Line;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by nate on 11/15/15.
@@ -19,29 +22,82 @@ public class BattleshipModelNate implements BattleshipModelInterface {
         ArrayList<ShipLocation> locations = generateShipLocationsFromRange(shipStart, shipEnd);
 
         ArrayList<Ship> ships = getPlayerShips(player);
-
         ArrayList<Ship> otherships = filterOutShipsMatchingType(shipType, ships);
+        Ship newShip = new Ship(shipType, locations);
 
         if (!areWithinBoardRange(locations) ||
                 !isCorrectShipLength(locations, shipType) ||
                 isOverlappingAnotherShip(locations, otherships) ||
                 !shipAngleIs45Degrees(shipStart, shipEnd) ||
-                isDiagonallyCrossingAnother(otherships, shipStart, shipEnd))
+                isDiagonallyCrossingAnother(otherships, newShip))
             return false;
-
-        Ship ship = new Ship(shipType, locations);
 
         ships.clear();
         ships.addAll(otherships);
-        ships.add(ship);
+        ships.add(newShip);
 
 
 
         return true;
     }
 
-    private boolean isDiagonallyCrossingAnother(ArrayList<Ship> otherships, ShipLocation shipStart, ShipLocation shipEnd) {
+    private boolean isDiagonallyCrossingAnother(ArrayList<Ship> otherships, Ship newShip) {
+        LineSegment newLine = getLineSegmentFromShip(newShip);
+
+        List<LineSegment> otherLines = otherships
+                .stream()
+                .map(this::getLineSegmentFromShip)
+                .collect(Collectors.toList());
+
+        for (LineSegment line : otherLines) {
+            if (areIntersecting(newLine, line))
+                return true;
+        }
         return false;
+    }
+
+    private boolean areIntersecting(LineSegment first, LineSegment second) {
+        double slope1 = getSlope(first);
+        double intercept1 = getIntercept(first, slope1);
+
+        double slope2 = getSlope(second);
+        double intercept2 = getIntercept(second, slope2);
+
+        double intersectX = (intercept1 - intercept2) / (slope2 - slope1);
+        double intersectY = (slope1 * intersectX) + intercept1;
+
+        boolean xWithinFirst = isBetweenBounds(intersectX, first.Start.X, first.End.X);
+        boolean yWithinFirst = isBetweenBounds(intersectY, first.Start.Y, first.End.Y);
+        boolean xWithinSecond = isBetweenBounds(intersectX, first.Start.X, first.End.X);
+        boolean yWithinSecond = isBetweenBounds(intersectY, first.Start.Y, first.End.Y);
+
+        return  xWithinFirst && yWithinFirst && xWithinSecond && yWithinSecond;
+    }
+
+    private boolean isBetweenBounds(double intersect, double bound1, double bound2) {
+        double lower = Math.min(bound1, bound2);
+        double upper = Math.max(bound1, bound2);
+
+        return (intersect >= lower) && (intersect <= upper);
+    }
+
+    private double getIntercept(LineSegment first, double slope1) {
+        return first.Start.Y - (slope1 * first.Start.X);
+    }
+
+    private int getSlope(LineSegment first) {
+        return (first.Start.Y - first.End.Y) / (first.Start.X - first.End.X);
+    }
+
+    private LineSegment getLineSegmentFromShip(Ship ship) {
+        Point first = getPointFromShipLocation(ship.locations.get(0));
+        int lastIndex = ship.locations.size() - 1;
+        Point second =  getPointFromShipLocation(ship.locations.get(lastIndex));
+        return new LineSegment(first, second);
+    }
+
+    private Point getPointFromShipLocation(ShipLocation shipLocation) {
+        return new Point(shipLocation);
     }
 
     private ArrayList<Ship> filterOutShipsMatchingType(ShipType shipType, ArrayList<Ship> ships) {
@@ -252,5 +308,32 @@ public class BattleshipModelNate implements BattleshipModelInterface {
             ShipLocation location = (ShipLocation) object;
             return Row == location.Row && Column == location.Column;
         }
+    }
+
+    private class LineSegment {
+        public final Point Start;
+        public final Point End;
+
+        public LineSegment(Point start, Point end) {
+            Start = start;
+            End = end;
+        }
+    }
+
+    private class Point {
+        public final int X;
+        public final int Y;
+
+        public Point(ShipLocation shipLocation) {
+            X = shipLocation.Column;
+            Y = shipLocation.Row;
+        }
+    }
+
+    @FunctionalInterface
+    public interface WorkerInterface {
+
+        public LineSegment doSomeWork(Ship ship);
+
     }
 }
