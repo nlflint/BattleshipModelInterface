@@ -17,18 +17,38 @@ public class BattleshipModelNate implements BattleshipModelInterface {
     public Boolean placeShip(Player player, ShipType shipType, Location start, Location end) {
         ShipLocation shipStart = new ShipLocation(start);
         ShipLocation shipEnd = new ShipLocation(end);
-
         ArrayList<ShipLocation> locations = generateShipLocationsFromRange(shipStart, shipEnd);
+
+        ArrayList<Ship> ships = getPlayerShips(player);
+
         if (!areWithinBoardRange(locations) ||
-                !isCorrectShipLength(locations, shipType))
+                !isCorrectShipLength(locations, shipType) ||
+                isOverlappingAnotherShip(locations, ships) ||
+                !shipAngleIs45Degrees(shipStart, shipEnd))
             return false;
 
         Ship ship = new Ship(shipType, locations);
-        ArrayList<Ship> ships = getPlayerShips(player);
+
         ships.add(ship);
 
 
         return true;
+    }
+
+    private boolean shipAngleIs45Degrees(ShipLocation start, ShipLocation end) {
+        double rise = Math.abs(start.Row - end.Row);
+        double run = Math.abs(start.Column - end.Column);
+
+        return (run == 0) || (rise == 0) || (rise / run == 1);
+    }
+
+    private boolean isOverlappingAnotherShip(ArrayList<ShipLocation> locations, ArrayList<Ship> ships) {
+        for (Ship ship : ships) {
+            if (ship.ContainsAnyLocations(locations))
+                return true;
+
+        }
+        return false;
     }
 
     private boolean isCorrectShipLength(ArrayList<ShipLocation> locations, ShipType shipType) {
@@ -183,6 +203,14 @@ public class BattleshipModelNate implements BattleshipModelInterface {
             }
             return false;
         }
+
+        public boolean ContainsAnyLocations(ArrayList<ShipLocation> locations) {
+            for (ShipLocation location : locations)
+                if (ContainsLocation(location))
+                    return true;
+            return false;
+        }
+
     }
 
     private class ShipLocation {
