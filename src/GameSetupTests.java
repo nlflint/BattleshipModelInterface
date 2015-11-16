@@ -3,7 +3,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class PlaceShipTests {
+public class GameSetupTests {
     BattleshipModelInterface model;
 
     @Before
@@ -12,7 +12,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenPlacingDestoryer1Horizontally_ThenGetSquareReturnsShipAtTwoLocations() {
+    public void gameSetup_whenPlacingDestoryer1Horizontally_ThenGetSquareReturnsShipAtTwoLocations() {
         // Act
         boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER1, getLoc(1, 'a'), getLoc(1, 'b'));
 
@@ -22,7 +22,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenPlacingDestoryer2_ThenGetSquareReturnsShipAtTwoLocations() {
+    public void gameSetup_whenPlacingDestoryer2_ThenGetSquareReturnsShipAtTwoLocations() {
         // Act
         boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, getLoc(10, 'j'), getLoc(9, 'j'));
 
@@ -32,7 +32,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenPlacingCrusierVertically_ThenGetSquareReturnsShipAtThreeLocations() {
+    public void gameSetup_whenPlacingCrusierVertically_ThenGetSquareReturnsShipAtThreeLocations() {
         // Act
         model.placeShip(Player.PLAYER2, ShipType.CRUISER, getLoc(1, 'a'), getLoc(1, 'c'));
 
@@ -41,7 +41,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenPlacingCrusierBottomToTop_ThenGetSquareReturnsShipAtThreeLocations() {
+    public void gameSetup_whenPlacingCrusierBottomToTop_ThenGetSquareReturnsShipAtThreeLocations() {
         // Act
         model.placeShip(Player.PLAYER2, ShipType.CRUISER, getLoc(1, 'c'), getLoc(1, 'a'));
 
@@ -50,7 +50,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenPlacingBattleshipDiagonallyNWtoSE_ThenGetSquareReturnsShipAtFourLocations() {
+    public void gameSetup_whenPlacingBattleshipDiagonallyNWtoSE_ThenGetSquareReturnsShipAtFourLocations() {
         // Act
         model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(1, 'a'), getLoc(4, 'd'));
 
@@ -59,7 +59,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenPlacingAircraftCarrierDiagonallySWtoNE_ThenGetSquareReturnsShipAtFiveLocations() {
+    public void gameSetup_whenPlacingAircraftCarrierDiagonallySWtoNE_ThenGetSquareReturnsShipAtFiveLocations() {
         // Act
         model.placeShip(Player.PLAYER2, ShipType.AIRCRACT_CARRIER, getLoc(1, 'a'), getLoc(5, 'e'));
 
@@ -68,7 +68,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenPlacingAircraftCarrierDiagonallySEtoNW_ThenGetSquareReturnsShipAtFiveLocations() {
+    public void gameSetup_whenPlacingAircraftCarrierDiagonallySEtoNW_ThenGetSquareReturnsShipAtFiveLocations() {
         // Act
         model.placeShip(Player.PLAYER2, ShipType.AIRCRACT_CARRIER, getLoc(1, 'e'), getLoc(5, 'a'));
 
@@ -77,7 +77,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenPlacingAircraftCarrierDiagonallyNEtoSW_ThenGetSquareReturnsShipAtFiveLocations() {
+    public void gameSetup_whenPlacingAircraftCarrierDiagonallyNEtoSW_ThenGetSquareReturnsShipAtFiveLocations() {
         // Act
         model.placeShip(Player.PLAYER2, ShipType.AIRCRACT_CARRIER, getLoc(1, 'e'), getLoc(5, 'a'));
 
@@ -86,7 +86,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenPlacingShipOffEdgeOfBoard_ThenPlaceShipReturnsFalseAndShipIsNotPlaced() {
+    public void gameSetup_whenPlacingShipOffEdgeOfBoard_ThenPlaceShipReturnsFalseAndShipIsNotPlaced() {
         // Act
         boolean result1 = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, getLoc(10, 'a'), getLoc(11, 'a'));
         boolean result2 = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, getLoc(1, 'j'), getLoc(1, 'k'));
@@ -102,7 +102,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenLocationsAreShorterThanShip_ThenPlaceShipReturnsFalseAndShipIsNotPlaced() {
+    public void gameSetup_whenLocationsAreShorterThanShip_ThenPlaceShipReturnsFalseAndShipIsNotPlaced() {
         // Act
         boolean result = model.placeShip(Player.PLAYER1, ShipType.CRUISER, getLoc(1, 'a'), getLoc(2, 'a'));
 
@@ -112,7 +112,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenLocationsAreLongerThanShip_ThenPlaceShipReturnsFalseAndShipIsNotPlaced() {
+    public void gameSetup_whenLocationsAreLongerThanShip_ThenPlaceShipReturnsFalseAndShipIsNotPlaced() {
         // Act
         boolean result = model.placeShip(Player.PLAYER1, ShipType.CRUISER, getLoc(1, 'a'), getLoc(7, 'a'));
 
@@ -122,7 +122,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenDiagonalPlacementLongerThanShipType_ThenPlaceShipReturnsFalseAndShipIsNotPlaced() {
+    public void gameSetup_whenDiagonalPlacementLongerThanShipType_ThenPlaceShipReturnsFalseAndShipIsNotPlaced() {
         // Act
         boolean result = model.placeShip(Player.PLAYER1, ShipType.CRUISER, getLoc(4, 'b'), getLoc(7, 'e'));
 
@@ -132,7 +132,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenOnPlayer1Board_ThenAllBoardExceptPlayer1DefensiveShowNothing() {
+    public void gameSetup_whenOnPlayer1Board_ThenAllBoardExceptPlayer1DefensiveShowNothing() {
         // Act
         boolean result = model.placeShip(Player.PLAYER1, ShipType.CRUISER, getLoc(1, 'a'), getLoc(3, 'a'));
 
@@ -143,7 +143,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenPlacingShipAtNon45DegreeAngle_ThenPlacementNotAllowedAndLastShipNotPlaced() {
+    public void gameSetup_whenPlacingShipAtNon45DegreeAngle_ThenPlacementNotAllowedAndLastShipNotPlaced() {
         // Act
         boolean result = model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(1, 'a'), getLoc(4, 'b'));
 
@@ -154,7 +154,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenPlacingShipOverAnotherShip_ThenPlacementNotAllowedAndLastShipNotPlaced() {
+    public void gameSetup_whenPlacingShipOverAnotherShip_ThenPlacementNotAllowedAndLastShipNotPlaced() {
         // Act
         model.placeShip(Player.PLAYER1, ShipType.CRUISER, getLoc(1, 'a'), getLoc(3, 'a'));
         boolean result = model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(3, 'a'), getLoc(6, 'a'));
@@ -167,7 +167,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenPlacingTwoBattleships_ThenFirstShipLocationChangesToSecondPlacement() {
+    public void gameSetup_whenPlacingTwoBattleships_ThenFirstShipLocationChangesToSecondPlacement() {
         // Act
         model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(1, 'a'), getLoc(4, 'a'));
         boolean result = model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(3, 'a'), getLoc(6, 'a'));
@@ -179,7 +179,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenCrossingShipsDiagonally_ThenSecondPlacementFailsAndShipsCannotBeCrossed() {
+    public void gameSetup_whenCrossingShipsDiagonally_ThenSecondPlacementFailsAndShipsCannotBeCrossed() {
         // Act
         model.placeShip(Player.PLAYER1, ShipType.AIRCRACT_CARRIER, getLoc(1, 'a'), getLoc(5, 'e'));
         boolean notAllowed1 = model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(3, 'f'), getLoc(6, 'c'));
@@ -194,7 +194,7 @@ public class PlaceShipTests {
     }
 
     @Test
-    public void placeShip_whenDiagonallyPlacedShipsAreClose_ThenPlacementAllowed() {
+    public void gameSetup_whenDiagonallyPlacedShipsAreClose_ThenPlacementAllowed() {
         // Act
         model.placeShip(Player.PLAYER1, ShipType.AIRCRACT_CARRIER, getLoc(1, 'a'), getLoc(5, 'e'));
         boolean allowed1 = model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(4, 'g'), getLoc(7, 'd'));
@@ -211,42 +211,6 @@ public class PlaceShipTests {
         assertSquareEqualsLocationRange(Board.PLAYER1_DEFENSIVE, getLoc(4, 'c'), getLoc(6, 'a'), Square.CRUISER);
         assertSquareEqualsLocationRange(Board.PLAYER1_DEFENSIVE, getLoc(2, 'c'), getLoc(3, 'd'), Square.DESTROYER1);
 
-    }
-
-    @Test
-    public void range_Given1To5_Returns12345() {
-        // Act & Assert
-        assertArrayEquals(getRange(1, 5, 5), new int[] {1,2,3,4,5});
-    }
-
-    @Test
-    public void range_Given5To1_Returns54321() {
-        // Act & Assert
-        assertArrayEquals(new int[] {5, 4, 3, 2, 1}, getRange(5, 1, 5));
-    }
-
-    @Test
-    public void range_Given3To3_Returns3() {
-        // Act & Assert
-        assertArrayEquals(getRange(3, 3, 3), new int[] {3, 3, 3});
-    }
-
-    @Test
-    public void rowRange_GivenAToE_ReturnsABCDE() {
-        // Act & Assert
-        assertArrayEquals(getRange('A', 'E', 5), new int[] {'A','B','C','D','E'});
-    }
-
-    @Test
-    public void rowRange_GivenDToB_ReturnsDCB() {
-        // Act & Assert
-        assertArrayEquals(getRange('D', 'B', 3), new int[] {'D','C','B'});
-    }
-
-    @Test
-    public void rowRange_GivenXToX_ReturnsX() {
-        // Act & Assert
-        assertArrayEquals(getRange('X', 'X', 5), new int[] {'X','X','X','X','X'});
     }
 
     private void assertSquareEqualsLocationRange(Board board, Location start, Location end, Square square) {
