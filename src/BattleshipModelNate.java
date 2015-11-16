@@ -23,6 +23,7 @@ public class BattleshipModelNate implements BattleshipModelInterface {
 
         ArrayList<Ship> ships = getPlayerShips(player);
         ArrayList<Ship> otherships = filterOutShipsMatchingType(shipType, ships);
+
         Ship newShip = new Ship(shipType, locations);
 
         if (!areWithinBoardRange(locations) ||
@@ -68,8 +69,8 @@ public class BattleshipModelNate implements BattleshipModelInterface {
 
         boolean xWithinFirst = isBetweenBounds(intersectX, first.Start.X, first.End.X);
         boolean yWithinFirst = isBetweenBounds(intersectY, first.Start.Y, first.End.Y);
-        boolean xWithinSecond = isBetweenBounds(intersectX, first.Start.X, first.End.X);
-        boolean yWithinSecond = isBetweenBounds(intersectY, first.Start.Y, first.End.Y);
+        boolean xWithinSecond = isBetweenBounds(intersectX, second.Start.X, second.End.X);
+        boolean yWithinSecond = isBetweenBounds(intersectY, second.Start.Y, second.End.Y);
 
         return  xWithinFirst && yWithinFirst && xWithinSecond && yWithinSecond;
     }

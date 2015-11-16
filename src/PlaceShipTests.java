@@ -155,12 +155,35 @@ public class PlaceShipTests {
     public void placeShip_whenCrossingShipsDiagonally_ThenSecondPlacementFailsAndShipsCannotBeCrossed() {
         // Act
         model.placeShip(Player.PLAYER1, ShipType.AIRCRACT_CARRIER, getLoc(1, 'a'), getLoc(5, 'e'));
-        boolean result = model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(3, 'f'), getLoc(6, 'c'));
+        boolean notAllowed1 = model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(3, 'f'), getLoc(6, 'c'));
+        boolean notAllowed2 = model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(6, 'c'), getLoc(3, 'f'));
 
         // Assert
-        assertFalse(result);
+        assertFalse(notAllowed1);
+        assertFalse(notAllowed2);
+
         assertSquareEqualsLocationRange(Board.PLAYER1_DEFENSIVE, getLoc(1, 'a'), getLoc(5, 'e'), Square.AIRCRAFT_CARRIER);
         assertSquareEqualsLocationRange(Board.PLAYER1_DEFENSIVE, getLoc(3, 'f'), getLoc(6, 'c'), Square.NOTHING);
+    }
+
+    @Test
+    public void placeShip_whenDiagonallyPlacedShipsAreClose_ThenPlacementAllowed() {
+        // Act
+        model.placeShip(Player.PLAYER1, ShipType.AIRCRACT_CARRIER, getLoc(1, 'a'), getLoc(5, 'e'));
+        boolean allowed1 = model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(4, 'g'), getLoc(7, 'd'));
+        boolean allowed2 = model.placeShip(Player.PLAYER1, ShipType.CRUISER, getLoc(4, 'c'), getLoc(6, 'a'));
+        boolean allowed3 = model.placeShip(Player.PLAYER1, ShipType.DESTROYER1, getLoc(2, 'c'), getLoc(3, 'd'));
+
+        // Assert
+        assertTrue(allowed1);
+        assertTrue(allowed2);
+        assertTrue(allowed3);
+
+        assertSquareEqualsLocationRange(Board.PLAYER1_DEFENSIVE, getLoc(1, 'a'), getLoc(5, 'e'), Square.AIRCRAFT_CARRIER);
+        assertSquareEqualsLocationRange(Board.PLAYER1_DEFENSIVE, getLoc(4, 'g'), getLoc(7, 'd'), Square.BATTLESHIP);
+        assertSquareEqualsLocationRange(Board.PLAYER1_DEFENSIVE, getLoc(4, 'c'), getLoc(6, 'a'), Square.CRUISER);
+        assertSquareEqualsLocationRange(Board.PLAYER1_DEFENSIVE, getLoc(2, 'c'), getLoc(3, 'd'), Square.DESTROYER1);
+
     }
 
     @Test
