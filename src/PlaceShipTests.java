@@ -61,12 +61,15 @@ public class PlaceShipTests {
         // Act
         boolean result1 = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, getLoc(10, 'a'), getLoc(11, 'a'));
         boolean result2 = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, getLoc(1, 'j'), getLoc(1, 'k'));
+        boolean result3 = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, getLoc(0, 'a'), getLoc(1, 'a'));
 
         // Assert
         assertFalse(result1);
         assertFalse(result2);
+        assertFalse(result3);
         assertEquals(model.getSquare(Board.PLAYER1_DEFENSIVE, getLoc(10, 'a')), Square.NOTHING);
         assertEquals(model.getSquare(Board.PLAYER1_DEFENSIVE, getLoc(1, 'j')), Square.NOTHING);
+        assertEquals(model.getSquare(Board.PLAYER1_DEFENSIVE, getLoc(1, 'a')), Square.NOTHING);
     }
 
     @Test

@@ -71,7 +71,10 @@ public class BattleshipModelNate implements BattleshipModelInterface {
 
     private boolean areWithinBoardRange(ArrayList<ShipLocation> locations) {
         for (ShipLocation location : locations)
-            if (location.Column > 9 || location.Row > 9)
+            if (location.Column < 0 ||
+                    location.Column > 9 ||
+                    location.Row < 0 ||
+                    location.Row > 9)
                 return false;
         return true;
     }
