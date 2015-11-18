@@ -8,7 +8,7 @@ public class GameSetupTests {
 
     @Before
     public void BeforeEachTest() {
-        model = new BattleshipModelNate();
+        model = new BattleshipModel();
     }
 
     @Test
@@ -240,6 +240,7 @@ public class GameSetupTests {
         return range;
     }
 
+    //Add this to the interface?
     private Location getLoc(int col, char row) {
         Location loc = new Location();
         loc.col = col;

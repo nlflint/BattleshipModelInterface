@@ -74,6 +74,8 @@ public interface BattleshipModelInterface {
      * Reset the board
      */
     void resetBoard();
+
+    Location getLoc(int col, char row);
 }
 
 /**
@@ -192,4 +194,6 @@ class PlayerBoard {
         }
         return squares[index];
     }
+
+
 }
