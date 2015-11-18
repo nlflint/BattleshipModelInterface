@@ -8,6 +8,7 @@
  * @author Nathan Flint
  * @author Bradley Baumel
  */
+
 public interface BattleshipModelInterface {
     /**
      * Places a ship with a starting location and a particular orientation (direction)
@@ -141,6 +142,8 @@ enum Board {
     PLAYER2_DEFENSIVE
 }
 
+
+
 /**
  * Represents squares on the playing boards.
  * Used by the view to draw the current state of the board.
@@ -154,4 +157,39 @@ enum Square {
     CRUISER,
     DESTROYER1,
     DESTROYER2
+}
+
+class PlayerBoard {
+    Board board;
+    String desc;
+    char[] squares = new char[100];
+
+    public PlayerBoard(Board board) {
+        this.board = board;
+
+        //Initialize all squares to A and F for testing
+        for (int i = 0; i < squares.length; i++) {
+            if (board == board.PLAYER1_DEFENSIVE || board == board.PLAYER2_DEFENSIVE)
+                squares[i] = 68;
+            if (board == board.PLAYER1_OFFENSIVE || board == board.PLAYER2_OFFENSIVE) {
+                squares[i] = 79;
+            }
+        }
+    }
+
+    public String getDescription() {
+        if (board == Board.PLAYER1_DEFENSIVE || board == Board.PLAYER2_DEFENSIVE) {
+            desc = "Defensive";
+        } else {
+            desc = "Offensive";
+        }
+        return desc;
+    }
+
+    public char getSquare(int index) {
+        if (index < 0 || index > squares.length) {
+            throw new IllegalArgumentException("Requested Index out of range");
+        }
+        return squares[index];
+    }
 }
