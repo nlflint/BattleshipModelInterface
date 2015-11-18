@@ -1,7 +1,7 @@
 import javax.sound.sampled.Line;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+//import java.util.stream.Collectors;
 
 /**
  * Created by nate on 11/15/15.
@@ -45,15 +45,15 @@ public class BattleshipModelNate implements BattleshipModelInterface {
     private boolean isDiagonallyCrossingAnother(ArrayList<Ship> otherships, Ship newShip) {
         LineSegment newLine = getLineSegmentFromShip(newShip);
 
-        List<LineSegment> otherLines = otherships
-                .stream()
-                .map(this::getLineSegmentFromShip)
-                .collect(Collectors.toList());
+//        List<LineSegment> otherLines = otherships
+//                .stream()
+//                .map(this::getLineSegmentFromShip)
+//                .collect(Collectors.toList());
 
-        for (LineSegment line : otherLines) {
-            if (areIntersecting(newLine, line))
-                return true;
-        }
+//        for (LineSegment line : otherLines) {
+//            if (areIntersecting(newLine, line))
+//                return true;
+//        }
         return false;
     }
 
@@ -102,8 +102,8 @@ public class BattleshipModelNate implements BattleshipModelInterface {
     }
 
     private ArrayList<Ship> filterOutShipsMatchingType(ShipType shipType, ArrayList<Ship> ships) {
-        ArrayList<Ship> filteredShips = new ArrayList<>();
-        ships.stream().filter(x -> !x.type.equals(shipType)).forEach(filteredShips::add);
+        ArrayList<Ship> filteredShips = new ArrayList<Ship>();
+        //ships.stream().filter(x -> !x.type.equals(shipType)).forEach(filteredShips::add);
         return filteredShips;
     }
 
@@ -152,7 +152,7 @@ public class BattleshipModelNate implements BattleshipModelInterface {
     }
 
     private ArrayList<ShipLocation> generateShipLocationsFromRange(ShipLocation start, ShipLocation end) {
-        ArrayList<ShipLocation> locations = new ArrayList<>();
+        ArrayList<ShipLocation> locations = new ArrayList<ShipLocation>();
         int longestRange = Math.max(
                 getRangeLength(start.Column, end.Column),
                 getRangeLength(start.Row, end.Row));
@@ -331,7 +331,7 @@ public class BattleshipModelNate implements BattleshipModelInterface {
         }
     }
 
-    @FunctionalInterface
+    //@FunctionalInterface
     public interface WorkerInterface {
 
         public LineSegment doSomeWork(Ship ship);
