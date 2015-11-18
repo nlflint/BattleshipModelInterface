@@ -264,6 +264,13 @@ public class BattleshipModelNate implements BattleshipModelInterface {
 
     }
 
+    @Override public Location getLoc(int col, char row) {
+        Location loc = new Location();
+        loc.col = col;
+        loc.row = row;
+        return loc;
+    }
+
     private class Ship {
         ArrayList<ShipLocation> locations;
         ShipType type;

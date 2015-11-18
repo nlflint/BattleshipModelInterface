@@ -240,6 +240,7 @@ public class GameSetupTests {
         return range;
     }
 
+    //Add this to the interface?
     private Location getLoc(int col, char row) {
         Location loc = new Location();
         loc.col = col;
