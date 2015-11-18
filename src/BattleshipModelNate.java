@@ -42,18 +42,20 @@ public class BattleshipModelNate implements BattleshipModelInterface {
         return true;
     }
 
-    private boolean isDiagonallyCrossingAnother(ArrayList<Ship> otherships, Ship newShip) {
+    private boolean isDiagonallyCrossingAnother(ArrayList<Ship> otherShips, Ship newShip) {
         LineSegment newLine = getLineSegmentFromShip(newShip);
 
-//        List<LineSegment> otherLines = otherships
-//                .stream()
-//                .map(this::getLineSegmentFromShip)
-//                .collect(Collectors.toList());
+        List<LineSegment> otherLines = new ArrayList<LineSegment>();
 
-//        for (LineSegment line : otherLines) {
-//            if (areIntersecting(newLine, line))
-//                return true;
-//        }
+        for(int i = 0; i<=otherShips.size()-1; i++){
+            LineSegment line = getLineSegmentFromShip(otherShips.get(i));
+            otherLines.add(line);
+        }
+
+        for (LineSegment line : otherLines) {
+            if (areIntersecting(newLine, line))
+                return true;
+        }
         return false;
     }
 
@@ -103,7 +105,13 @@ public class BattleshipModelNate implements BattleshipModelInterface {
 
     private ArrayList<Ship> filterOutShipsMatchingType(ShipType shipType, ArrayList<Ship> ships) {
         ArrayList<Ship> filteredShips = new ArrayList<Ship>();
-        //ships.stream().filter(x -> !x.type.equals(shipType)).forEach(filteredShips::add);
+
+        for(int i = 0; i <= ships.size()-1 ; i++){
+            Ship ship = ships.get(i);
+            if(ship.type != shipType){
+                filteredShips.add(ship);
+            }
+        }
         return filteredShips;
     }
 
