@@ -8,7 +8,7 @@ public class GameSetupTests {
 
     @Before
     public void BeforeEachTest() {
-        model = new BattleshipModelNate();
+        model = new BattleshipModel();
     }
 
     @Test

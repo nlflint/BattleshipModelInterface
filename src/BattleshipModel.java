@@ -6,11 +6,11 @@ import java.util.List;
 /**
  * Created by nate on 11/15/15.
  */
-public class BattleshipModelNate implements BattleshipModelInterface {
+public class BattleshipModel implements BattleshipModelInterface {
    private final ArrayList<Ship> playerOneShips;
    private final ArrayList<Ship> playerTwoShips;
 
-   public BattleshipModelNate() {
+   public BattleshipModel() {
       playerOneShips = new ArrayList<Ship>();
       playerTwoShips = new ArrayList<Ship>();
    }

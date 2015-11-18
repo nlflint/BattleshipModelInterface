@@ -78,7 +78,7 @@ public class BattleshipViewController {
    public static void main(String[] args) {
       //GAME COMPONENTS
       //PURE TESTING HERE
-      BattleshipModelNate model = new BattleshipModelNate();
+      BattleshipModel model = new BattleshipModel();
       boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, model.getLoc(10, 'j'), model.getLoc(9, 'j'));
       System.out.println(result);
       BattleshipViewController bvc = new BattleshipViewController();
