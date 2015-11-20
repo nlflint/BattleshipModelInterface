@@ -87,6 +87,7 @@ public class BattleshipViewController {
       //This works...
       //System.out.println(bvc.displayBoard());
 
+      System.out.println(bvc.displayBoard());
       bvc.doSetup();
 
 
@@ -105,30 +106,69 @@ public class BattleshipViewController {
       displayBoard();
 
       promptPlayerSetup(currentPlayer, ShipType.BATTLESHIP, model);
-      //
 
    }
 
    private void promptPlayerSetup(Player p, ShipType s, BattleshipModel m) {
       Scanner in = new Scanner(System.in);
-      char col = 0;
-      int  row = 0;
+      int  col = 0;
+      char row = 0;
       boolean validStart = false;
       boolean validEnd = false;
+      Board b;
+      Location start = null;
+      Location end = null;
+
+      if (p.equals(Player.PLAYER1)) {
+         b = m.player1Def;
+      } else {
+         b = m.player2Def;
+      }
+
       System.out.println(p + "'s Turn!  Place your " + s + "!");
 
       System.out.println("Choose a starting location!");
       while (!validStart) {
-         while ((int)col < 65 || (int)col > 74) {
-            System.out.println("Enter a valid column [A-J]: ");
-            col = in.next().charAt(0);
-            System.out.println(col);
+         while (row < 65 || row > 74) {
+            System.out.println("Enter a valid row [A-J]: ");
+            row = in.next().charAt(0);
+            System.out.println(row);
          }
 
-         while (row < 1 || row > 10) {
-            System.out.println("Enter a valid row [1-10]: ");
-            row = in.nextInt();
+         while (col < 1 || col > 10) {
+            System.out.println("Enter a valid column [1-10]: ");
+            col = in.nextInt();
+            System.out.println(col);
+         }
+         start = new Location(col, row);
+         Square startSquare = m.getSquare(b, start);
+         if (startSquare.equals(Square.NOTHING)) {
+            validStart = !validStart;
+            row = 0;
+            col = 0;
+         }
+      }
+      System.out.println("Choose an ending location!");
+      while (!validEnd) {
+         while (row < 65 || row > 74) {
+            System.out.println("Enter a valid row [A-J]: ");
+            row = in.next().charAt(0);
             System.out.println(row);
+         }
+         while (col < 1 || col > 10) {
+            System.out.println("Enter a valid column [1-10]: ");
+            col = in.nextInt();
+            System.out.println(col);
+         }
+         end = new Location(col, row);
+         Square square = m.getSquare(b, end);
+         if (square.equals(Square.NOTHING) && m.placeShip(p, s, start, end)) {
+            validEnd  = !validEnd;
+         } else {
+            System.out.println("Invalid ending location.  Choose another Ending Location.");
+            System.out.println("Start: " + start + "End: " + end);
+            row = 0;
+            col = 0;
          }
       }
    }
