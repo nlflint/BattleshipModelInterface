@@ -11,12 +11,20 @@ public class BattleshipModel implements BattleshipModelInterface {
    private final ArrayList<Ship> playerTwoShips;
    private ArrayList<ShipLocation> playerOneShots;
    private ArrayList<ShipLocation> playerTwoShots;
+   protected Board player1Off;
+   protected Board player2Off;
+   protected Board player1Def;
+   protected Board player2Def;
    private boolean isPlayer1Turn;
 
 
    public BattleshipModel() {
       playerOneShips = new ArrayList<Ship>();
       playerTwoShips = new ArrayList<Ship>();
+      player1Off = Board.PLAYER1_OFFENSIVE;
+      player1Def = Board.PLAYER1_DEFENSIVE;
+      player2Off = Board.PLAYER2_OFFENSIVE;
+      player2Def = Board.PLAYER2_DEFENSIVE;
    }
 
    @Override
