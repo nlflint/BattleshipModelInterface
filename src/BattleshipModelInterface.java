@@ -75,7 +75,6 @@ public interface BattleshipModelInterface {
      */
     void resetBoard();
 
-    Location getLoc(int col, char row);
 }
 
 /**
@@ -90,6 +89,10 @@ class Location {
      * The column
      */
     int col;
+    public Location(int col, char row){
+        this.row = row;
+        this.col = col;
+    }
 }
 
 /**

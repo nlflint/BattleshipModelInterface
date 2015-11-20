@@ -9,6 +9,10 @@ import java.util.List;
 public class BattleshipModel implements BattleshipModelInterface {
    private final ArrayList<Ship> playerOneShips;
    private final ArrayList<Ship> playerTwoShips;
+   private ArrayList<ShipLocation> playerOneShots;
+   private ArrayList<ShipLocation> playerTwoShots;
+   private boolean isPlayer1Turn;
+
 
    public BattleshipModel() {
       playerOneShips = new ArrayList<Ship>();
@@ -36,8 +40,6 @@ public class BattleshipModel implements BattleshipModelInterface {
       ships.clear();
       ships.addAll(otherships);
       ships.add(newShip);
-
-
 
       return true;
    }
@@ -206,17 +208,58 @@ public class BattleshipModel implements BattleshipModelInterface {
 
    @Override
    public Boolean startGame() {
+      isPlayer1Turn = true;
       return null;
    }
 
    @Override
-   public Status markShot(Location loc) throws IllegalStateException {
-      return null;
+   public Status markShot(Location loc) throws IllegalStateException{
+
+
+      ShipLocation shotLocation = new ShipLocation(loc);
+
+      if(!shotLocationisValid(shotLocation)){
+         return Status.DO_OVER;
+      }
+
+
+      if(isPlayer1Turn) {
+
+         if (isShipHit(playerOneShips, shotLocation)) {
+            return Status.HIT;
+         }
+      }
+      togglePlayerTurn();
+      return Status.MISS;
+  }
+
+   private void togglePlayerTurn() {
+      isPlayer1Turn = !isPlayer1Turn;
+   }
+
+   private boolean shotLocationisValid(ShipLocation shotLocation) {
+      return shotLocation.Row>=0 &&
+              shotLocation.Row<=9 &&
+              shotLocation.Column>=0 &&
+              shotLocation.Column<=9;
+   }
+
+   private boolean isShipHit(ArrayList<Ship> Ships, ShipLocation shotLocation) {
+      for(int i = 0; i< Ships.size(); i++){
+         ArrayList<ShipLocation> shipLocations = Ships.get(i).locations;
+         for (int j = 0; j< shipLocations.size(); j++){
+            if(shipLocations.get(j).equals(shotLocation)){
+               return true;
+            }
+         }
+      }
+      return false;
    }
 
    @Override
    public Player whoseTurn() {
-      return null;
+
+      return isPlayer1Turn ? Player.PLAYER1: Player.PLAYER2;
    }
 
    @Override
@@ -270,13 +313,6 @@ public class BattleshipModel implements BattleshipModelInterface {
    @Override
    public void resetBoard() {
 
-   }
-
-   @Override public Location getLoc(int col, char row) {
-      Location loc = new Location();
-      loc.col = col;
-      loc.row = row;
-      return loc;
    }
 
    private class Ship {
@@ -352,4 +388,5 @@ public class BattleshipModel implements BattleshipModelInterface {
       public LineSegment doSomeWork(Ship ship);
 
    }
+
 }

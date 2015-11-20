@@ -79,7 +79,7 @@ public class BattleshipViewController {
       //GAME COMPONENTS
       //PURE TESTING HERE
       BattleshipModel model = new BattleshipModel();
-      boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, model.getLoc(10, 'j'), model.getLoc(9, 'j'));
+      boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, new Location(10, 'j'), new Location(9, 'j'));
       System.out.println(result);
       BattleshipViewController bvc = new BattleshipViewController();
       System.out.println(bvc.displayBoard());
