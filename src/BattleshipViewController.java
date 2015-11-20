@@ -94,15 +94,15 @@ public class BattleshipViewController {
 
    private void doSetup() {
       BattleshipModel model = new BattleshipModel();
-      //BattleshipViewController bvc = new BattleshipViewController();
+      //boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, model.getLoc(10, 'j'), model.getLoc(9, 'j'));
+      //System.out.println(result);
+      BattleshipViewController bvc = new BattleshipViewController();
       //Create Player Objects
       Player player1 = model.whoseTurn();
       model.setPlayerTurn();
       Player player2 = model.whoseTurn();
       model.setPlayerTurn();
       Player currentPlayer = player1;
-
-      displayBoard();
 
       promptPlayerSetup(currentPlayer, ShipType.BATTLESHIP, model);
       //
@@ -132,6 +132,7 @@ public class BattleshipViewController {
          }
       }
    }
+
 
    private void promptPlayer(Player p) {
       System.out.println(p + "'s Turn.  Make your move: ");
