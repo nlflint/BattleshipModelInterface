@@ -197,6 +197,4 @@ class PlayerBoard {
         }
         return squares[index];
     }
-
-
 }

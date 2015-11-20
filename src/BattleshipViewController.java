@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /**
  * Implements Battleship game controls and display
  * @author Duri Balat
@@ -78,16 +80,63 @@ public class BattleshipViewController {
    public static void main(String[] args) {
       //GAME COMPONENTS
       //PURE TESTING HERE
+      //BattleshipModel model = new BattleshipModel();
+      //This works...
+      //boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, model.getLoc(10, 'j'), model.getLoc(9, 'j'));
+      BattleshipViewController bvc = new BattleshipViewController();
+      //This works...
+      //System.out.println(bvc.displayBoard());
+
+      bvc.doSetup();
+
+
+   }
+
+   private void doSetup() {
       BattleshipModel model = new BattleshipModel();
       boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, new Location(10, 'j'), new Location(9, 'j'));
       System.out.println(result);
       BattleshipViewController bvc = new BattleshipViewController();
-      System.out.println(bvc.displayBoard());
+      //Create Player Objects
+      Player player1 = model.whoseTurn();
+      model.setPlayerTurn();
+      Player player2 = model.whoseTurn();
+      model.setPlayerTurn();
+      Player currentPlayer = player1;
 
-
-
-      //System.out.println(board.p1off.getDescription());
-
+      promptPlayerSetup(currentPlayer, ShipType.BATTLESHIP, model);
+      //
 
    }
+
+   private void promptPlayerSetup(Player p, ShipType s, BattleshipModel m) {
+      Scanner in = new Scanner(System.in);
+      char col = 0;
+      int  row = 0;
+      boolean validStart = false;
+      boolean validEnd = false;
+      System.out.println(p + "'s Turn!  Place your " + s + "!");
+
+      System.out.println("Choose a starting location!");
+      while (!validStart) {
+         while ((int)col < 65 || (int)col > 74) {
+            System.out.println("Enter a valid column [A-J]: ");
+            col = in.next().charAt(0);
+            System.out.println(col);
+         }
+
+         while (row < 1 || row > 10) {
+            System.out.println("Enter a valid row [1-10]: ");
+            row = in.nextInt();
+            System.out.println(row);
+         }
+      }
+   }
+
+
+   private void promptPlayer(Player p) {
+      System.out.println(p + "'s Turn.  Make your move: ");
+      Scanner in = new Scanner(System.in);
+   }
+
 }

@@ -262,6 +262,11 @@ public class BattleshipModel implements BattleshipModelInterface {
       return isPlayer1Turn ? Player.PLAYER1: Player.PLAYER2;
    }
 
+   public void setPlayerTurn() {
+      isPlayer1Turn = !isPlayer1Turn;
+   }
+
+
    @Override
    public Square getSquare(Board board, Location loc) {
       ArrayList<Ship> ships = getBoardShips(board);
