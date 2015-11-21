@@ -274,6 +274,14 @@ public class BattleshipModel implements BattleshipModelInterface {
       isPlayer1Turn = !isPlayer1Turn;
    }
 
+   public void setPlayerTurn(Player p) {
+      if (p.equals(Player.PLAYER1)) {
+         isPlayer1Turn = true;
+      } else {
+         isPlayer1Turn = false;
+      }
+   }
+
 
    @Override
    public Square getSquare(Board board, Location loc) {
@@ -314,8 +322,8 @@ public class BattleshipModel implements BattleshipModelInterface {
    }
 
    @Override
-   public Boolean isGameOver() {
-      return null;
+   public boolean isGameOver() {
+      return false;
    }
 
    @Override

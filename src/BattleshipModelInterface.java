@@ -61,7 +61,7 @@ public interface BattleshipModelInterface {
      * Determine if game is in progress or not
      * @return true if game has a winner, false otherwise
      */
-    Boolean isGameOver();
+    boolean isGameOver();
 
     /**
      * Get winner of game
