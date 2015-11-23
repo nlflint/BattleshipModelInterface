@@ -42,31 +42,43 @@ public class BattleshipViewController {
       String out = "";
 
       //Rows
-      for (int i = 0; i <= 10; i++) {
-         out += "\n   -";
+      for (char row = 'a'; row < 'k'; row++) {
          //FORMATTING - Horizontal lines
-         for (int j = 1; j <= 10; j++) {
-            out += "---+";
-         }
-         if (i != 10) {
-            out += "\n" + (char)(i + 65) + "  |";
-            for (int n = 1; n <= 10; n++) {
+         out += buildHorizontalLine();
+         out += "\n" + row + "  |";
+         out += buildRowOfSquares(b, row);
+      }
 
-               char row = (char) ('a' + i);
-               int col = n;
-               Location loc = new Location(col, row);
-               out += " " + battleShipModel.getSquare(b, loc) + " |";
-            }
-         }
-      }
-      out += "\n     ";
-      for (int j = 1; j <= 10; j++) {
-         out += j + "   ";
-      }
-      out += "\n\n";
+      out += buildHorizontalLine();
+      out += buildHorizontalLabels();
       return out;
    }
 
+   private String buildRowOfSquares(Board b, char row) {
+      String line = "";
+      for (int n = 1; n <= 10; n++) {
+         Location loc = new Location(n, row);
+         line += " " + battleShipModel.getSquare(b, loc) + " |";
+      }
+      return line;
+   }
+
+   private String buildHorizontalLabels() {
+      String line = "\n     ";
+      for (int j = 1; j <= 10; j++) {
+         line += j + "   ";
+      }
+      line += "\n\n";
+      return line;
+   }
+
+   private String buildHorizontalLine() {
+      String line = "\n   -";
+      for (int j = 1; j <= 10; j++) {
+         line += "---+";
+      }
+      return line;
+   }
 
 
    public static void main(String[] args) {
