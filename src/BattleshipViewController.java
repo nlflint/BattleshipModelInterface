@@ -12,28 +12,17 @@ import java.util.Scanner;
 
 public class BattleshipViewController {
    //Fields
-   PlayerBoard p1off = new PlayerBoard(Board.PLAYER1_OFFENSIVE);
-   PlayerBoard p1def = new PlayerBoard(Board.PLAYER1_DEFENSIVE);
-   PlayerBoard p2off = new PlayerBoard(Board.PLAYER2_OFFENSIVE);
-   PlayerBoard p2def = new PlayerBoard(Board.PLAYER2_DEFENSIVE);
+   private BattleshipModelInterface battleShipModel;
 
-//   Player p1 = new Player();
-//   Player p2 = new Player("PLayer 2");
-
+   public BattleshipViewController(BattleshipModelInterface model) {
+      battleShipModel = model;
+   }
 
    public String displayBoard() {
-      PlayerBoard off;
-      PlayerBoard def;
-
       String player = "Player 1";
 
-      if (player == "Player 1") {
-         off = p1off;
-         def = p1def;
-      } else {
-         off = p2off;
-         def = p2def;
-      }
+      Board off = player.equals("Player 1") ? Board.PLAYER1_OFFENSIVE : Board.PLAYER2_OFFENSIVE;
+      Board def = player.equals("Player 1") ? Board.PLAYER1_DEFENSIVE : Board.PLAYER2_DEFENSIVE;
 
       String out;
       //String offensive = "    =====OFFENSIVE BOARD - " + p.toString() + " =====";
@@ -49,7 +38,7 @@ public class BattleshipViewController {
    }
 
    //Refactored helper method for printing current board state
-   private String renderBoard(PlayerBoard b) {
+   private String renderBoard(Board b) {
       String out = "";
 
       //Rows
@@ -61,11 +50,12 @@ public class BattleshipViewController {
          }
          if (i != 10) {
             out += "\n" + (char)(i + 65) + "  |";
-            for (int n = 0; n < 10; n++) {
-               int row = i;
+            for (int n = 1; n <= 10; n++) {
+
+               char row = (char) ('a' + i);
                int col = n;
-               int cell = row * 10 + col;
-               out += " " + b.getSquare(cell) + " |";
+               Location loc = new Location(col, row);
+               out += " " + battleShipModel.getSquare(b, loc) + " |";
             }
          }
       }
@@ -82,17 +72,17 @@ public class BattleshipViewController {
    public static void main(String[] args) {
       //GAME COMPONENTS
       //PURE TESTING HERE
-      //BattleshipModel model = new BattleshipModel();
+      BattleshipModel model = new BattleshipModel();
       //This works...
-      //boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, model.getLoc(10, 'j'), model.getLoc(9, 'j'));
-      BattleshipViewController bvc = new BattleshipViewController();
+      boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, new Location(10, 'j'), new Location(9, 'j'));
+      BattleshipViewController bvc = new BattleshipViewController(model);
       //This works...
       //System.out.println(bvc.displayBoard());
 
       System.out.println(bvc.displayBoard());
 
       //Actual Game Stuff
-      BattleshipModel model = new BattleshipModel();
+      //BattleshipModel model = new BattleshipModel();
       //bvc.doSetup(model);
       //When setup is complete...
       bvc.play(model);
