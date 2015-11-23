@@ -114,7 +114,11 @@ enum Status {
     // return status, a hit, sunk aircraft carrier
     SUNK_AIRCRAFT_CARRIER,
     // return status, location was already played or invalid
-    DO_OVER
+    DO_OVER,
+    // return status, player one wins
+    PLAYER1_WINS,
+    // return status, player two wins
+    PLAYER2_WINS,
 }
 
 /**
