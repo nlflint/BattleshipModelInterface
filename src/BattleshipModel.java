@@ -245,7 +245,7 @@ public class BattleshipModel implements BattleshipModelInterface {
       }
 
       ArrayList<ShipLocation> playerShots = isPlayer1Turn ? playerOneShots : playerTwoShots;
-      ArrayList<Ship> playerShips = isPlayer1Turn ? playerOneShips : playerTwoShips;
+      ArrayList<Ship> playerShips = isPlayer1Turn ? playerTwoShips : playerOneShips;
 
       playerShots.add(shotLocation);
       Ship ship = getShipAtLocation(playerShips, shotLocation);
@@ -256,11 +256,23 @@ public class BattleshipModel implements BattleshipModelInterface {
 
       ship.hit();
       if (ship.isSunk()) {
+         if(allShipsSunk(playerShips)){
+            return isPlayer1Turn ? Status.PLAYER1_WINS : Status.PLAYER2_WINS;
+         }
          return shipTypetoStatus.get(ship.type);
       }
       return Status.HIT;
 
   }
+
+   private boolean allShipsSunk(ArrayList<Ship> playerShips) {
+      for(int i = 0; i< playerShips.size(); i++){
+         if(!playerShips.get(i).isSunk()) {
+            return false;
+         }
+      }
+      return true;
+   }
 
    private Ship getShipAtLocation(ArrayList<Ship> Ships, ShipLocation shotLocation) {
       for(int i =0; i<Ships.size(); i++){

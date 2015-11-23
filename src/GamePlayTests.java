@@ -109,13 +109,13 @@ public class GamePlayTests {
     }
 
     @Test
-    public void gamePlay_whenPlayer2HitsASpotWhereShipDoesNotExist_thenReturnMiss_Player1sTurn() {
+    public void gamePlay_whenPlayer2ShotsASpotWhereShipDoesNotExist_thenReturnMiss_Player1sTurn() {
         //arrange
         setUpStandardGame();
 
         //act
         model.markShot(new Location(7, 'a'));
-        Status statusMiss = model.markShot(new Location(7, 'a'));
+        Status statusMiss = model.markShot(new Location(1, 'a'));
 
         //assert
         assertEquals(Status.MISS, statusMiss);
@@ -129,7 +129,7 @@ public class GamePlayTests {
 
         //act
         model.markShot(new Location(7, 'a'));
-        Status status = model.markShot(new Location(3, 'a'));
+        Status status = model.markShot(new Location(5, 'a'));
 
         //assert
         assertEquals(Status.HIT, status);
@@ -138,22 +138,77 @@ public class GamePlayTests {
     }
 
     @Test
-    public void gamePlay_whenPlayer1SinksAllPlayerTwosShips_thenReturnGameOver_Player1Wins(){
+    public void gamePlay_whenPlayer1SinksAllPlayerTwosShips_thenPlayer1Wins(){
         //arrange
         setUpStandardGame();
 
+        //act - sink battleship
+        model.markShot(new Location(1, 'a'));
+        model.markShot(new Location(2, 'a'));
+        model.markShot(new Location(3, 'a'));
+        model.markShot(new Location(4, 'a'));
+        //sink - aircraft carrier
+        model.markShot(new Location(1, 'b'));
+        model.markShot(new Location(2, 'b'));
+        model.markShot(new Location(3, 'b'));
+        model.markShot(new Location(4, 'b'));
+        model.markShot(new Location(5, 'b'));
+        //sink cruiser
+        model.markShot(new Location(1, 'c'));
+        model.markShot(new Location(2, 'c'));
+        model.markShot(new Location(3, 'c'));
+        //sink destroyer 1
+        model.markShot(new Location(1, 'e'));
+        model.markShot(new Location(2, 'e'));
+        //sink destroyer 2
+        model.markShot(new Location(1, 'f'));
+        Status status = model.markShot(new Location(2, 'f'));
 
+        //assert
+        assertEquals(Status.PLAYER1_WINS, status);
     }
 
+    @Test
+    public void gamePlay_whenPlayer2SinksAllPlayerOnesShips_thenPlayer2Wins(){
+        //arrange
+        setUpStandardGame();
+
+        //player one miss
+        model.markShot(new Location(7,'a'));
+        //act - sink battleship
+        model.markShot(new Location(5, 'a'));
+        model.markShot(new Location(6, 'a'));
+        model.markShot(new Location(7, 'a'));
+        model.markShot(new Location(8, 'a'));
+        //sink - aircraft carrier
+        model.markShot(new Location(5, 'b'));
+        model.markShot(new Location(6, 'b'));
+        model.markShot(new Location(7,'b'));
+        model.markShot(new Location(8, 'b'));
+        model.markShot(new Location(9, 'b'));
+        //sink cruiser
+        model.markShot(new Location(5, 'c'));
+        model.markShot(new Location(6, 'c'));
+        model.markShot(new Location(7, 'c'));
+        //sink destroyer 1
+        model.markShot(new Location(5, 'e'));
+        model.markShot(new Location(6, 'e'));
+        //sink destroyer 2
+        model.markShot(new Location(5, 'f'));
+        Status status = model.markShot(new Location(6, 'f'));
+
+        //assert
+        assertEquals(Status.PLAYER2_WINS, status);
+    }
 
 
     private void setUpStandardGame() {
 
-        model.placeShip(Player.PLAYER1,ShipType.BATTLESHIP, new Location(1, 'a'), new Location(4, 'a'));
-        model.placeShip(Player.PLAYER1,ShipType.AIRCRACT_CARRIER, new Location(1, 'b'), new Location(5, 'b'));
-        model.placeShip(Player.PLAYER1,ShipType.CRUISER, new Location(1, 'c'), new Location(3, 'c'));
-        model.placeShip(Player.PLAYER1,ShipType.DESTROYER1, new Location(1, 'e'), new Location(2, 'e'));
-        model.placeShip(Player.PLAYER1,ShipType.DESTROYER2, new Location(1, 'f'), new Location(2, 'f'));
+        model.placeShip(Player.PLAYER1,ShipType.BATTLESHIP, new Location(5, 'a'), new Location(8, 'a'));
+        model.placeShip(Player.PLAYER1,ShipType.AIRCRACT_CARRIER, new Location(5, 'b'), new Location(9, 'b'));
+        model.placeShip(Player.PLAYER1,ShipType.CRUISER, new Location(5, 'c'), new Location(7, 'c'));
+        model.placeShip(Player.PLAYER1,ShipType.DESTROYER1, new Location(5, 'e'), new Location(6, 'e'));
+        model.placeShip(Player.PLAYER1,ShipType.DESTROYER2, new Location(5, 'f'), new Location(6, 'f'));
 
         model.placeShip(Player.PLAYER2,ShipType.BATTLESHIP, new Location(1, 'a'), new Location(4, 'a'));
         model.placeShip(Player.PLAYER2,ShipType.AIRCRACT_CARRIER, new Location(1, 'b'), new Location(5, 'b'));
