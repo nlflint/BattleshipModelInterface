@@ -1,6 +1,7 @@
-import javax.sound.sampled.Line;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 //import java.util.stream.Collectors;
 
 /**
@@ -11,6 +12,7 @@ public class BattleshipModel implements BattleshipModelInterface {
    private final ArrayList<Ship> playerTwoShips;
    private ArrayList<ShipLocation> playerOneShots;
    private ArrayList<ShipLocation> playerTwoShots;
+   private Map<ShipType,Status> shipTypetoStatus;
    protected Board player1Off;
    protected Board player2Off;
    protected Board player1Def;
@@ -25,6 +27,18 @@ public class BattleshipModel implements BattleshipModelInterface {
       player1Def = Board.PLAYER1_DEFENSIVE;
       player2Off = Board.PLAYER2_OFFENSIVE;
       player2Def = Board.PLAYER2_DEFENSIVE;
+      playerOneShots = new ArrayList<ShipLocation>();
+      playerTwoShots = new ArrayList<ShipLocation>();
+      initializeShipTypeToStatusMap();
+   }
+
+   private void initializeShipTypeToStatusMap() {
+      shipTypetoStatus = new HashMap<ShipType, Status>();
+      shipTypetoStatus.put(ShipType.AIRCRACT_CARRIER,Status.SUNK_AIRCRAFT_CARRIER);
+      shipTypetoStatus.put(ShipType.DESTROYER1,Status.SUNK_DESTROYER);
+      shipTypetoStatus.put(ShipType.DESTROYER2,Status.SUNK_DESTROYER);
+      shipTypetoStatus.put(ShipType.BATTLESHIP,Status.SUNK_BATTLESHIP);
+      shipTypetoStatus.put(ShipType.CRUISER,Status.SUNK_CRUISER);
    }
 
    @Override
@@ -230,22 +244,54 @@ public class BattleshipModel implements BattleshipModelInterface {
          return Status.DO_OVER;
       }
 
+      ArrayList<ShipLocation> playerShots = isPlayer1Turn ? playerOneShots : playerTwoShots;
+      ArrayList<Ship> playerShips = isPlayer1Turn ? playerTwoShips : playerOneShips;
 
-      if(isPlayer1Turn) {
+      playerShots.add(shotLocation);
+      Ship ship = getShipAtLocation(playerShips, shotLocation);
+      if (ship == null) {
+         togglePlayerTurn();
+         return Status.MISS;
+      }
 
-         if (isShipHit(playerOneShips, shotLocation)) {
-            return Status.HIT;
+      ship.hit();
+      if (ship.isSunk()) {
+         if(allShipsSunk(playerShips)){
+            return isPlayer1Turn ? Status.PLAYER1_WINS : Status.PLAYER2_WINS;
+         }
+         return shipTypetoStatus.get(ship.type);
+      }
+      return Status.HIT;
+
+  }
+
+   private boolean allShipsSunk(ArrayList<Ship> playerShips) {
+      for(int i = 0; i< playerShips.size(); i++){
+         if(!playerShips.get(i).isSunk()) {
+            return false;
          }
       }
-      togglePlayerTurn();
-      return Status.MISS;
-  }
+      return true;
+   }
+
+   private Ship getShipAtLocation(ArrayList<Ship> Ships, ShipLocation shotLocation) {
+      for(int i =0; i<Ships.size(); i++){
+         if(Ships.get(i).ContainsLocation(shotLocation)){
+            return Ships.get(i);
+         }
+      }
+      return null;
+   }
 
    private void togglePlayerTurn() {
       isPlayer1Turn = !isPlayer1Turn;
    }
 
    private boolean shotLocationisValid(ShipLocation shotLocation) {
+      ArrayList<ShipLocation> playerShots = isPlayer1Turn ? playerOneShots : playerTwoShots;
+      if( playerShots.contains(shotLocation)){
+         return false;
+      }
       return shotLocation.Row>=0 &&
               shotLocation.Row<=9 &&
               shotLocation.Column>=0 &&
@@ -272,6 +318,14 @@ public class BattleshipModel implements BattleshipModelInterface {
 
    public void setPlayerTurn() {
       isPlayer1Turn = !isPlayer1Turn;
+   }
+
+   public void setPlayerTurn(Player p) {
+      if (p.equals(Player.PLAYER1)) {
+         isPlayer1Turn = true;
+      } else {
+         isPlayer1Turn = false;
+      }
    }
 
 
@@ -314,8 +368,8 @@ public class BattleshipModel implements BattleshipModelInterface {
    }
 
    @Override
-   public Boolean isGameOver() {
-      return null;
+   public boolean isGameOver() {
+      return false;
    }
 
    @Override
@@ -331,6 +385,7 @@ public class BattleshipModel implements BattleshipModelInterface {
    private class Ship {
       ArrayList<ShipLocation> locations;
       ShipType type;
+      int hitCount;
 
       public Ship(ShipType shipType, ArrayList<ShipLocation> locations) {
          type = shipType;
@@ -352,6 +407,21 @@ public class BattleshipModel implements BattleshipModelInterface {
          return false;
       }
 
+      public boolean isSunk(){
+         switch(type){
+            case AIRCRACT_CARRIER:
+               return hitCount>=5;
+            case BATTLESHIP:
+               return hitCount>=4;
+            case CRUISER:
+               return hitCount>=3;
+            default:
+         }
+         return hitCount>=2;
+      }
+      public void hit(){
+         hitCount++;
+      }
    }
 
    private class ShipLocation {

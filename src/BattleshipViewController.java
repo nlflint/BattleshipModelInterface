@@ -1,3 +1,5 @@
+import java.io.IOException;
+import java.nio.channels.Pipe;
 import java.util.Scanner;
 
 /**
@@ -88,24 +90,29 @@ public class BattleshipViewController {
       //System.out.println(bvc.displayBoard());
 
       System.out.println(bvc.displayBoard());
-      bvc.doSetup();
+
+      //Actual Game Stuff
+      BattleshipModel model = new BattleshipModel();
+      //bvc.doSetup(model);
+      //When setup is complete...
+      bvc.play(model);
 
 
    }
 
-   private void doSetup() {
-      BattleshipModel model = new BattleshipModel();
-      //boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, model.getLoc(10, 'j'), model.getLoc(9, 'j'));
-      //System.out.println(result);
-      BattleshipViewController bvc = new BattleshipViewController();
+   private void doSetup(BattleshipModel m) {
+
+      //BattleshipViewController bvc = new BattleshipViewController();
       //Create Player Objects
-      Player player1 = model.whoseTurn();
-      model.setPlayerTurn();
-      Player player2 = model.whoseTurn();
-      model.setPlayerTurn();
+      Player player1 = m.whoseTurn();
+      m.setPlayerTurn();
+      Player player2 = m.whoseTurn();
+      m.setPlayerTurn();
       Player currentPlayer = player1;
 
-      promptPlayerSetup(currentPlayer, ShipType.BATTLESHIP, model);
+      displayBoard();
+
+      promptPlayerSetup(currentPlayer, ShipType.BATTLESHIP, m);
 
    }
 
@@ -173,6 +180,33 @@ public class BattleshipViewController {
       }
    }
 
+   private void play(BattleshipModel m) {
+      while (!m.isGameOver()) {
+         m.setPlayerTurn(Player.PLAYER1);
+         printInterstitial(Player.PLAYER1);
+         promptPlayer(Player.PLAYER1);
+         if (m.isGameOver()) {
+            return;              //This move might have been a winning move.  End the game immediately.
+         }
+         m.setPlayerTurn(Player.PLAYER2);
+         printInterstitial(Player.PLAYER2);
+         promptPlayer(Player.PLAYER2);
+      }
+   }
+
+   private void printInterstitial(Player p) {
+      /* "Clear" the Screen */
+      for (int i = 0; i < 100; i++) {
+         System.out.println("\n");
+      }
+      System.out.println("\n\nIT IS NOW " + p + "'S TURN.  PLEASE PASS THE DEVICE TO " + p + "\n\n");
+      System.out.println(p + ": PRESS <ENTER> TO START YOUR TURN");
+      try {
+         System.in.read();    //Implements "PRESS ENTER"
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
+   }
 
    private void promptPlayer(Player p) {
       System.out.println(p + "'s Turn.  Make your move: ");
