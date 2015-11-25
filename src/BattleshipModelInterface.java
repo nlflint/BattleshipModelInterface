@@ -125,7 +125,7 @@ enum Status {
  * All ship types. Used to place ships.
  */
 enum ShipType {
-    AIRCRACT_CARRIER,
+    AIRCRAFT_CARRIER,
     BATTLESHIP,
     CRUISER,
     DESTROYER1,

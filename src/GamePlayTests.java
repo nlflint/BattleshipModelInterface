@@ -205,13 +205,13 @@ public class GamePlayTests {
     private void setUpStandardGame() {
 
         model.placeShip(Player.PLAYER1,ShipType.BATTLESHIP, new Location(5, 'a'), new Location(8, 'a'));
-        model.placeShip(Player.PLAYER1,ShipType.AIRCRACT_CARRIER, new Location(5, 'b'), new Location(9, 'b'));
+        model.placeShip(Player.PLAYER1,ShipType.AIRCRAFT_CARRIER, new Location(5, 'b'), new Location(9, 'b'));
         model.placeShip(Player.PLAYER1,ShipType.CRUISER, new Location(5, 'c'), new Location(7, 'c'));
         model.placeShip(Player.PLAYER1,ShipType.DESTROYER1, new Location(5, 'e'), new Location(6, 'e'));
         model.placeShip(Player.PLAYER1,ShipType.DESTROYER2, new Location(5, 'f'), new Location(6, 'f'));
 
         model.placeShip(Player.PLAYER2,ShipType.BATTLESHIP, new Location(1, 'a'), new Location(4, 'a'));
-        model.placeShip(Player.PLAYER2,ShipType.AIRCRACT_CARRIER, new Location(1, 'b'), new Location(5, 'b'));
+        model.placeShip(Player.PLAYER2,ShipType.AIRCRAFT_CARRIER, new Location(1, 'b'), new Location(5, 'b'));
         model.placeShip(Player.PLAYER2,ShipType.CRUISER, new Location(1, 'c'), new Location(3, 'c'));
         model.placeShip(Player.PLAYER2,ShipType.DESTROYER1, new Location(1, 'e'), new Location(2, 'e'));
         model.placeShip(Player.PLAYER2,ShipType.DESTROYER2, new Location(1, 'f'), new Location(2, 'f'));

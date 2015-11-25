@@ -34,7 +34,7 @@ public class BattleshipModel implements BattleshipModelInterface {
 
    private void initializeShipTypeToStatusMap() {
       shipTypetoStatus = new HashMap<ShipType, Status>();
-      shipTypetoStatus.put(ShipType.AIRCRACT_CARRIER,Status.SUNK_AIRCRAFT_CARRIER);
+      shipTypetoStatus.put(ShipType.AIRCRAFT_CARRIER,Status.SUNK_AIRCRAFT_CARRIER);
       shipTypetoStatus.put(ShipType.DESTROYER1,Status.SUNK_DESTROYER);
       shipTypetoStatus.put(ShipType.DESTROYER2,Status.SUNK_DESTROYER);
       shipTypetoStatus.put(ShipType.BATTLESHIP,Status.SUNK_BATTLESHIP);
@@ -162,7 +162,7 @@ public class BattleshipModel implements BattleshipModelInterface {
 
    private int getExpectedShipLength(ShipType shipType) {
       switch (shipType) {
-         case AIRCRACT_CARRIER:
+         case AIRCRAFT_CARRIER:
             return 5;
          case BATTLESHIP:
             return 4;
@@ -345,7 +345,7 @@ public class BattleshipModel implements BattleshipModelInterface {
 
    private Square getSquareFromShipType(ShipType type) {
       switch (type) {
-         case AIRCRACT_CARRIER:
+         case AIRCRAFT_CARRIER:
             return Square.AIRCRAFT_CARRIER;
          case BATTLESHIP:
             return Square.BATTLESHIP;
@@ -409,7 +409,7 @@ public class BattleshipModel implements BattleshipModelInterface {
 
       public boolean isSunk(){
          switch(type){
-            case AIRCRACT_CARRIER:
+            case AIRCRAFT_CARRIER:
                return hitCount>=5;
             case BATTLESHIP:
                return hitCount>=4;

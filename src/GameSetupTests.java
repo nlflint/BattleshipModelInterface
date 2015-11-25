@@ -72,7 +72,7 @@ public class GameSetupTests {
     @Test
     public void gameSetup_whenPlacingAircraftCarrierDiagonalySWtoNE_ThenGetSquareReturnsShipAtFiveLocations() {
         // Act
-        model.placeShip(Player.PLAYER2, ShipType.AIRCRACT_CARRIER, getLoc(1, 'a'), getLoc(5, 'e'));
+        model.placeShip(Player.PLAYER2, ShipType.AIRCRAFT_CARRIER, getLoc(1, 'a'), getLoc(5, 'e'));
 
         // Assert
         assertEquals(model.getSquare(player2, getLoc(1, 'a')), Square.AIRCRAFT_CARRIER);
@@ -85,7 +85,7 @@ public class GameSetupTests {
     @Test
     public void gameSetup_whenPlacingAircraftCarrierDiagonallySEtoNW_ThenGetSquareReturnsShipAtFiveLocations() {
         // Act
-        model.placeShip(Player.PLAYER2, ShipType.AIRCRACT_CARRIER, getLoc(1, 'e'), getLoc(5, 'a'));
+        model.placeShip(Player.PLAYER2, ShipType.AIRCRAFT_CARRIER, getLoc(1, 'e'), getLoc(5, 'a'));
 
         // Assert
         assertEquals(model.getSquare(player2, getLoc(1, 'e')), Square.AIRCRAFT_CARRIER);
@@ -98,7 +98,7 @@ public class GameSetupTests {
     @Test
     public void gameSetup_whenPlacingAircraftCarrierDiagonallyNEtoSW_ThenGetSquareReturnsShipAtFiveLocations() {
         // Act
-        model.placeShip(Player.PLAYER2, ShipType.AIRCRACT_CARRIER, getLoc(5, 'a'), getLoc(1, 'e'));
+        model.placeShip(Player.PLAYER2, ShipType.AIRCRAFT_CARRIER, getLoc(5, 'a'), getLoc(1, 'e'));
 
         // Assert
         assertEquals(model.getSquare(player2, getLoc(1, 'e')), Square.AIRCRAFT_CARRIER);
@@ -204,7 +204,7 @@ public class GameSetupTests {
     @Test
     public void gameSetup_whenCrossingShipsDiagonally_ThenSecondPlacementFailsAndShipsCannotBeCrossed() {
         // Act
-        model.placeShip(Player.PLAYER1, ShipType.AIRCRACT_CARRIER, getLoc(1, 'a'), getLoc(5, 'e'));
+        model.placeShip(Player.PLAYER1, ShipType.AIRCRAFT_CARRIER, getLoc(1, 'a'), getLoc(5, 'e'));
         boolean notAllowed1 = model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(3, 'f'), getLoc(6, 'c'));
         boolean notAllowed2 = model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(6, 'c'), getLoc(3, 'f'));
 
@@ -219,7 +219,7 @@ public class GameSetupTests {
     @Test
     public void gameSetup_whenDiagonallyPlacedShipsAreClose_ThenPlacementAllowed() {
         // Act
-        model.placeShip(Player.PLAYER1, ShipType.AIRCRACT_CARRIER, getLoc(1, 'a'), getLoc(5, 'e'));
+        model.placeShip(Player.PLAYER1, ShipType.AIRCRAFT_CARRIER, getLoc(1, 'a'), getLoc(5, 'e'));
         boolean allowed1 = model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(4, 'g'), getLoc(7, 'd'));
         boolean allowed2 = model.placeShip(Player.PLAYER1, ShipType.CRUISER, getLoc(4, 'c'), getLoc(6, 'a'));
         boolean allowed3 = model.placeShip(Player.PLAYER1, ShipType.DESTROYER1, getLoc(2, 'c'), getLoc(3, 'd'));
