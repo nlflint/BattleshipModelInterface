@@ -12,72 +12,8 @@ import java.util.Scanner;
 
 public class BattleshipViewController {
    //Fields
-   PlayerBoard p1off = new PlayerBoard(Board.PLAYER1_OFFENSIVE);
-   PlayerBoard p1def = new PlayerBoard(Board.PLAYER1_DEFENSIVE);
-   PlayerBoard p2off = new PlayerBoard(Board.PLAYER2_OFFENSIVE);
-   PlayerBoard p2def = new PlayerBoard(Board.PLAYER2_DEFENSIVE);
-
-//   Player p1 = new Player();
-//   Player p2 = new Player("PLayer 2");
-
-
-   public String displayBoard() {
-      PlayerBoard off;
-      PlayerBoard def;
-
-      String player = "Player 1";
-
-      if (player == "Player 1") {
-         off = p1off;
-         def = p1def;
-      } else {
-         off = p2off;
-         def = p2def;
-      }
-
-      String out;
-      //String offensive = "    =====OFFENSIVE BOARD - " + p.toString() + " =====";
-      String offensive = "    =====OFFENSIVE BOARD - " + player + " =====";
-      offensive += renderBoard(off);
-
-      //String defensive = "    =====DEFENSIVE BOARD - " + p.toString() + " =====";
-      String defensive = "    =====DEFENSIVE BOARD - " + player + " =====";
-      defensive += renderBoard(def);
-
-      out = offensive + defensive;
-      return out;
-   }
-
-   //Refactored helper method for printing current board state
-   private String renderBoard(PlayerBoard b) {
-      String out = "";
-
-      //Rows
-      for (int i = 0; i <= 10; i++) {
-         out += "\n   -";
-         //FORMATTING - Horizontal lines
-         for (int j = 1; j <= 10; j++) {
-            out += "---+";
-         }
-         if (i != 10) {
-            out += "\n" + (char)(i + 65) + "  |";
-            for (int n = 0; n < 10; n++) {
-               int row = i;
-               int col = n;
-               int cell = row * 10 + col;
-               out += " " + b.getSquare(cell) + " |";
-            }
-         }
-      }
-      out += "\n     ";
-      for (int j = 1; j <= 10; j++) {
-         out += j + "   ";
-      }
-      out += "\n\n";
-      return out;
-   }
-
-
+   BattleshipModel model = new BattleshipModel();
+   //TODO: do we need any fields?
 
    public static void main(String[] args) {
       //GAME COMPONENTS
@@ -85,81 +21,96 @@ public class BattleshipViewController {
       //BattleshipModel model = new BattleshipModel();
       //This works...
       //boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, model.getLoc(10, 'j'), model.getLoc(9, 'j'));
+
+      //Stand up MVC components
       BattleshipViewController bvc = new BattleshipViewController();
-      //This works...
-      //System.out.println(bvc.displayBoard());
 
-      System.out.println(bvc.displayBoard());
 
-      //Actual Game Stuff
-      BattleshipModel model = new BattleshipModel();
-      //bvc.doSetup(model);
+      //Welcome!
+      bvc.printTitle();
+
+      //Run through Ship Setup
+      bvc.doSetup(bvc.model);
       //When setup is complete...
-      bvc.play(model);
+      //bvc.play(model);
+   }
 
+
+
+   //Gameplay Methods
+   private void doSetup(BattleshipModel model) {
+      //ENUMS ARE EASY
+      Player player1 = Player.PLAYER1;
+      Player player2 = Player.PLAYER2;
+      Board p1def = Board.PLAYER1_DEFENSIVE;
+      Board p2def = Board.PLAYER2_DEFENSIVE;
+
+      //Player1 Setup
+      printInterstitial(player1);
+      promptPlayerSetup(player1, ShipType.AIRCRAFT_CARRIER, model, p1def);
+      promptPlayerSetup(player1, ShipType.BATTLESHIP, model, p1def);
+      promptPlayerSetup(player1, ShipType.CRUISER, model, p1def);
+      promptPlayerSetup(player1, ShipType.DESTROYER1, model, p1def);
+      promptPlayerSetup(player1, ShipType.DESTROYER2, model, p1def);
+      displayBoard(player1, p1def);
+      printInterstitial(player2);
+
+      //Player2 Setup
+      promptPlayerSetup(player2, ShipType.AIRCRAFT_CARRIER, model, p2def);
+      promptPlayerSetup(player2, ShipType.BATTLESHIP, model, p2def);
+      promptPlayerSetup(player2, ShipType.CRUISER, model, p2def);
+      promptPlayerSetup(player2, ShipType.DESTROYER1, model, p2def);
+      promptPlayerSetup(player2, ShipType.DESTROYER2, model, p2def);
+      displayBoard(player2, p2def);
+      printInterstitial(player1);
+      //TODO: GAME PLAY START INTERSTITIAL
 
    }
 
-   private void doSetup(BattleshipModel m) {
-
-      //BattleshipViewController bvc = new BattleshipViewController();
-      //Create Player Objects
-      Player player1 = m.whoseTurn();
-      m.setPlayerTurn();
-      Player player2 = m.whoseTurn();
-      m.setPlayerTurn();
-      Player currentPlayer = player1;
-
-      displayBoard();
-
-      promptPlayerSetup(currentPlayer, ShipType.BATTLESHIP, m);
-
-   }
-
-   private void promptPlayerSetup(Player p, ShipType s, BattleshipModel m) {
+   private void promptPlayerSetup(Player player, ShipType ship, BattleshipModel model, Board b) {
       Scanner in = new Scanner(System.in);
       int  col = 0;
       char row = 0;
       boolean validStart = false;
       boolean validEnd = false;
-      Board b;
       Location start = null;
       Location end = null;
 
-      if (p.equals(Player.PLAYER1)) {
-         b = m.player1Def;
-      } else {
-         b = m.player2Def;
-      }
-
-      System.out.println(p + "'s Turn!  Place your " + s + "!");
-
-      System.out.println("Choose a starting location!");
       while (!validStart) {
-         while (row < 65 || row > 74) {
+         System.out.println(displayBoard(player, b));
+         System.out.println(player + "'s Turn!  Place your " + ship + "!\n\n");
+         System.out.println("Choose a starting location!");
+         while ((row < 'a' || row > 'j')) {
             System.out.println("Enter a valid row [A-J]: ");
             row = in.next().charAt(0);
-            System.out.println(row);
+            //Handle upper casing
+            if (row >= 'A' && row <= 'J') {
+               row = (char) (row + 32);
+            }
          }
 
          while (col < 1 || col > 10) {
             System.out.println("Enter a valid column [1-10]: ");
             col = in.nextInt();
-            System.out.println(col);
          }
          start = new Location(col, row);
-         Square startSquare = m.getSquare(b, start);
+         Square startSquare = model.getSquare(b, start);
          if (startSquare.equals(Square.NOTHING)) {
             validStart = !validStart;
             row = 0;
             col = 0;
          }
       }
-      System.out.println("Choose an ending location!");
       while (!validEnd) {
-         while (row < 65 || row > 74) {
+         System.out.println(displayBoard(player, b));
+         System.out.println("Choose an ending location!");
+         while ((row < 'a' || row > 'j')) {
             System.out.println("Enter a valid row [A-J]: ");
             row = in.next().charAt(0);
+            //Handle upper casing
+            if (row >= 'A' && row <= 'J') {
+               row = (char) (row + 32);
+            }
             System.out.println(row);
          }
          while (col < 1 || col > 10) {
@@ -168,12 +119,11 @@ public class BattleshipViewController {
             System.out.println(col);
          }
          end = new Location(col, row);
-         Square square = m.getSquare(b, end);
-         if (square.equals(Square.NOTHING) && m.placeShip(p, s, start, end)) {
+         Square square = model.getSquare(b, end);
+         if (square.equals(Square.NOTHING) && model.placeShip(player, ship, start, end)) {
             validEnd  = !validEnd;
          } else {
             System.out.println("Invalid ending location.  Choose another Ending Location.");
-            System.out.println("Start: " + start + "End: " + end);
             row = 0;
             col = 0;
          }
@@ -194,12 +144,90 @@ public class BattleshipViewController {
       }
    }
 
+   private void promptPlayer(Player p) {
+      System.out.println(p + "'s Turn.  Make your move: ");
+      Scanner in = new Scanner(System.in);
+   }
+
+   //DISPLAY METHODS
+   public String displayBoard(Player p, Board b) {
+      String board;
+      String title;
+      if (b == Board.PLAYER1_OFFENSIVE || b == Board.PLAYER2_OFFENSIVE) {
+         title = "OFFENSIVE";
+      } else {
+         title = "DEFENSIVE";
+      }
+      board  = "    ======= " + title + " - " + p.toString() + " =======";
+      board += renderBoard(b);
+
+      return board;
+   }
+
+   private String renderBoard(Board b) {
+      String out = "";
+      //Rows
+      for (int i = 0; i <= 10; i++) {
+         out += "\n   -";
+         //FORMATTING - Horizontal lines
+         for (int j = 1; j <= 10; j++) {
+            out += "---+";
+         }
+         if (i != 10) {
+            out += "\n" + (char)(i + 65) + "  |";
+            for (int n = 0; n < 10; n++) {
+               char row = (char)(i + 97);
+               int col = n;
+               Location cell = new Location(col, row);
+               char val;
+               switch (model.getSquare(b, cell)) {
+                  case NOTHING:
+                     val = ' ';
+                     break;
+                  case HIT:
+                     val = 'X';
+                     break;
+                  case MISS:
+                     val = '0';
+                     break;
+                  case AIRCRAFT_CARRIER:
+                     val = 'A';
+                     break;
+                  case BATTLESHIP:
+                     val = 'B';
+                     break;
+                  case CRUISER:
+                     val = 'C';
+                     break;
+                  case DESTROYER1:
+                     val = 'D';
+                     break;
+                  case DESTROYER2:
+                     val = 'd';
+                     break;
+                  default:
+                     val = ' ';
+                     break;
+               }
+               out += " " + val + " |";
+            }
+         }
+      }
+      out += "\n     ";
+      for (int j = 1; j <= 10; j++) {
+         out += j + "   ";
+      }
+      out += "\n\n";
+      return out;
+   }
+
    private void printInterstitial(Player p) {
-      /* "Clear" the Screen */
+      // "Clear" the Screen
       for (int i = 0; i < 100; i++) {
          System.out.println("\n");
       }
-      System.out.println("\n\nIT IS NOW " + p + "'S TURN.  PLEASE PASS THE DEVICE TO " + p + "\n\n");
+      System.out.println("\n\nIT IS  " + p + "'S TURN.  PLEASE PASS THE DEVICE TO " + p + "\n\n");
+      System.out.println(printPlayer(p));
       System.out.println(p + ": PRESS <ENTER> TO START YOUR TURN");
       try {
          System.in.read();    //Implements "PRESS ENTER"
@@ -208,9 +236,53 @@ public class BattleshipViewController {
       }
    }
 
-   private void promptPlayer(Player p) {
-      System.out.println(p + "'s Turn.  Make your move: ");
-      Scanner in = new Scanner(System.in);
+   private String printPlayer(Player p) {
+      String out;
+      if (p.equals(Player.PLAYER1)) {
+         out = "______ _       _____   _____________   __  \n"
+               + "| ___ \\ |     / _ \\ \\ / /  ___| ___ \\ /  | \n"
+               + "| |_/ / |    / /_\\ \\ V /| |__ | |_/ / `| | \n"
+               + "|  __/| |    |  _  |\\ / |  __||    /   | | \n"
+               + "| |   | |____| | | || | | |___| |\\ \\  _| |_\n"
+               + "\\_|   \\_____/\\_| |_/\\_/ \\____/\\_| \\_| \\___/\n"
+               + "                                           ";
+      }
+      else {
+         out = "______ _       _____   _____________   _____ \n"
+               + "| ___ \\ |     / _ \\ \\ / /  ___| ___ \\ / __  \\\n"
+               + "| |_/ / |    / /_\\ \\ V /| |__ | |_/ / `' / /'\n"
+               + "|  __/| |    |  _  |\\ / |  __||    /    / /  \n"
+               + "| |   | |____| | | || | | |___| |\\ \\  ./ /___\n"
+               + "\\_|   \\_____/\\_| |_/\\_/ \\____/\\_| \\_| \\_____/\n"
+               + "                                             ";
+      }
+
+
+      return out;
+
+   }
+
+   private void printTitle() {
+      String s;
+      s = "______  ___ _____ _____ _      _____ _____ _   _ ___________ \n"
+            + "| ___ \\/ _ \\_   _|_   _| |    |  ___/  ___| | | |_   _| ___ \\\n"
+            + "| |_/ / /_\\ \\| |   | | | |    | |__ \\ `--.| |_| | | | | |_/ /\n"
+            + "| ___ \\  _  || |   | | | |    |  __| `--. \\  _  | | | |  __/ \n"
+            + "| |_/ / | | || |   | | | |____| |___/\\__/ / | | |_| |_| |    \n"
+            + "\\____/\\_| |_/\\_/   \\_/ \\_____/\\____/\\____/\\_| |_/\\___/\\_|    ";
+
+      s += "\n --The Commanders\n\n";
+
+      s += "Press Enter to Begin!";
+
+      System.out.println(s);
+
+      try {
+         System.in.read();    //Implements "PRESS ENTER"
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
+
    }
 
 }
