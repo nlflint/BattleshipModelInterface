@@ -89,6 +89,9 @@ public class BattleshipModel implements BattleshipModelInterface {
    }
 
    private boolean areIntersecting(LineSegment first, LineSegment second) {
+      if(isVertical(first) || isVertical(second)){
+         return false;
+      }
       double slope1 = getSlope(first);
       double intercept1 = getIntercept(first, slope1);
 
@@ -104,6 +107,10 @@ public class BattleshipModel implements BattleshipModelInterface {
       boolean yWithinSecond = isBetweenBounds(intersectY, second.Start.Y, second.End.Y);
 
       return  xWithinFirst && yWithinFirst && xWithinSecond && yWithinSecond;
+   }
+
+   private boolean isVertical(LineSegment lineSegment) {
+      return lineSegment.End.X == lineSegment.Start.X;
    }
 
    private boolean isBetweenBounds(double intersect, double bound1, double bound2) {

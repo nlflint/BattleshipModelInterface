@@ -175,7 +175,7 @@ public class BattleshipViewController {
          }
          if (i != 10) {
             out += "\n" + (char)(i + 65) + "  |";
-            for (int n = 0; n < 10; n++) {
+            for (int n = 1; n <= 10; n++) {
                char row = (char)(i + 97);
                int col = n;
                Location cell = new Location(col, row);

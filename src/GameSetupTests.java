@@ -246,6 +246,14 @@ public class GameSetupTests {
 
 
     }
+    @Test
+    public void divideByZero(){
+        // Act
+        model.placeShip(Player.PLAYER1, ShipType.AIRCRAFT_CARRIER, getLoc(10, 'a'), getLoc(10, 'e'));
+        model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(1, 'a'), getLoc(1, 'd'));
+
+
+    }
     private Location getLoc(int col, char row) {
         return new Location(col, row);
     }
