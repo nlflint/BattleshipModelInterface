@@ -23,8 +23,11 @@ public class BattleshipViewController {
 
       //Run through Ship Setup
       bvc.doSetup();
+      bvc.printStartGame();
+
       //When setup is complete...
-      //bvc.play(model);
+
+      bvc.play();
    }
 
    //Gameplay Methods
@@ -62,8 +65,6 @@ public class BattleshipViewController {
       } catch (InterruptedException e){
          e.printStackTrace();
       }
-      printInterstitial(player1);
-      //TODO: GAME PLAY START INTERSTITIAL
    }
 
    private void promptPlayerSetup(Player player, ShipType ship, Board b) {
@@ -130,16 +131,15 @@ public class BattleshipViewController {
    }
 
    private void play() {
+      model.startGame();
+      Player currentPlayer = model.whoseTurn();
       while (!model.isGameOver()) {
-         model.setPlayerTurn(Player.PLAYER1);
-         printInterstitial(Player.PLAYER1);
-         promptPlayer(Player.PLAYER1);
+         System.out.println(currentPlayer);
+         printInterstitial(currentPlayer);
+         promptPlayer(currentPlayer);
          if (model.isGameOver()) {
             return;              //This move might have been a winning move.  End the game immediately.
          }
-         model.setPlayerTurn(Player.PLAYER2);
-         printInterstitial(Player.PLAYER2);
-         promptPlayer(Player.PLAYER2);
       }
    }
 
@@ -229,11 +229,7 @@ public class BattleshipViewController {
       System.out.println("\n\nIT IS  " + p + "'S TURN.  PLEASE PASS THE DEVICE TO " + p + "\n\n");
       System.out.println(printPlayer(p));
       System.out.println(p + ": PRESS <ENTER> TO START YOUR TURN");
-      try {
-         System.in.read();    //Implements "PRESS ENTER"
-      } catch (IOException e) {
-         e.printStackTrace();
-      }
+      pressEnter();
    }
 
    private String printPlayer(Player p) {
@@ -256,10 +252,7 @@ public class BattleshipViewController {
                + "\\_|   \\_____/\\_| |_/\\_/ \\____/\\_| \\_| \\_____/\n"
                + "                                             ";
       }
-
-
       return out;
-
    }
 
    private void printTitle() {
@@ -273,16 +266,32 @@ public class BattleshipViewController {
 
       s += "\n --The Commanders\n\n";
 
-      s += "Press Enter to Begin!";
+      System.out.println(s);
+      pressEnter();
+   }
+
+   private void printStartGame() {
+      String s;
+      s = "______  ___ _____ _____ _      _____ _ _ \n"
+            + "| ___ \\/ _ \\_   _|_   _| |    |  ___| | |\n"
+            + "| |_/ / /_\\ \\| |   | | | |    | |__ | | |\n"
+            + "| ___ \\  _  || |   | | | |    |  __|| | |\n"
+            + "| |_/ / | | || |   | | | |____| |___|_|_|\n"
+            + "\\____/\\_| |_/\\_/   \\_/ \\_____/\\____/(_|_)\n"
+            + "                                         ";
 
       System.out.println(s);
+      pressEnter();
+   }
+
+   private void pressEnter() {
+      System.out.println("Press Enter to Begin!");
 
       try {
          System.in.read();    //Implements "PRESS ENTER"
       } catch (IOException e) {
          e.printStackTrace();
       }
-
    }
 
 }
