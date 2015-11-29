@@ -18,9 +18,11 @@ public class BattleshipModel implements BattleshipModelInterface {
    protected Board player1Def;
    protected Board player2Def;
    private boolean isPlayer1Turn;
+   private GameMode mode;
 
 
    public BattleshipModel() {
+      mode = GameMode.SETUP;
       playerOneShips = new ArrayList<Ship>();
       playerTwoShips = new ArrayList<Ship>();
       player1Off = Board.PLAYER1_OFFENSIVE;
@@ -43,6 +45,9 @@ public class BattleshipModel implements BattleshipModelInterface {
 
    @Override
    public Boolean placeShip(Player player, ShipType shipType, Location start, Location end) {
+      if(mode != GameMode.SETUP){
+         return false;
+      }
       ShipLocation shipStart = new ShipLocation(start);
       ShipLocation shipEnd = new ShipLocation(end);
       ArrayList<ShipLocation> locations = generateShipLocationsFromRange(shipStart, shipEnd);
@@ -231,12 +236,15 @@ public class BattleshipModel implements BattleshipModelInterface {
    @Override
    public Boolean startGame() {
       isPlayer1Turn = true;
+      mode = GameMode.PLAY;
       return null;
    }
 
    @Override
    public Status markShot(Location loc) throws IllegalStateException{
-
+      if(mode != GameMode.PLAY){
+         return Status.NOT_ALLOWED;
+      }
 
       ShipLocation shotLocation = new ShipLocation(loc);
 
@@ -257,6 +265,7 @@ public class BattleshipModel implements BattleshipModelInterface {
       ship.hit();
       if (ship.isSunk()) {
          if(allShipsSunk(playerShips)){
+            mode = GameMode.GAMEOVER;
             return isPlayer1Turn ? Status.PLAYER1_WINS : Status.PLAYER2_WINS;
          }
          return shipTypetoStatus.get(ship.type);
@@ -333,14 +342,55 @@ public class BattleshipModel implements BattleshipModelInterface {
    public Square getSquare(Board board, Location loc) {
       ArrayList<Ship> ships = getBoardShips(board);
       ShipLocation location = new ShipLocation(loc);
+      ArrayList<ShipLocation> shots = getShotsFromBoard(board);
+
+      boolean locationIsShot = shotsContains(location, shots);
+      boolean showShip = isDefensiveBoard(board) || isGameOver();
 
       for(Ship ship : ships) {
          if (ship.ContainsLocation(location)) {
-            return getSquareFromShipType(ship.type);
-         }
+            if(!locationIsShot) {
 
+               return showShip ? getSquareFromShipType(ship.type) : Square.NOTHING ;
+            }else {
+               return Square.HIT;
+            }
+         }
       }
+      if (locationIsShot) return Square.MISS;
       return Square.NOTHING;
+   }
+
+   private boolean isDefensiveBoard(Board board) {
+      switch (board){
+         case PLAYER1_DEFENSIVE:
+            return true;
+         case PLAYER2_DEFENSIVE:
+            return true;
+         default:
+            return false;
+      }
+
+   }
+
+   private boolean shotsContains(ShipLocation location, ArrayList<ShipLocation> shots) {
+      for(ShipLocation shot : shots){
+         if(shot.equals(location)){
+            return true;
+         }
+      }
+      return false;
+   }
+
+   private ArrayList<ShipLocation> getShotsFromBoard(Board board) {
+      switch (board){
+         case PLAYER1_OFFENSIVE:
+            return playerOneShots;
+         case PLAYER2_DEFENSIVE:
+            return playerOneShots;
+         default:
+            return playerTwoShots;
+      }
    }
 
    private Square getSquareFromShipType(ShipType type) {
@@ -362,6 +412,8 @@ public class BattleshipModel implements BattleshipModelInterface {
       switch (board) {
          case PLAYER1_DEFENSIVE:
             return playerOneShips;
+         case PLAYER2_OFFENSIVE:
+            return playerOneShips;
          default:
             return playerTwoShips;
       }
@@ -369,12 +421,12 @@ public class BattleshipModel implements BattleshipModelInterface {
 
    @Override
    public boolean isGameOver() {
-      return false;
+      return mode == GameMode.GAMEOVER;
    }
 
    @Override
    public Player getWinner() throws IllegalStateException {
-      return null;
+      return whoseTurn();
    }
 
    @Override
@@ -472,4 +524,10 @@ public class BattleshipModel implements BattleshipModelInterface {
 
    }
 
+}
+
+enum GameMode{
+   SETUP,
+   PLAY,
+   GAMEOVER
 }

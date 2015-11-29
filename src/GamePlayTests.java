@@ -40,6 +40,8 @@ public class GamePlayTests {
 
         //assert
         assertEquals(Status.MISS, statusMiss);
+        assertEquals(Square.MISS, model.getSquare(Board.PLAYER1_OFFENSIVE, new Location(7,'a')));
+        assertEquals(Square.MISS, model.getSquare(Board.PLAYER2_DEFENSIVE, new Location(7,'a')));
         assertEquals(Player.PLAYER2, model.whoseTurn());
     }
 
@@ -53,8 +55,9 @@ public class GamePlayTests {
 
         //assert
         assertEquals(Status.HIT, statusMiss);
+        assertEquals(Square.HIT, model.getSquare(Board.PLAYER2_DEFENSIVE, new Location (2,'a')));
+        assertEquals(Square.HIT, model.getSquare(Board.PLAYER1_OFFENSIVE, new Location (2,'a')));
         assertEquals(Player.PLAYER1, model.whoseTurn());
-
 
     }
 
@@ -201,6 +204,29 @@ public class GamePlayTests {
         assertEquals(Status.PLAYER2_WINS, status);
     }
 
+    @Test
+    public void gamePlay_whenPlayerLooksAtOffensiveBoard_theyShallNotSeePlayer1sOrPlayer2sShips(){
+        //setup
+        setUpStandardGame();
+
+        //assert
+        assertEquals(Square.NOTHING,model.getSquare(Board.PLAYER1_OFFENSIVE, new Location(5, 'a')));
+        assertEquals(Square.NOTHING,model.getSquare(Board.PLAYER1_OFFENSIVE, new Location(1, 'c')));
+        assertEquals(Square.NOTHING,model.getSquare(Board.PLAYER2_OFFENSIVE, new Location(1, 'c')));
+        assertEquals(Square.NOTHING,model.getSquare(Board.PLAYER2_OFFENSIVE, new Location(5, 'a')));
+
+    }
+
+    @Test
+    public void gamePlay_whenPlayerTriesToPlaceShip_returnFalse(){
+        //setUp
+        setUpStandardGame();
+
+        //assert
+        assertFalse(model.placeShip(Player.PLAYER1,ShipType.BATTLESHIP, new Location(6, 'a'), new Location(9, 'a')));
+        assertFalse(model.placeShip(Player.PLAYER2,ShipType.BATTLESHIP, new Location(2, 'a'), new Location(5, 'a')));
+
+    }
 
     private void setUpStandardGame() {
 

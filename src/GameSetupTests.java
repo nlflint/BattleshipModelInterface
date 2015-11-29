@@ -236,6 +236,16 @@ public class GameSetupTests {
 
     }
 
+    @Test
+    public void gameSetup_whenPlayerTriesToMarkShot_thenStatusNotAllowed(){
+        //act
+        Status status1 = model.markShot(getLoc(1,'a'));
+
+        //assert
+        assertEquals(Status.NOT_ALLOWED, status1);
+
+
+    }
     private Location getLoc(int col, char row) {
         return new Location(col, row);
     }

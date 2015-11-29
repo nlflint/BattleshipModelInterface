@@ -118,7 +118,7 @@ enum Status {
     // return status, player one wins
     PLAYER1_WINS,
     // return status, player two wins
-    PLAYER2_WINS,
+    PLAYER2_WINS, NOT_ALLOWED,
 }
 
 /**
