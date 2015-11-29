@@ -13,10 +13,6 @@ public class BattleshipModel implements BattleshipModelInterface {
    private ArrayList<ShipLocation> playerOneShots;
    private ArrayList<ShipLocation> playerTwoShots;
    private Map<ShipType,Status> shipTypetoStatus;
-   protected Board player1Off;
-   protected Board player2Off;
-   protected Board player1Def;
-   protected Board player2Def;
    private boolean isPlayer1Turn;
    private GameMode mode;
 
@@ -25,10 +21,6 @@ public class BattleshipModel implements BattleshipModelInterface {
       mode = GameMode.SETUP;
       playerOneShips = new ArrayList<Ship>();
       playerTwoShips = new ArrayList<Ship>();
-      player1Off = Board.PLAYER1_OFFENSIVE;
-      player1Def = Board.PLAYER1_DEFENSIVE;
-      player2Off = Board.PLAYER2_OFFENSIVE;
-      player2Def = Board.PLAYER2_DEFENSIVE;
       playerOneShots = new ArrayList<ShipLocation>();
       playerTwoShots = new ArrayList<ShipLocation>();
       initializeShipTypeToStatusMap();
@@ -82,50 +74,10 @@ public class BattleshipModel implements BattleshipModelInterface {
       }
 
       for (LineSegment line : otherLines) {
-         if (areIntersecting(newLine, line))
+         if (newLine.isIntersecting(line))
             return true;
       }
       return false;
-   }
-
-   private boolean areIntersecting(LineSegment first, LineSegment second) {
-      if(isVertical(first) || isVertical(second)){
-         return false;
-      }
-      double slope1 = getSlope(first);
-      double intercept1 = getIntercept(first, slope1);
-
-      double slope2 = getSlope(second);
-      double intercept2 = getIntercept(second, slope2);
-
-      double intersectX = (intercept1 - intercept2) / (slope2 - slope1);
-      double intersectY = (slope1 * intersectX) + intercept1;
-
-      boolean xWithinFirst = isBetweenBounds(intersectX, first.Start.X, first.End.X);
-      boolean yWithinFirst = isBetweenBounds(intersectY, first.Start.Y, first.End.Y);
-      boolean xWithinSecond = isBetweenBounds(intersectX, second.Start.X, second.End.X);
-      boolean yWithinSecond = isBetweenBounds(intersectY, second.Start.Y, second.End.Y);
-
-      return  xWithinFirst && yWithinFirst && xWithinSecond && yWithinSecond;
-   }
-
-   private boolean isVertical(LineSegment lineSegment) {
-      return lineSegment.End.X == lineSegment.Start.X;
-   }
-
-   private boolean isBetweenBounds(double intersect, double bound1, double bound2) {
-      double lower = Math.min(bound1, bound2);
-      double upper = Math.max(bound1, bound2);
-
-      return (intersect >= lower) && (intersect <= upper);
-   }
-
-   private double getIntercept(LineSegment first, double slope1) {
-      return first.Start.Y - (slope1 * first.Start.X);
-   }
-
-   private int getSlope(LineSegment first) {
-      return (first.Start.Y - first.End.Y) / (first.Start.X - first.End.X);
    }
 
    private LineSegment getLineSegmentFromShip(Ship ship) {
@@ -162,7 +114,6 @@ public class BattleshipModel implements BattleshipModelInterface {
       for (Ship ship : ships) {
          if (ship.ContainsAnyLocations(locations))
             return true;
-
       }
       return false;
    }
@@ -336,10 +287,6 @@ public class BattleshipModel implements BattleshipModelInterface {
       return isPlayer1Turn ? Player.PLAYER1: Player.PLAYER2;
    }
 
-   public void setPlayerTurn() {
-      isPlayer1Turn = !isPlayer1Turn;
-   }
-
    public void setPlayerTurn(Player p) {
       if (p.equals(Player.PLAYER1)) {
          isPlayer1Turn = true;
@@ -511,10 +458,60 @@ public class BattleshipModel implements BattleshipModelInterface {
    private class LineSegment {
       public final Point Start;
       public final Point End;
+      private double slope;
+      private boolean vertical;
+      private double intercept;
 
       public LineSegment(Point start, Point end) {
          Start = start;
          End = end;
+      }
+
+      public boolean isIntersecting(LineSegment other) {
+         if (this.isVertical() || other.isVertical()) {
+            return false;
+         }
+         double slope1 = this.getSlope();
+         double intercept1 = this.getIntercept();
+
+         double slope2 = other.getSlope();
+         double intercept2 = other.getIntercept();
+
+         double intersectX = (intercept1 - intercept2) / (slope2 - slope1);
+         double intersectY = (slope1 * intersectX) + intercept1;
+
+         boolean xWithinFirst = this.isWithinXBounds(intersectX);
+         boolean yWithinFirst = this.isWithinYBounds(intersectY);
+         boolean xWithinSecond = other.isWithinXBounds(intersectX);
+         boolean yWithinSecond = other.isWithinYBounds(intersectY);
+
+         return xWithinFirst && yWithinFirst && xWithinSecond && yWithinSecond;
+      }
+
+      private boolean isWithinYBounds(double intersect) {
+         double lower = Math.min(Start.Y, End.Y);
+         double upper = Math.max(Start.Y, End.Y);
+
+         return (intersect >= lower) && (intersect <= upper);
+      }
+
+      private boolean isWithinXBounds(double intersect) {
+         double lower = Math.min(Start.X, End.X);
+         double upper = Math.max(Start.X, End.X);
+
+         return (intersect >= lower) && (intersect <= upper);
+      }
+
+      public double getSlope() {
+         return (Start.Y - End.Y) / (Start.X - End.X);
+      }
+
+      public boolean isVertical() {
+         return End.X == Start.X;
+      }
+
+      public double getIntercept() {
+         return Start.Y - (getSlope() * Start.X);
       }
    }
 
@@ -535,10 +532,11 @@ public class BattleshipModel implements BattleshipModelInterface {
 
    }
 
+   enum GameMode{
+      SETUP,
+      PLAY,
+      GAMEOVER
+   }
+
 }
 
-enum GameMode{
-   SETUP,
-   PLAY,
-   GAMEOVER
-}
