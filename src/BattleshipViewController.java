@@ -9,10 +9,14 @@ import java.util.Scanner;
  * @author Nathan Flynt
  */
 
+/**
+ * //TODO: Comments on all public methods in Model as well as View Controller
+ */
+
 public class BattleshipViewController {
    //Fields
-   BattleshipModel model = new BattleshipModel();
-   //TODO: do we need any fields?
+   private BattleshipModel model = new BattleshipModel();
+   private boolean playerChanged = false;
 
    public static void main(String[] args) {
       //Stand up MVC components
@@ -26,7 +30,6 @@ public class BattleshipViewController {
       bvc.printStartGame();
 
       //When setup is complete...
-
       bvc.play();
    }
 
@@ -65,6 +68,7 @@ public class BattleshipViewController {
       } catch (InterruptedException e){
          e.printStackTrace();
       }
+      playerChanged = true;
    }
 
    private void promptPlayerSetup(Player player, ShipType ship, Board b) {
@@ -111,12 +115,10 @@ public class BattleshipViewController {
             if (row >= 'A' && row <= 'J') {
                row = (char) (row + 32);
             }
-            System.out.println(row);
          }
          while (col < 1 || col > 10) {
             System.out.println("Enter a valid column [1-10]: ");
             col = in.nextInt();
-            System.out.println(col);
          }
          end = new Location(col, row);
          Square square = model.getSquare(b, end);
@@ -132,20 +134,108 @@ public class BattleshipViewController {
 
    private void play() {
       model.startGame();
-      Player currentPlayer = model.whoseTurn();
       while (!model.isGameOver()) {
-         System.out.println(currentPlayer);
-         printInterstitial(currentPlayer);
-         promptPlayer(currentPlayer);
-         if (model.isGameOver()) {
-            return;              //This move might have been a winning move.  End the game immediately.
+         Player currentPlayer = model.whoseTurn();
+         if (playerChanged) {
+            printInterstitial(currentPlayer);
+            playerChanged = false;
          }
+         promptPlayer(currentPlayer);
+      }
+   }
+
+   private void sleep(int s) {
+      try {
+         Thread.sleep(s);
+      } catch (InterruptedException e) {
+         e.printStackTrace();
       }
    }
 
    private void promptPlayer(Player p) {
-      System.out.println(p + "'s Turn.  Make your move: ");
+      Board off;
+      char row  = 0;
+      int  col  = 0;
+      int time = 1000;
+      boolean validMove = false;
+      Location shot;
       Scanner in = new Scanner(System.in);
+
+      if (p.equals(Player.PLAYER1)) {
+         off = Board.PLAYER1_OFFENSIVE;
+      } else {
+         off = Board.PLAYER2_OFFENSIVE;
+      }
+
+      while (!validMove) {
+         System.out.println(displayBoard(p, off));
+         System.out.println(p + "'s Turn.  Make your move!");
+         while (row < 'a' || row > 'j') {
+            System.out.println("Enter a valid row [A-J]: ");
+            row = in.next().charAt(0);
+            //Handle upper casing
+            if (row >= 'A' && row <= 'J') {
+               row = (char) (row + 32);
+            }
+         }
+         while (col < 1 || col > 10) {
+            System.out.println("Enter a valid column [1-10]: ");
+            col = in.nextInt();
+         }
+         shot = new Location(col, row);
+         Status status = model.markShot(shot);
+
+         switch (status) {
+            case MISS:
+               System.out.println("SPLOOOSH!  You missed!");
+               validMove = !validMove;
+               playerChanged = true;
+               System.out.println(displayBoard(p, off));
+               sleep(time);
+               break;
+            case SUNK_AIRCRAFT_CARRIER:
+               System.out.println("KABOOOM!  You sunk their AIRCRAFT CARRIER!");
+               validMove = !validMove;
+               sleep(time);
+               break;
+            case SUNK_BATTLESHIP:
+               System.out.println("KABOOOM!  You sunk their BATTLESHIP!");
+               validMove = !validMove;
+               sleep(time);
+               break;
+            case SUNK_DESTROYER:
+               System.out.println("KABOOOM!  You sunk their DESTROYER!");
+               validMove = !validMove;
+               sleep(time);
+               break;
+            case SUNK_CRUISER:
+               System.out.println("KABOOOM!  You sunk their CRUISER!");
+               validMove = !validMove;
+               sleep(time);
+               break;
+            case HIT:
+               System.out.println("KABOOOM!  You scored a hit!  Go again!");
+               validMove = !validMove;
+               sleep(time);
+               break;
+            case DO_OVER:
+            case NOT_ALLOWED:
+               System.out.println("Invalid Move.  Go Again!");
+               sleep(time);
+               row = 0;
+               col = 0;
+               break;
+            case PLAYER1_WINS:
+            case PLAYER2_WINS:
+               System.out.println("YOU WIN!");
+               sleep(time * 2);
+               validMove = !validMove;
+               System.out.println(displayBoard(p, off));
+               break;
+            default:
+               break;
+         }
+      }
    }
 
    //DISPLAY METHODS
