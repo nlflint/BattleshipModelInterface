@@ -179,7 +179,7 @@ public class BattleshipModel implements BattleshipModelInterface {
 
    @Override
    public int numberOfSpacesPerShip(ShipType ship) {
-      return 0;
+      return getExpectedShipLength(ship);
    }
 
    @Override

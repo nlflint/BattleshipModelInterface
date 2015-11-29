@@ -93,6 +93,10 @@ class Location {
         this.row = row;
         this.col = col;
     }
+    public String toString() {
+        String out = "[" + (char)(row - 32) + ", " + col + "]";
+        return out;
+    }
 }
 
 /**

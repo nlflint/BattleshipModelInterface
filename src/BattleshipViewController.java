@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.nio.channels.Pipe;
 import java.util.Scanner;
 
 /**
@@ -16,29 +15,20 @@ public class BattleshipViewController {
    //TODO: do we need any fields?
 
    public static void main(String[] args) {
-      //GAME COMPONENTS
-      //PURE TESTING HERE
-      //BattleshipModel model = new BattleshipModel();
-      //This works...
-      //boolean result = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, model.getLoc(10, 'j'), model.getLoc(9, 'j'));
-
       //Stand up MVC components
       BattleshipViewController bvc = new BattleshipViewController();
-
 
       //Welcome!
       bvc.printTitle();
 
       //Run through Ship Setup
-      bvc.doSetup(bvc.model);
+      bvc.doSetup();
       //When setup is complete...
       //bvc.play(model);
    }
 
-
-
    //Gameplay Methods
-   private void doSetup(BattleshipModel model) {
+   private void doSetup() {
       //ENUMS ARE EASY
       Player player1 = Player.PLAYER1;
       Player player2 = Player.PLAYER2;
@@ -47,27 +37,36 @@ public class BattleshipViewController {
 
       //Player1 Setup
       printInterstitial(player1);
-      promptPlayerSetup(player1, ShipType.AIRCRAFT_CARRIER, model, p1def);
-      promptPlayerSetup(player1, ShipType.BATTLESHIP, model, p1def);
-      promptPlayerSetup(player1, ShipType.CRUISER, model, p1def);
-      promptPlayerSetup(player1, ShipType.DESTROYER1, model, p1def);
-      promptPlayerSetup(player1, ShipType.DESTROYER2, model, p1def);
-      displayBoard(player1, p1def);
+      promptPlayerSetup(player1, ShipType.AIRCRAFT_CARRIER, p1def);
+      promptPlayerSetup(player1, ShipType.BATTLESHIP, p1def);
+      promptPlayerSetup(player1, ShipType.CRUISER, p1def);
+      promptPlayerSetup(player1, ShipType.DESTROYER1, p1def);
+      promptPlayerSetup(player1, ShipType.DESTROYER2, p1def);
+      System.out.println(displayBoard(player1, p1def));
+      try {
+         Thread.sleep(1500);
+      } catch (InterruptedException e){
+         e.printStackTrace();
+      }
       printInterstitial(player2);
 
       //Player2 Setup
-      promptPlayerSetup(player2, ShipType.AIRCRAFT_CARRIER, model, p2def);
-      promptPlayerSetup(player2, ShipType.BATTLESHIP, model, p2def);
-      promptPlayerSetup(player2, ShipType.CRUISER, model, p2def);
-      promptPlayerSetup(player2, ShipType.DESTROYER1, model, p2def);
-      promptPlayerSetup(player2, ShipType.DESTROYER2, model, p2def);
-      displayBoard(player2, p2def);
+      promptPlayerSetup(player2, ShipType.AIRCRAFT_CARRIER, p2def);
+      promptPlayerSetup(player2, ShipType.BATTLESHIP, p2def);
+      promptPlayerSetup(player2, ShipType.CRUISER, p2def);
+      promptPlayerSetup(player2, ShipType.DESTROYER1, p2def);
+      promptPlayerSetup(player2, ShipType.DESTROYER2, p2def);
+      System.out.println(displayBoard(player2, p2def));
+      try {
+         Thread.sleep(1500);
+      } catch (InterruptedException e){
+         e.printStackTrace();
+      }
       printInterstitial(player1);
       //TODO: GAME PLAY START INTERSTITIAL
-
    }
 
-   private void promptPlayerSetup(Player player, ShipType ship, BattleshipModel model, Board b) {
+   private void promptPlayerSetup(Player player, ShipType ship, Board b) {
       Scanner in = new Scanner(System.in);
       int  col = 0;
       char row = 0;
@@ -79,7 +78,7 @@ public class BattleshipViewController {
       while (!validStart) {
          System.out.println(displayBoard(player, b));
          System.out.println(player + "'s Turn!  Place your " + ship + "!\n\n");
-         System.out.println("Choose a starting location!");
+         System.out.println("Choose a starting location for your " + ship + "(" + model.numberOfSpacesPerShip(ship) + ")!");
          while ((row < 'a' || row > 'j')) {
             System.out.println("Enter a valid row [A-J]: ");
             row = in.next().charAt(0);
@@ -103,8 +102,8 @@ public class BattleshipViewController {
       }
       while (!validEnd) {
          System.out.println(displayBoard(player, b));
-         System.out.println("Choose an ending location!");
-         while ((row < 'a' || row > 'j')) {
+         System.out.println("Choose an ending location for your " + ship + "(" + model.numberOfSpacesPerShip(ship) + ")!  Starting square: " + start);
+         while (row < 'a' || row > 'j') {
             System.out.println("Enter a valid row [A-J]: ");
             row = in.next().charAt(0);
             //Handle upper casing
@@ -130,15 +129,15 @@ public class BattleshipViewController {
       }
    }
 
-   private void play(BattleshipModel m) {
-      while (!m.isGameOver()) {
-         m.setPlayerTurn(Player.PLAYER1);
+   private void play() {
+      while (!model.isGameOver()) {
+         model.setPlayerTurn(Player.PLAYER1);
          printInterstitial(Player.PLAYER1);
          promptPlayer(Player.PLAYER1);
-         if (m.isGameOver()) {
+         if (model.isGameOver()) {
             return;              //This move might have been a winning move.  End the game immediately.
          }
-         m.setPlayerTurn(Player.PLAYER2);
+         model.setPlayerTurn(Player.PLAYER2);
          printInterstitial(Player.PLAYER2);
          promptPlayer(Player.PLAYER2);
       }
