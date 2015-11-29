@@ -19,15 +19,15 @@ public class BattleshipModel implements BattleshipModelInterface {
 
    public BattleshipModel() {
       mode = GameMode.SETUP;
-      playerOneShips = new ArrayList<Ship>();
-      playerTwoShips = new ArrayList<Ship>();
-      playerOneShots = new ArrayList<ShipLocation>();
-      playerTwoShots = new ArrayList<ShipLocation>();
+      playerOneShips = new ArrayList<>();
+      playerTwoShips = new ArrayList<>();
+      playerOneShots = new ArrayList<>();
+      playerTwoShots = new ArrayList<>();
       initializeShipTypeToStatusMap();
    }
 
    private void initializeShipTypeToStatusMap() {
-      shipTypetoStatus = new HashMap<ShipType, Status>();
+      shipTypetoStatus = new HashMap<>();
       shipTypetoStatus.put(ShipType.AIRCRAFT_CARRIER,Status.SUNK_AIRCRAFT_CARRIER);
       shipTypetoStatus.put(ShipType.DESTROYER1,Status.SUNK_DESTROYER);
       shipTypetoStatus.put(ShipType.DESTROYER2,Status.SUNK_DESTROYER);
@@ -64,12 +64,12 @@ public class BattleshipModel implements BattleshipModelInterface {
    }
 
    private boolean isDiagonallyCrossingAnother(ArrayList<Ship> otherShips, Ship newShip) {
-      LineSegment newLine = getLineSegmentFromShip(newShip);
+      LineSegment newLine = new LineSegment(newShip);
 
-      List<LineSegment> otherLines = new ArrayList<LineSegment>();
+      List<LineSegment> otherLines = new ArrayList<>();
 
       for(int i = 0; i<=otherShips.size()-1; i++){
-         LineSegment line = getLineSegmentFromShip(otherShips.get(i));
+         LineSegment line = new LineSegment(otherShips.get(i));
          otherLines.add(line);
       }
 
@@ -80,19 +80,10 @@ public class BattleshipModel implements BattleshipModelInterface {
       return false;
    }
 
-   private LineSegment getLineSegmentFromShip(Ship ship) {
-      Point first = getPointFromShipLocation(ship.locations.get(0));
-      int lastIndex = ship.locations.size() - 1;
-      Point second =  getPointFromShipLocation(ship.locations.get(lastIndex));
-      return new LineSegment(first, second);
-   }
 
-   private Point getPointFromShipLocation(ShipLocation shipLocation) {
-      return new Point(shipLocation);
-   }
 
    private ArrayList<Ship> filterOutShipsMatchingType(ShipType shipType, ArrayList<Ship> ships) {
-      ArrayList<Ship> filteredShips = new ArrayList<Ship>();
+      ArrayList<Ship> filteredShips = new ArrayList<>();
 
       for(int i = 0; i <= ships.size()-1 ; i++){
          Ship ship = ships.get(i);
@@ -458,13 +449,11 @@ public class BattleshipModel implements BattleshipModelInterface {
    private class LineSegment {
       public final Point Start;
       public final Point End;
-      private double slope;
-      private boolean vertical;
-      private double intercept;
 
-      public LineSegment(Point start, Point end) {
-         Start = start;
-         End = end;
+      public LineSegment(Ship ship) {
+         Start = new Point(ship.locations.get(0));
+         int lastIndex = ship.locations.size() - 1;
+         End =  new Point(ship.locations.get(lastIndex));
       }
 
       public boolean isIntersecting(LineSegment other) {
@@ -524,14 +513,6 @@ public class BattleshipModel implements BattleshipModelInterface {
          Y = shipLocation.Row;
       }
    }
-
-   //@FunctionalInterface
-   public interface WorkerInterface {
-
-      public LineSegment doSomeWork(Ship ship);
-
-   }
-
    enum GameMode{
       SETUP,
       PLAY,
