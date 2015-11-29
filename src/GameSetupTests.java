@@ -254,6 +254,20 @@ public class GameSetupTests {
 
 
     }
+    @Test
+    public void whenStartingGameWhenNotAllShipsArePlaced_ThenStartGameReturnsFalse_andPlayerCanPlaceAnotherShip(){
+        //act
+        model.placeShip(Player.PLAYER1, ShipType.AIRCRAFT_CARRIER, getLoc(10, 'a'), getLoc(10, 'e'));
+        Boolean result = model.startGame();
+        model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, getLoc(1, 'a'), getLoc(1, 'd'));
+
+
+        //assert
+        assertEquals(false,result);
+        assertEquals(Square.BATTLESHIP, model.getSquare(Board.PLAYER1_DEFENSIVE, getLoc(1,'a')));
+
+    }
+
     private Location getLoc(int col, char row) {
         return new Location(col, row);
     }

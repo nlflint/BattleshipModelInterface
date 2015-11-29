@@ -242,9 +242,13 @@ public class BattleshipModel implements BattleshipModelInterface {
 
    @Override
    public Boolean startGame() {
-      isPlayer1Turn = true;
-      mode = GameMode.PLAY;
-      return null;
+
+      if(playerOneShips.size() == 5 && playerTwoShips.size() == 5){
+         isPlayer1Turn = true;
+         mode = GameMode.PLAY;
+         return true;
+      }
+      return false;
    }
 
    @Override
