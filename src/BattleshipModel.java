@@ -2,11 +2,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-//import java.util.stream.Collectors;
+
 
 /**
- * Created by nate on 11/15/15.
+ * An implementation of the Battleship model.
+ * @author Duri Balat
+ * @author Brad Baumel
+ * @author Jeremy Duke
+ * @author Nathan Flynt
  */
+
 public class BattleshipModel implements BattleshipModelInterface {
    private final ArrayList<Ship> playerOneShips;
    private final ArrayList<Ship> playerTwoShips;
@@ -17,6 +22,9 @@ public class BattleshipModel implements BattleshipModelInterface {
    private GameMode mode;
 
 
+   /***
+    * Initialized a new instance of Battleship ready for setup.
+    */
    public BattleshipModel() {
       mode = GameMode.SETUP;
       playerOneShips = new ArrayList<>();
@@ -26,6 +34,7 @@ public class BattleshipModel implements BattleshipModelInterface {
       initializeShipTypeToStatusMap();
    }
 
+   // Sets up a map to convert from ShipType enum to Status enum.
    private void initializeShipTypeToStatusMap() {
       shipTypetoStatus = new HashMap<>();
       shipTypetoStatus.put(ShipType.AIRCRAFT_CARRIER,Status.SUNK_AIRCRAFT_CARRIER);
@@ -35,6 +44,26 @@ public class BattleshipModel implements BattleshipModelInterface {
       shipTypetoStatus.put(ShipType.CRUISER,Status.SUNK_CRUISER);
    }
 
+   /***
+    * Places the given ship at the given location, for the given player. Returns true if
+    * the ship was successfully places, and false if the ship location is invalid.
+    *
+    * Placing a ship twice will move the ship to the second location.
+    *
+    * Ships cannot be placed after starting the game.
+    *
+    * The following requirements must be true to place a ship:
+    *    The ship must be located within the board bounds
+    *    The ship must be the correct length.
+    *    The ship must not overlap previously placed ships
+    *    This ship must be placed at an angle that is amultiple of 45 degrees
+    *
+    * @param player The player who is placing the ship
+    * @param shipType The type of ship being placed
+    * @param start  The Location on the board to place the first square of the ship
+    * @param end The Location on the board to place the last square of the ship
+     * @return True if the placement was accepted. False if there was a problem, and the ship was not placed.
+     */
    @Override
    public Boolean placeShip(Player player, ShipType shipType, Location start, Location end) {
       if(mode != GameMode.SETUP){
@@ -176,6 +205,7 @@ public class BattleshipModel implements BattleshipModelInterface {
    private ArrayList<Ship> getPlayerShips(Player player) {
       return player.equals(Player.PLAYER1) ? playerOneShips : playerTwoShips;
    }
+
 
    @Override
    public int numberOfSpacesPerShip(ShipType ship) {
