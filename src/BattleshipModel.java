@@ -2,47 +2,73 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-//import java.util.stream.Collectors;
+
 
 /**
- * Created by nate on 11/15/15.
+ * An implementation of the Battleship model.
+ * @author Duri Balat
+ * @author Brad Baumel
+ * @author Jeremy Duke
+ * @author Nathan Flynt
  */
+
 public class BattleshipModel implements BattleshipModelInterface {
    private final ArrayList<Ship> playerOneShips;
    private final ArrayList<Ship> playerTwoShips;
    private ArrayList<ShipLocation> playerOneShots;
    private ArrayList<ShipLocation> playerTwoShots;
    private Map<ShipType,Status> shipTypetoStatus;
-   protected Board player1Off;
-   protected Board player2Off;
-   protected Board player1Def;
-   protected Board player2Def;
    private boolean isPlayer1Turn;
+   private GameMode mode;
 
 
+   /***
+    * Initialized a new instance of Battleship ready for setup.
+    */
    public BattleshipModel() {
-      playerOneShips = new ArrayList<Ship>();
-      playerTwoShips = new ArrayList<Ship>();
-      player1Off = Board.PLAYER1_OFFENSIVE;
-      player1Def = Board.PLAYER1_DEFENSIVE;
-      player2Off = Board.PLAYER2_OFFENSIVE;
-      player2Def = Board.PLAYER2_DEFENSIVE;
-      playerOneShots = new ArrayList<ShipLocation>();
-      playerTwoShots = new ArrayList<ShipLocation>();
+      mode = GameMode.SETUP;
+      playerOneShips = new ArrayList<>();
+      playerTwoShips = new ArrayList<>();
+      playerOneShots = new ArrayList<>();
+      playerTwoShots = new ArrayList<>();
       initializeShipTypeToStatusMap();
    }
 
+   // Sets up a map to convert from ShipType enum to Status enum.
    private void initializeShipTypeToStatusMap() {
-      shipTypetoStatus = new HashMap<ShipType, Status>();
-      shipTypetoStatus.put(ShipType.AIRCRACT_CARRIER,Status.SUNK_AIRCRAFT_CARRIER);
+      shipTypetoStatus = new HashMap<>();
+      shipTypetoStatus.put(ShipType.AIRCRAFT_CARRIER,Status.SUNK_AIRCRAFT_CARRIER);
       shipTypetoStatus.put(ShipType.DESTROYER1,Status.SUNK_DESTROYER);
       shipTypetoStatus.put(ShipType.DESTROYER2,Status.SUNK_DESTROYER);
       shipTypetoStatus.put(ShipType.BATTLESHIP,Status.SUNK_BATTLESHIP);
       shipTypetoStatus.put(ShipType.CRUISER,Status.SUNK_CRUISER);
    }
 
+   /***
+    * Places the given ship at the given location, for the given player. Returns true if
+    * the ship was successfully places, and false if the ship location is invalid.
+    *
+    * Placing a ship twice will move the ship to the second location.
+    *
+    * Ships cannot be placed after starting the game.
+    *
+    * The following requirements must be true to place a ship:
+    *    The ship must be located within the board bounds
+    *    The ship must be the correct length.
+    *    The ship must not overlap previously placed ships
+    *    This ship must be placed at an angle that is amultiple of 45 degrees
+    *
+    * @param player The player who is placing the ship
+    * @param shipType The type of ship being placed
+    * @param start  The Location on the board to place the first square of the ship
+    * @param end The Location on the board to place the last square of the ship
+     * @return True if the placement was accepted. False if there was a problem, and the ship was not placed.
+     */
    @Override
    public Boolean placeShip(Player player, ShipType shipType, Location start, Location end) {
+      if(mode != GameMode.SETUP){
+         return false;
+      }
       ShipLocation shipStart = new ShipLocation(start);
       ShipLocation shipEnd = new ShipLocation(end);
       ArrayList<ShipLocation> locations = generateShipLocationsFromRange(shipStart, shipEnd);
@@ -67,68 +93,26 @@ public class BattleshipModel implements BattleshipModelInterface {
    }
 
    private boolean isDiagonallyCrossingAnother(ArrayList<Ship> otherShips, Ship newShip) {
-      LineSegment newLine = getLineSegmentFromShip(newShip);
+      LineSegment newLine = new LineSegment(newShip);
 
-      List<LineSegment> otherLines = new ArrayList<LineSegment>();
+      List<LineSegment> otherLines = new ArrayList<>();
 
       for(int i = 0; i<=otherShips.size()-1; i++){
-         LineSegment line = getLineSegmentFromShip(otherShips.get(i));
+         LineSegment line = new LineSegment(otherShips.get(i));
          otherLines.add(line);
       }
 
       for (LineSegment line : otherLines) {
-         if (areIntersecting(newLine, line))
+         if (newLine.isIntersecting(line))
             return true;
       }
       return false;
    }
 
-   private boolean areIntersecting(LineSegment first, LineSegment second) {
-      double slope1 = getSlope(first);
-      double intercept1 = getIntercept(first, slope1);
 
-      double slope2 = getSlope(second);
-      double intercept2 = getIntercept(second, slope2);
-
-      double intersectX = (intercept1 - intercept2) / (slope2 - slope1);
-      double intersectY = (slope1 * intersectX) + intercept1;
-
-      boolean xWithinFirst = isBetweenBounds(intersectX, first.Start.X, first.End.X);
-      boolean yWithinFirst = isBetweenBounds(intersectY, first.Start.Y, first.End.Y);
-      boolean xWithinSecond = isBetweenBounds(intersectX, second.Start.X, second.End.X);
-      boolean yWithinSecond = isBetweenBounds(intersectY, second.Start.Y, second.End.Y);
-
-      return  xWithinFirst && yWithinFirst && xWithinSecond && yWithinSecond;
-   }
-
-   private boolean isBetweenBounds(double intersect, double bound1, double bound2) {
-      double lower = Math.min(bound1, bound2);
-      double upper = Math.max(bound1, bound2);
-
-      return (intersect >= lower) && (intersect <= upper);
-   }
-
-   private double getIntercept(LineSegment first, double slope1) {
-      return first.Start.Y - (slope1 * first.Start.X);
-   }
-
-   private int getSlope(LineSegment first) {
-      return (first.Start.Y - first.End.Y) / (first.Start.X - first.End.X);
-   }
-
-   private LineSegment getLineSegmentFromShip(Ship ship) {
-      Point first = getPointFromShipLocation(ship.locations.get(0));
-      int lastIndex = ship.locations.size() - 1;
-      Point second =  getPointFromShipLocation(ship.locations.get(lastIndex));
-      return new LineSegment(first, second);
-   }
-
-   private Point getPointFromShipLocation(ShipLocation shipLocation) {
-      return new Point(shipLocation);
-   }
 
    private ArrayList<Ship> filterOutShipsMatchingType(ShipType shipType, ArrayList<Ship> ships) {
-      ArrayList<Ship> filteredShips = new ArrayList<Ship>();
+      ArrayList<Ship> filteredShips = new ArrayList<>();
 
       for(int i = 0; i <= ships.size()-1 ; i++){
          Ship ship = ships.get(i);
@@ -150,7 +134,6 @@ public class BattleshipModel implements BattleshipModelInterface {
       for (Ship ship : ships) {
          if (ship.ContainsAnyLocations(locations))
             return true;
-
       }
       return false;
    }
@@ -162,7 +145,7 @@ public class BattleshipModel implements BattleshipModelInterface {
 
    private int getExpectedShipLength(ShipType shipType) {
       switch (shipType) {
-         case AIRCRACT_CARRIER:
+         case AIRCRAFT_CARRIER:
             return 5;
          case BATTLESHIP:
             return 4;
@@ -223,20 +206,28 @@ public class BattleshipModel implements BattleshipModelInterface {
       return player.equals(Player.PLAYER1) ? playerOneShips : playerTwoShips;
    }
 
+
    @Override
    public int numberOfSpacesPerShip(ShipType ship) {
-      return 0;
+      return getExpectedShipLength(ship);
    }
 
    @Override
    public Boolean startGame() {
-      isPlayer1Turn = true;
-      return null;
+
+      if(playerOneShips.size() == 5 && playerTwoShips.size() == 5){
+         isPlayer1Turn = true;
+         mode = GameMode.PLAY;
+         return true;
+      }
+      return false;
    }
 
    @Override
    public Status markShot(Location loc) throws IllegalStateException{
-
+      if(mode != GameMode.PLAY){
+         return Status.NOT_ALLOWED;
+      }
 
       ShipLocation shotLocation = new ShipLocation(loc);
 
@@ -257,6 +248,7 @@ public class BattleshipModel implements BattleshipModelInterface {
       ship.hit();
       if (ship.isSunk()) {
          if(allShipsSunk(playerShips)){
+            mode = GameMode.GAMEOVER;
             return isPlayer1Turn ? Status.PLAYER1_WINS : Status.PLAYER2_WINS;
          }
          return shipTypetoStatus.get(ship.type);
@@ -316,36 +308,65 @@ public class BattleshipModel implements BattleshipModelInterface {
       return isPlayer1Turn ? Player.PLAYER1: Player.PLAYER2;
    }
 
-   public void setPlayerTurn() {
-      isPlayer1Turn = !isPlayer1Turn;
-   }
-
-   public void setPlayerTurn(Player p) {
-      if (p.equals(Player.PLAYER1)) {
-         isPlayer1Turn = true;
-      } else {
-         isPlayer1Turn = false;
-      }
-   }
-
-
    @Override
    public Square getSquare(Board board, Location loc) {
       ArrayList<Ship> ships = getBoardShips(board);
       ShipLocation location = new ShipLocation(loc);
+      ArrayList<ShipLocation> shots = getShotsFromBoard(board);
+
+      boolean locationIsShot = shotsContains(location, shots);
+      boolean showShip = isDefensiveBoard(board) || isGameOver();
 
       for(Ship ship : ships) {
          if (ship.ContainsLocation(location)) {
-            return getSquareFromShipType(ship.type);
+            if(!locationIsShot) {
+               return showShip ? getSquareFromShipType(ship.type) : Square.NOTHING ;
+            } else {
+               if (!isDefensiveBoard(board) && ship.isSunk()) {
+                  return getSquareFromShipType(ship.type);
+               }
+               return Square.HIT;
+            }
          }
-
       }
+      if (locationIsShot) return Square.MISS;
       return Square.NOTHING;
+   }
+
+   private boolean isDefensiveBoard(Board board) {
+      switch (board){
+         case PLAYER1_DEFENSIVE:
+            return true;
+         case PLAYER2_DEFENSIVE:
+            return true;
+         default:
+            return false;
+      }
+   }
+
+   private boolean shotsContains(ShipLocation location, ArrayList<ShipLocation> shots) {
+      for(ShipLocation shot : shots){
+         if(shot.equals(location)){
+            return true;
+         }
+      }
+      return false;
+   }
+
+   private ArrayList<ShipLocation> getShotsFromBoard(Board board) {
+      switch (board){
+         case PLAYER1_OFFENSIVE:
+            return playerOneShots;
+         case PLAYER2_DEFENSIVE:
+            return playerOneShots;
+         default:
+            return playerTwoShots;
+      }
    }
 
    private Square getSquareFromShipType(ShipType type) {
       switch (type) {
-         case AIRCRACT_CARRIER:
+         case AIRCRAFT_CARRIER:
             return Square.AIRCRAFT_CARRIER;
          case BATTLESHIP:
             return Square.BATTLESHIP;
@@ -362,6 +383,8 @@ public class BattleshipModel implements BattleshipModelInterface {
       switch (board) {
          case PLAYER1_DEFENSIVE:
             return playerOneShips;
+         case PLAYER2_OFFENSIVE:
+            return playerOneShips;
          default:
             return playerTwoShips;
       }
@@ -369,12 +392,12 @@ public class BattleshipModel implements BattleshipModelInterface {
 
    @Override
    public boolean isGameOver() {
-      return false;
+      return mode == GameMode.GAMEOVER;
    }
 
    @Override
    public Player getWinner() throws IllegalStateException {
-      return null;
+      return whoseTurn();
    }
 
    @Override
@@ -409,7 +432,7 @@ public class BattleshipModel implements BattleshipModelInterface {
 
       public boolean isSunk(){
          switch(type){
-            case AIRCRACT_CARRIER:
+            case AIRCRAFT_CARRIER:
                return hitCount>=5;
             case BATTLESHIP:
                return hitCount>=4;
@@ -449,9 +472,57 @@ public class BattleshipModel implements BattleshipModelInterface {
       public final Point Start;
       public final Point End;
 
-      public LineSegment(Point start, Point end) {
-         Start = start;
-         End = end;
+      public LineSegment(Ship ship) {
+         Start = new Point(ship.locations.get(0));
+         int lastIndex = ship.locations.size() - 1;
+         End =  new Point(ship.locations.get(lastIndex));
+      }
+
+      public boolean isIntersecting(LineSegment other) {
+         if (this.isVertical() || other.isVertical()) {
+            return false;
+         }
+         double slope1 = this.getSlope();
+         double intercept1 = this.getIntercept();
+
+         double slope2 = other.getSlope();
+         double intercept2 = other.getIntercept();
+
+         double intersectX = (intercept1 - intercept2) / (slope2 - slope1);
+         double intersectY = (slope1 * intersectX) + intercept1;
+
+         boolean xWithinFirst = this.isWithinXBounds(intersectX);
+         boolean yWithinFirst = this.isWithinYBounds(intersectY);
+         boolean xWithinSecond = other.isWithinXBounds(intersectX);
+         boolean yWithinSecond = other.isWithinYBounds(intersectY);
+
+         return xWithinFirst && yWithinFirst && xWithinSecond && yWithinSecond;
+      }
+
+      private boolean isWithinYBounds(double intersect) {
+         double lower = Math.min(Start.Y, End.Y);
+         double upper = Math.max(Start.Y, End.Y);
+
+         return (intersect >= lower) && (intersect <= upper);
+      }
+
+      private boolean isWithinXBounds(double intersect) {
+         double lower = Math.min(Start.X, End.X);
+         double upper = Math.max(Start.X, End.X);
+
+         return (intersect >= lower) && (intersect <= upper);
+      }
+
+      public double getSlope() {
+         return (Start.Y - End.Y) / (Start.X - End.X);
+      }
+
+      public boolean isVertical() {
+         return End.X == Start.X;
+      }
+
+      public double getIntercept() {
+         return Start.Y - (getSlope() * Start.X);
       }
    }
 
@@ -464,12 +535,11 @@ public class BattleshipModel implements BattleshipModelInterface {
          Y = shipLocation.Row;
       }
    }
-
-   //@FunctionalInterface
-   public interface WorkerInterface {
-
-      public LineSegment doSomeWork(Ship ship);
-
+   enum GameMode{
+      SETUP,
+      PLAY,
+      GAMEOVER
    }
 
 }
+

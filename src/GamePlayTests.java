@@ -40,6 +40,8 @@ public class GamePlayTests {
 
         //assert
         assertEquals(Status.MISS, statusMiss);
+        assertEquals(Square.MISS, model.getSquare(Board.PLAYER1_OFFENSIVE, new Location(7,'a')));
+        assertEquals(Square.MISS, model.getSquare(Board.PLAYER2_DEFENSIVE, new Location(7,'a')));
         assertEquals(Player.PLAYER2, model.whoseTurn());
     }
 
@@ -53,8 +55,9 @@ public class GamePlayTests {
 
         //assert
         assertEquals(Status.HIT, statusMiss);
+        assertEquals(Square.HIT, model.getSquare(Board.PLAYER2_DEFENSIVE, new Location (2,'a')));
+        assertEquals(Square.HIT, model.getSquare(Board.PLAYER1_OFFENSIVE, new Location (2,'a')));
         assertEquals(Player.PLAYER1, model.whoseTurn());
-
 
     }
 
@@ -201,17 +204,40 @@ public class GamePlayTests {
         assertEquals(Status.PLAYER2_WINS, status);
     }
 
+    @Test
+    public void gamePlay_whenPlayerLooksAtOffensiveBoard_theyShallNotSeePlayer1sOrPlayer2sShips(){
+        //setup
+        setUpStandardGame();
+
+        //assert
+        assertEquals(Square.NOTHING,model.getSquare(Board.PLAYER1_OFFENSIVE, new Location(5, 'a')));
+        assertEquals(Square.NOTHING,model.getSquare(Board.PLAYER1_OFFENSIVE, new Location(1, 'c')));
+        assertEquals(Square.NOTHING,model.getSquare(Board.PLAYER2_OFFENSIVE, new Location(1, 'c')));
+        assertEquals(Square.NOTHING,model.getSquare(Board.PLAYER2_OFFENSIVE, new Location(5, 'a')));
+
+    }
+
+    @Test
+    public void gamePlay_whenPlayerTriesToPlaceShip_returnFalse(){
+        //setUp
+        setUpStandardGame();
+
+        //assert
+        assertFalse(model.placeShip(Player.PLAYER1,ShipType.BATTLESHIP, new Location(6, 'a'), new Location(9, 'a')));
+        assertFalse(model.placeShip(Player.PLAYER2,ShipType.BATTLESHIP, new Location(2, 'a'), new Location(5, 'a')));
+
+    }
 
     private void setUpStandardGame() {
 
         model.placeShip(Player.PLAYER1,ShipType.BATTLESHIP, new Location(5, 'a'), new Location(8, 'a'));
-        model.placeShip(Player.PLAYER1,ShipType.AIRCRACT_CARRIER, new Location(5, 'b'), new Location(9, 'b'));
+        model.placeShip(Player.PLAYER1,ShipType.AIRCRAFT_CARRIER, new Location(5, 'b'), new Location(9, 'b'));
         model.placeShip(Player.PLAYER1,ShipType.CRUISER, new Location(5, 'c'), new Location(7, 'c'));
         model.placeShip(Player.PLAYER1,ShipType.DESTROYER1, new Location(5, 'e'), new Location(6, 'e'));
         model.placeShip(Player.PLAYER1,ShipType.DESTROYER2, new Location(5, 'f'), new Location(6, 'f'));
 
         model.placeShip(Player.PLAYER2,ShipType.BATTLESHIP, new Location(1, 'a'), new Location(4, 'a'));
-        model.placeShip(Player.PLAYER2,ShipType.AIRCRACT_CARRIER, new Location(1, 'b'), new Location(5, 'b'));
+        model.placeShip(Player.PLAYER2,ShipType.AIRCRAFT_CARRIER, new Location(1, 'b'), new Location(5, 'b'));
         model.placeShip(Player.PLAYER2,ShipType.CRUISER, new Location(1, 'c'), new Location(3, 'c'));
         model.placeShip(Player.PLAYER2,ShipType.DESTROYER1, new Location(1, 'e'), new Location(2, 'e'));
         model.placeShip(Player.PLAYER2,ShipType.DESTROYER2, new Location(1, 'f'), new Location(2, 'f'));
