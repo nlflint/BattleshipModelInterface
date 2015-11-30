@@ -278,15 +278,6 @@ public class BattleshipModel implements BattleshipModelInterface {
       return isPlayer1Turn ? Player.PLAYER1: Player.PLAYER2;
    }
 
-   public void setPlayerTurn(Player p) {
-      if (p.equals(Player.PLAYER1)) {
-         isPlayer1Turn = true;
-      } else {
-         isPlayer1Turn = false;
-      }
-   }
-
-
    @Override
    public Square getSquare(Board board, Location loc) {
       ArrayList<Ship> ships = getBoardShips(board);
@@ -299,9 +290,11 @@ public class BattleshipModel implements BattleshipModelInterface {
       for(Ship ship : ships) {
          if (ship.ContainsLocation(location)) {
             if(!locationIsShot) {
-
                return showShip ? getSquareFromShipType(ship.type) : Square.NOTHING ;
-            }else {
+            } else {
+               if (!isDefensiveBoard(board) && ship.isSunk()) {
+                  return getSquareFromShipType(ship.type);
+               }
                return Square.HIT;
             }
          }
@@ -319,7 +312,6 @@ public class BattleshipModel implements BattleshipModelInterface {
          default:
             return false;
       }
-
    }
 
    private boolean shotsContains(ShipLocation location, ArrayList<ShipLocation> shots) {
