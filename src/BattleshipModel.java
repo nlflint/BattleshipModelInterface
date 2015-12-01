@@ -400,11 +400,6 @@ public class BattleshipModel implements BattleshipModelInterface {
       return whoseTurn();
    }
 
-   @Override
-   public void resetBoard() {
-
-   }
-
    private class Ship {
       ArrayList<ShipLocation> locations;
       ShipType type;

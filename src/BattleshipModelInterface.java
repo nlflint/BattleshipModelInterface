@@ -69,12 +69,6 @@ public interface BattleshipModelInterface {
      * @throws IllegalStateException if !isGameOver()
      */
     Player getWinner() throws IllegalStateException;
-
-    /**
-     * Reset the board
-     */
-    void resetBoard();
-
 }
 
 /**
