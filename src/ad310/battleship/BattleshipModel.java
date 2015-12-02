@@ -11,7 +11,7 @@ import java.util.Map;
  * @author Duri Balat
  * @author Brad Baumel
  * @author Jeremy Duke
- * @author Nathan Flynt
+ * @author Nathan Flint
  */
 
 public class BattleshipModel implements BattleshipModelInterface {

@@ -3,5 +3,5 @@
  * @author Duri Balat
  * @author Brad Baumel
  * @author Jeremy Duke
- * @author Nathan Flynt
+ * @author Nathan Flint
  */
