@@ -208,12 +208,22 @@ public class BattleshipModel implements BattleshipModelInterface {
       return player.equals(Player.PLAYER1) ? playerOneShips : playerTwoShips;
    }
 
-
+   /**
+    * Returns the number of squares the given shiptype occupies.
+    *
+    * @param ship the ShipType of interest
+    * @return number of spaces the ship type will occupy on the board
+     */
    @Override
    public int numberOfSpacesPerShip(ShipType ship) {
       return getExpectedShipLength(ship);
    }
 
+   /**
+    * Starts the game. Returns true if the game was succesfully started. Otherwise returns false.
+    * The game will not start unless all ships have been placed in valid locations.
+    * @return true if the game started. False if the game did not start.
+     */
    @Override
    public Boolean startGame() {
 
@@ -225,6 +235,14 @@ public class BattleshipModel implements BattleshipModelInterface {
       return false;
    }
 
+   /**
+    * Used during play to make shots on the board. The playing making shots can be determined by calling
+    * whoseTurn(). Returns the result of the shot.
+    *
+    * @param loc The designator for the shot
+    * @return the result of the shot
+    * @throws IllegalStateException
+     */
    @Override
    public Status markShot(Location loc) throws IllegalStateException{
       if(mode != GameMode.PLAY){
@@ -304,12 +322,23 @@ public class BattleshipModel implements BattleshipModelInterface {
       return false;
    }
 
+   /**
+    * Returns whose turn it is to make a shot.
+    * @return a player whose turn it is to make a shot.
+     */
    @Override
    public Player whoseTurn() {
 
       return isPlayer1Turn ? Player.PLAYER1: Player.PLAYER2;
    }
 
+   /**
+    * Shows what is located at the given location and on the given board. For offensive boards, ships are not shown
+    * during play. Only hits and misses. Ships, hits, and misses are all shown on a defensive board.
+    * @param board Board to evaluate
+    * @param loc   Location on Board of interest
+    * @return What is located at the given location
+     */
    @Override
    public Square getSquare(Board board, Location loc) {
       ArrayList<Ship> ships = getBoardShips(board);
@@ -392,11 +421,21 @@ public class BattleshipModel implements BattleshipModelInterface {
       }
    }
 
+   /**
+    * Identifies if the game is over. That is, if a player has won.
+    *
+    * @return true if the game is over. False otherwise.
+     */
    @Override
    public boolean isGameOver() {
       return mode == GameMode.GAMEOVER;
    }
 
+    /**
+     * Identifies who won the game.
+     * @return
+     * @throws IllegalStateException
+     */
    @Override
    public Player getWinner() throws IllegalStateException {
       return whoseTurn();
