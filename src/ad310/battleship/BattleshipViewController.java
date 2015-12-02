@@ -1,3 +1,5 @@
+package ad310.battleship;
+
 import java.io.IOException;
 import java.util.Scanner;
 

@@ -1,5 +1,7 @@
-import org.junit.Before;
-import org.junit.Test;
+package ad310.battleship;
+
+import org.junit.*;
+
 
 import static org.junit.Assert.*;
 

@@ -1,3 +1,5 @@
+package ad310.battleship;
+
 /**
  * The programmatic interface for the Battleship Model class.
  * This interface supports communication with both the view
