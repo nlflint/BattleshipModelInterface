@@ -1,7 +1,7 @@
 package ad310.battleship;
 
-import java.io.IOException;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 /**
  * Implements Battleship game controls and display.
@@ -16,6 +16,10 @@ public class BattleshipViewController {
    private BattleshipModel model = new BattleshipModel();
    private boolean playerChanged = false;
 
+   //Default Properties
+   private int sideLength = 8;
+   ShipType[] ships = {ShipType.AIRCRAFT_CARRIER, ShipType.BATTLESHIP, ShipType.CRUISER, ShipType.DESTROYER1, ShipType.DESTROYER2};
+
    /**
     * Skeletal main method that stands up a ViewController and walks through major phases of the game
     * @param args String args.  Unused.
@@ -26,6 +30,8 @@ public class BattleshipViewController {
 
       //Welcome!
       bvc.printTitle();
+      bvc.getConfigs();
+      System.out.println("Finished processing configs");
 
       //Run through Ship Setup
       bvc.doSetup();
@@ -33,6 +39,66 @@ public class BattleshipViewController {
 
       //When setup is complete...
       bvc.play();
+   }
+
+   //Configs
+   private void getConfigs() {
+      Scanner in = new Scanner(System.in);
+      boolean fileFound = false;
+      BufferedReader reader;
+      FileInputStream fs;
+      Properties defaultProps = new Properties();
+      Properties userProps;
+
+      //Load default properties if they exist
+      try {
+         fs = new FileInputStream("default.props");
+         defaultProps.load(fs);
+         fs.close();
+         System.out.println("Found default.props file");
+      } catch (IOException e) {
+         System.out.println("No default properties file found.  Moving on...\n\n");
+      }
+
+      System.out.println("Do you have a config file to load? [Y/N]: ");
+      while (!in.hasNext("[ynYN]")) {
+         System.out.println("Invalid response.  Please enter 'y' for yes or 'n' for no: ");
+         in.next();
+      }
+      char response = in.next().charAt(0);
+
+      if (response == 'y' || response == 'Y') {
+         while (!fileFound) {
+            System.out.println("Please enter the name of the config file (eg, config.props) or '0' to exit: ");
+            String filename = in.next();
+            if (filename.equals("0")) {
+               break;
+            } else {
+               try {
+                  userProps = new Properties(defaultProps);
+                  fs = new FileInputStream(filename);
+                  userProps.load(fs);
+                  fs.close();
+                  fileFound = true;
+                  System.out.println("Found user.props");
+               } catch (IOException e) {
+                  System.out.println("File not found!");
+               }
+            }
+         }
+      }
+      //TODO: Parse given json file
+      //TODO: Create setters to override default config fields
+
+      //TODO: Stretch goal -- allow user interactive property builder
+//      try {
+//         FileOutputStream out = new FileOutputStream("user.props");
+//         userProps.store(out, "Created " + new Date().getTime());
+//         out.close();
+//      } catch (IOException e) {
+//         System.out.println("There was an error writing user.props to disk.");
+//      }
+
    }
 
    //Gameplay Methods
@@ -48,6 +114,7 @@ public class BattleshipViewController {
 
       //Player1 Setup
       printInterstitial(player1);
+      //TODO: Loop through ArrayList of Ships and prompt player for each
       promptPlayerSetup(player1, ShipType.AIRCRAFT_CARRIER, p1def);
       promptPlayerSetup(player1, ShipType.BATTLESHIP, p1def);
       promptPlayerSetup(player1, ShipType.CRUISER, p1def);
@@ -59,9 +126,10 @@ public class BattleshipViewController {
       } catch (InterruptedException e){
          e.printStackTrace();
       }
-      printInterstitial(player2);
 
       //Player2 Setup
+      printInterstitial(player2);
+      //TODO: Loop through ArrayList of Ships and prompt player for each
       promptPlayerSetup(player2, ShipType.AIRCRAFT_CARRIER, p2def);
       promptPlayerSetup(player2, ShipType.BATTLESHIP, p2def);
       promptPlayerSetup(player2, ShipType.CRUISER, p2def);
@@ -257,15 +325,15 @@ public class BattleshipViewController {
       }
       board  = "    ======= " + title + " - " + p.toString() + " =======";
       //Rows
-      for (int i = 0; i <= 10; i++) {
+      for (int i = 0; i <= sideLength; i++) {
          board += "\n   -";
          //FORMATTING - Horizontal lines
-         for (int j = 1; j <= 10; j++) {
+         for (int j = 1; j <= sideLength; j++) {
             board += "---+";
          }
-         if (i != 10) {
+         if (i != sideLength) {
             board += "\n" + (char)(i + 65) + "  |";
-            for (int n = 1; n <= 10; n++) {
+            for (int n = 1; n <= sideLength; n++) {
                char row = (char)(i + 97);
                int col = n;
                Location cell = new Location(col, row);
@@ -305,11 +373,11 @@ public class BattleshipViewController {
       }
 
       board += "\n     ";
-      for (int j = 1; j <= 10; j++) {
+      for (int j = 1; j <= sideLength; j++) {
          board += j + "   ";
       }
       board += "\n\n";
-      System.out.println(board);;
+      System.out.println(board);
    }
 
    /**
