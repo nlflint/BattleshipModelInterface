@@ -1,7 +1,7 @@
-package ad310.battleship.ViewController;
+package ad310.battleship.viewController;
 
-import ad310.battleship.Interface.*;
-import ad310.battleship.Model.BattleshipModel;
+import ad310.battleship.battleshipModelInterface.*;
+import ad310.battleship.model.BattleshipModel;
 
 import java.io.*;
 import java.util.*;
@@ -24,13 +24,13 @@ public class BattleshipViewController {
    private int     maxShips   =  7;
    private boolean toggleOnHit=  false;
 
-   //Config properties.  Loaded from default.props and overridden by user.props
+   //config properties.  Loaded from default.props and overridden by user.props
    private int     sideLength;
    private int     numShips;
    private ShipType[] ships;
 
    /**
-    * Skeletal main method that stands up a ViewController and walks through major phases of the game
+    * Skeletal main method that stands up a viewController and walks through major phases of the game
     * @param args String args.  Unused.
     */
    public static void main(String[] args) {
@@ -136,7 +136,7 @@ public class BattleshipViewController {
       setPlayerToggleOnHit(togglePlayerOnHit);
    }
 
-   //Config set methods
+   //config set methods
    private void setSideLength(int length) {
       sideLength = length;
    }

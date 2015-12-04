@@ -1,7 +1,7 @@
-package ad310.battleship.Model;
+package ad310.battleship.model;
 
-/**
- * Created by NathanF on 12/4/2015.
- */
-public class GameMode {
+enum GameMode{
+    SETUP,
+    PLAY,
+    GAMEOVER
 }

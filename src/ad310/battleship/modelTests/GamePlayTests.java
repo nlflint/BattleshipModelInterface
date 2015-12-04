@@ -1,7 +1,7 @@
 package ad310.battleship.modelTests;
 
-import ad310.battleship.Interface.*;
-import ad310.battleship.Model.BattleshipModel;
+import ad310.battleship.battleshipModelInterface.*;
+import ad310.battleship.model.BattleshipModel;
 import org.junit.*;
 
 

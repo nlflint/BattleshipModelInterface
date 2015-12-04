@@ -1,6 +1,6 @@
-package ad310.battleship.Model;
+package ad310.battleship.model;
 
-import ad310.battleship.*;
+import ad310.battleship.battleshipModelInterface.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -443,141 +443,12 @@ public class BattleshipModel implements BattleshipModelInterface {
       return whoseTurn();
    }
 
-   private class Ship {
-      ArrayList<ShipLocation> locations;
-      ShipType type;
-      int hitCount;
 
-      public Ship(ShipType shipType, ArrayList<ShipLocation> locations) {
-         type = shipType;
-         this.locations = locations;
-      }
 
-      public boolean ContainsLocation(ShipLocation location) {
-         for (ShipLocation loc : locations) {
-            if (loc.equals(location))
-               return true;
-         }
-         return false;
-      }
 
-      public boolean ContainsAnyLocations(ArrayList<ShipLocation> locations) {
-         for (ShipLocation location : locations)
-            if (ContainsLocation(location))
-               return true;
-         return false;
-      }
 
-      public boolean isSunk(){
-         switch(type){
-            case AIRCRAFT_CARRIER:
-               return hitCount>=5;
-            case BATTLESHIP:
-               return hitCount>=4;
-            case CRUISER:
-               return hitCount>=3;
-            default:
-         }
-         return hitCount>=2;
-      }
-      public void hit(){
-         hitCount++;
-      }
-   }
 
-   private class ShipLocation {
-      public final int Row;
-      public final int Column;
 
-      public ShipLocation(Location location) {
-         Row = (int) (location.row - 'a');
-         Column = location.col - 1;
-      }
-
-      public ShipLocation(int row, int column) {
-         Row = row;
-         Column = column;
-      }
-
-      @Override
-      public boolean equals(Object object) {
-         ShipLocation location = (ShipLocation) object;
-         return Row == location.Row && Column == location.Column;
-      }
-   }
-
-   private class LineSegment {
-      public final Point Start;
-      public final Point End;
-
-      public LineSegment(Ship ship) {
-         Start = new Point(ship.locations.get(0));
-         int lastIndex = ship.locations.size() - 1;
-         End =  new Point(ship.locations.get(lastIndex));
-      }
-
-      public boolean isIntersecting(LineSegment other) {
-         if (this.isVertical() || other.isVertical()) {
-            return false;
-         }
-         double slope1 = this.getSlope();
-         double intercept1 = this.getIntercept();
-
-         double slope2 = other.getSlope();
-         double intercept2 = other.getIntercept();
-
-         double intersectX = (intercept1 - intercept2) / (slope2 - slope1);
-         double intersectY = (slope1 * intersectX) + intercept1;
-
-         boolean xWithinFirst = this.isWithinXBounds(intersectX);
-         boolean yWithinFirst = this.isWithinYBounds(intersectY);
-         boolean xWithinSecond = other.isWithinXBounds(intersectX);
-         boolean yWithinSecond = other.isWithinYBounds(intersectY);
-
-         return xWithinFirst && yWithinFirst && xWithinSecond && yWithinSecond;
-      }
-
-      private boolean isWithinYBounds(double intersect) {
-         double lower = Math.min(Start.Y, End.Y);
-         double upper = Math.max(Start.Y, End.Y);
-
-         return (intersect >= lower) && (intersect <= upper);
-      }
-
-      private boolean isWithinXBounds(double intersect) {
-         double lower = Math.min(Start.X, End.X);
-         double upper = Math.max(Start.X, End.X);
-
-         return (intersect >= lower) && (intersect <= upper);
-      }
-
-      public double getSlope() {
-         return (Start.Y - End.Y) / (Start.X - End.X);
-      }
-
-      public boolean isVertical() {
-         return End.X == Start.X;
-      }
-
-      public double getIntercept() {
-         return Start.Y - (getSlope() * Start.X);
-      }
-   }
-
-   private class Point {
-      public final int X;
-      public final int Y;
-
-      public Point(ShipLocation shipLocation) {
-         X = shipLocation.Column;
-         Y = shipLocation.Row;
-      }
-   }
-   enum GameMode{
-      SETUP,
-      PLAY,
-      GAMEOVER
-   }
 
 }
 
