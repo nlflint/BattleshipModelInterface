@@ -1,7 +1,7 @@
-package ad310.battleship;
+package ad310.battleship.battleshipModelInterface;
 
 /**
- * The programmatic interface for the Battleship Model class.
+ * The programmatic interface for the Battleship model class.
  * This interface supports communication with both the view
  * and controller classes in the Battleship application.
  *
@@ -73,97 +73,16 @@ public interface BattleshipModelInterface {
     Player getWinner() throws IllegalStateException;
 }
 
-/**
- * A helper class for location
- */
-class Location {
-    /**
-     * The row
-     */
-    char row;
-    /**
-     * The column
-     */
-    int col;
-    public Location(int col, char row){
-        this.row = row;
-        this.col = col;
-    }
-    public String toString() {
-        String out = "[" + (char)(row - 32) + ", " + col + "]";
-        return out;
-    }
-}
-
-/**
- * Helper enumerated type for return status. The SUNK_XXX
- * values indicate HIT. The current player's turn continues
- * until the return status is MISS.
- */
-enum Status {
-    // return status, a miss
-    MISS,
-    // return status, a hit, doesn't sink a ship
-    HIT,
-    // return status, a hit, sunk destroyer  
-    SUNK_DESTROYER,
-    // return status, a hit, sunk cruiser
-    SUNK_CRUISER,
-    // return status, a hit, sunk battleship
-    SUNK_BATTLESHIP,
-    // return status, a hit, sunk aircraft carrier
-    SUNK_AIRCRAFT_CARRIER,
-    // return status, location was already played or invalid
-    DO_OVER,
-    // return status, player one wins
-    PLAYER1_WINS,
-    // return status, player two wins
-    PLAYER2_WINS, NOT_ALLOWED,
-}
-
-/**
- * All ship types. Used to place ships.
- */
-enum ShipType {
-    AIRCRAFT_CARRIER,
-    BATTLESHIP,
-    CRUISER,
-    DESTROYER1,
-    DESTROYER2
-}
-
-/**
- * The players.
- * Identifies whose turn it is, and which player is placing a ship during setup.
- */
-enum Player {
-    PLAYER1,
-    PLAYER2
-}
-
-/**
- * Identifies the playing boards. Used when requesting the state game boards.
- */
-enum Board {
-    PLAYER1_OFFENSIVE,
-    PLAYER1_DEFENSIVE,
-    PLAYER2_OFFENSIVE,
-    PLAYER2_DEFENSIVE
-}
 
 
 
-/**
- * Represents squares on the playing boards.
- * Used by the view to draw the current state of the board.
- */
-enum Square {
-    NOTHING,
-    HIT,
-    MISS,
-    AIRCRAFT_CARRIER,
-    BATTLESHIP,
-    CRUISER,
-    DESTROYER1,
-    DESTROYER2
-}
+
+
+
+
+
+
+
+
+
+

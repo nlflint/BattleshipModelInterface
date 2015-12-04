@@ -1,4 +1,6 @@
-package ad310.battleship;
+package ad310.battleship.Model;
+
+import ad310.battleship.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

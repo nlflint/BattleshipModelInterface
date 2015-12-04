@@ -1,4 +1,7 @@
-package ad310.battleship;
+package ad310.battleship.ViewController;
+
+import ad310.battleship.Interface.*;
+import ad310.battleship.Model.BattleshipModel;
 
 import java.io.*;
 import java.util.*;

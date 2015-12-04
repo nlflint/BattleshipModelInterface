@@ -1,5 +1,7 @@
-package ad310.battleship;
+package ad310.battleship.modelTests;
 
+import ad310.battleship.Interface.*;
+import ad310.battleship.Model.BattleshipModel;
 import org.junit.*;
 
 
@@ -18,7 +20,7 @@ public class GameOverTests {
     @Test
     public void whenPlayersTriesToPlaceShip_thenPlaceShipReturnsFalse(){
         //act
-        Boolean place1 = model.placeShip(Player.PLAYER2,ShipType.BATTLESHIP, getLoc(2, 'a'), getLoc(5, 'a'));
+        Boolean place1 = model.placeShip(Player.PLAYER2, ShipType.BATTLESHIP, getLoc(2, 'a'), getLoc(5, 'a'));
         Boolean place2 = model.placeShip(Player.PLAYER1,ShipType.BATTLESHIP, getLoc(6, 'a'), getLoc(9, 'a'));
 
         //assert

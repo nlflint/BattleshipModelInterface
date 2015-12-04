@@ -1,5 +1,7 @@
-package ad310.battleship;
+package ad310.battleship.modelTests;
 
+import ad310.battleship.Interface.*;
+import ad310.battleship.Model.BattleshipModel;
 import org.junit.*;
 
 
@@ -225,7 +227,7 @@ public class GamePlayTests {
         setUpStandardGame();
 
         //assert
-        assertFalse(model.placeShip(Player.PLAYER1,ShipType.BATTLESHIP, new Location(6, 'a'), new Location(9, 'a')));
+        assertFalse(model.placeShip(Player.PLAYER1, ShipType.BATTLESHIP, new Location(6, 'a'), new Location(9, 'a')));
         assertFalse(model.placeShip(Player.PLAYER2,ShipType.BATTLESHIP, new Location(2, 'a'), new Location(5, 'a')));
 
     }
