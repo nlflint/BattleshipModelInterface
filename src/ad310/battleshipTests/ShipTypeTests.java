@@ -1,4 +1,4 @@
-package ad310.battleshipTests.battleshipModelInterfaceTests;
+package ad310.battleshipTests;
 
 import ad310.battleship.battleshipModelInterface.ShipType;
 import org.junit.Test;

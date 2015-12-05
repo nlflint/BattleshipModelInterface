@@ -1,4 +1,4 @@
-Main-Class: ad310.battleship.viewController.BattleshipViewController
+Main-Class: ad310.battleship.BattleshipViewController
 
 
 

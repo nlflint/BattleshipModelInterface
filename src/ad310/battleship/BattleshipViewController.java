@@ -1,4 +1,4 @@
-package ad310.battleship.viewController;
+package ad310.battleship;
 
 import ad310.battleship.battleshipModelInterface.*;
 import ad310.battleship.model.BattleshipModel;
