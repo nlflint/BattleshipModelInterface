@@ -13,7 +13,7 @@ import java.io.*;
  */
 public class ConfigTests {
     @Test
-    public void config_WhenConfigIsConvertedToXML_ThenAfterConvertingBackToObjectThePropertiesMatch() {
+    public void serialization_WhenConfigIsConvertedToXMLAndBackToObject_ThenPropertiesMatch() {
         // Arrange
         ConfigShip[] ships = new ConfigShip[] {
                 new ConfigShip("Battleship", 5),

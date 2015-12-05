@@ -8,5 +8,13 @@ public enum ShipType {
     BATTLESHIP,
     CRUISER,
     DESTROYER1,
-    DESTROYER2
+    DESTROYER2;
+
+    public static boolean isMember(String givenShipType) {
+        ShipType[] shipTypes = ShipType.values();
+        for (ShipType shipType : shipTypes)
+            if (shipType.name().equals(givenShipType))
+                return true;
+        return false;
+    }
 }
