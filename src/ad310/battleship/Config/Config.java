@@ -32,20 +32,6 @@ public class Config implements Serializable {
         this.freeTurnAfterHit = freeTurnAfterHit;
     }
 
-    public static Config readConfigXml(InputStream input) {
-        XMLDecoder decoder = new XMLDecoder(input);
-        return (Config) decoder.readObject();
-    }
-
-    public static OutputStream writeConfigXml(Config config) {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        XMLEncoder encoder = new XMLEncoder(output);
-        encoder.writeObject(config);
-        encoder.flush();
-        return output;
-    }
-
-
     public ConfigShip[] getShips() {
         return ships;
     }
@@ -68,5 +54,16 @@ public class Config implements Serializable {
 
     public void setFreeTurnAfterHit(boolean freeTurnAfterHit) {
         this.freeTurnAfterHit = freeTurnAfterHit;
+    }
+
+    public static Config readConfigXml(InputStream input) {
+        XMLDecoder decoder = new XMLDecoder(input);
+        return (Config) decoder.readObject();
+    }
+
+    public void writeConfigXml(OutputStream output) {
+        XMLEncoder encoder = new XMLEncoder(output);
+        encoder.writeObject(this);
+        encoder.flush();
     }
 }
