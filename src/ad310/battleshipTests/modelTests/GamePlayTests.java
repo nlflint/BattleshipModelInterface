@@ -1,4 +1,4 @@
-package ad310.battleship.modelTests;
+package ad310.battleshipTests.modelTests;
 
 import ad310.battleship.battleshipModelInterface.*;
 import ad310.battleship.model.BattleshipModel;

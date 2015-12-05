@@ -1,4 +1,4 @@
-package ad310.battleship.configTests;
+package ad310.battleshipTests.configTests;
 
 import ad310.battleship.config.Config;
 import ad310.battleship.config.ConfigShip;
