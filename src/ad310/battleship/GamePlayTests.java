@@ -3,6 +3,9 @@ package ad310.battleship;
 import org.junit.*;
 
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 import static org.junit.Assert.*;
 
 
@@ -35,7 +38,7 @@ public class GamePlayTests {
     @Test
     public void gamePlay_whenPlayer1ShotIsOutOfBoundsOn12x12Board_thenDoOverIsReturned_stillPlayer1sTurn(){
         //arrange
-        Config config = new Config(12, true, true);
+        Config config = new Config(12, true, true, createDefaultShipConfig());
         setUpCustomGame(config);
 
         //act
@@ -84,7 +87,7 @@ public class GamePlayTests {
     public void gamePlay_whenFreeTurnAfterHitIsDiabledAndAHitIsMade_ThenTurnFlipsToOtherPLayer(){
 
         //arrange
-        Config config = new Config(10, false, true);
+        Config config = new Config(10, false, true, createDefaultShipConfig());
         setUpCustomGame(config);
 
 
@@ -110,6 +113,29 @@ public class GamePlayTests {
         //assert
         assertEquals(Status.SUNK_BATTLESHIP, status);
         assertEquals(Player.PLAYER1, model.whoseTurn());
+
+    }
+
+    @Test
+    public void gamePlay_whenPlayer1HitsAllSpotsOnAMinisub_thenReturnSunkenShip(){
+        // Arrange
+        HashSet<ShipType> ships = new HashSet<>();
+        ships.add(ShipType.MINISUB2);
+        ships.add(ShipType.MINISUB1);
+        Config config = new Config(10, true, true, ships);
+        model = new BattleshipModel(config);
+        model.placeShip(Player.PLAYER1, ShipType.MINISUB2, new Location(10, 'a'), new Location(10, 'a'));
+        model.placeShip(Player.PLAYER1, ShipType.MINISUB1, new Location(8, 'b'), new Location(8, 'b'));
+        model.placeShip(Player.PLAYER2, ShipType.MINISUB2, new Location(1, 'a'), new Location(1, 'a'));
+        model.placeShip(Player.PLAYER2, ShipType.MINISUB1, new Location(7, 'd'), new Location(7, 'd'));
+        boolean result = model.startGame();
+
+        //act
+
+        Status status = model.markShot(new Location(1, 'a'));
+
+        //assert
+        assertEquals(Status.SUNK_MINISUB, status);
 
     }
 
@@ -284,5 +310,14 @@ public class GamePlayTests {
         model = new BattleshipModel(config);
         setUpStandardGame();
 
+    }
+    private HashSet<ShipType> createDefaultShipConfig() {
+        HashSet<ShipType> ships = new HashSet<>();
+        ships.add(ShipType.AIRCRAFT_CARRIER);
+        ships.add(ShipType.BATTLESHIP);
+        ships.add(ShipType.CRUISER);
+        ships.add(ShipType.DESTROYER1);
+        ships.add(ShipType.DESTROYER2);
+        return ships;
     }
 }

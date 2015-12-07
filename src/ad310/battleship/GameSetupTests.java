@@ -3,6 +3,9 @@ package ad310.battleship;
 import org.junit.*;
 
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 import static org.junit.Assert.*;
 
 public class GameSetupTests {
@@ -26,6 +29,7 @@ public class GameSetupTests {
         assertEquals(model.getSquare(player1, getLoc(1, 'b')), Square.DESTROYER1);
     }
 
+
     @Test
     public void gameSetup_whenPlacingDestoryer2_ThenGetSquareReturnsShipAtTwoLocations() {
         // Act
@@ -35,6 +39,33 @@ public class GameSetupTests {
         assertTrue(result);
         assertEquals(model.getSquare(player1, getLoc(9, 'j')), Square.DESTROYER2);
         assertEquals(model.getSquare(player1, getLoc(10, 'j')), Square.DESTROYER2);
+    }
+
+    @Test
+    public void gameSetup_whenShipTypeIsNotLegal_ThenShipCannotBePlaced() {
+        // Act
+        boolean result = model.placeShip(Player.PLAYER1, ShipType.SUBMARINE, getLoc(10, 'j'), getLoc(8, 'j'));
+
+        // Assert
+        assertFalse(result);
+        assertEquals(Square.NOTHING, model.getSquare(player1, getLoc(8, 'j')));
+        assertEquals(Square.NOTHING, model.getSquare(player1, getLoc(9, 'j')));
+        assertEquals(Square.NOTHING, model.getSquare(player1, getLoc(10, 'j')));
+    }
+    @Test
+    public void gameSetup_whenMiniSubIsLegal_ThenShipCanBePlaced() {
+        // Arrange
+        HashSet<ShipType> ships = new HashSet<>();
+        ships.add(ShipType.MINISUB1);
+        Config config = new Config(10, true, true, ships);
+        model = new BattleshipModel(config);
+        // Act
+        boolean result = model.placeShip(Player.PLAYER1, ShipType.MINISUB1, getLoc(10, 'j'), getLoc(10, 'j'));
+
+        // Assert
+        assertTrue(result);
+        assertEquals(Square.MINISUB1, model.getSquare(player1, getLoc(10, 'j')));
+
     }
 
     @Test
@@ -99,7 +130,7 @@ public class GameSetupTests {
     @Test
     public void gameSetup_whenDiagonalPLacementIsDisabledAndPlacingShipDiagonally_ThenAPlacementNotAllowed() {
         // Arrange
-        Config config = new Config(10, true, false);
+        Config config = new Config(10, true, false, createDefaultShipConfig());
         model = new BattleshipModel(config);
         // Act
         boolean result = model.placeShip(Player.PLAYER2, ShipType.AIRCRAFT_CARRIER, getLoc(1, 'e'), getLoc(5, 'a'));
@@ -111,6 +142,16 @@ public class GameSetupTests {
         assertEquals(model.getSquare(player2, getLoc(3, 'c')), Square.NOTHING);
         assertEquals(model.getSquare(player2, getLoc(4, 'b')), Square.NOTHING);
         assertEquals(model.getSquare(player2, getLoc(5, 'a')), Square.NOTHING);
+    }
+
+    private HashSet<ShipType> createDefaultShipConfig() {
+        HashSet<ShipType> ships = new HashSet<>();
+        ships.add(ShipType.AIRCRAFT_CARRIER);
+        ships.add(ShipType.BATTLESHIP);
+        ships.add(ShipType.CRUISER);
+        ships.add(ShipType.DESTROYER1);
+        ships.add(ShipType.DESTROYER2);
+        return ships;
     }
 
     @Test
@@ -145,7 +186,7 @@ public class GameSetupTests {
     @Test
     public void gameSetup_whenBoardIs8x8_ThenPlacingShipOutsideBoundsIsNotAllowed() {
         // Arrange
-        Config config = new Config(8, true, true);
+        Config config = new Config(8, true, true, createDefaultShipConfig());
         model = new BattleshipModel(config);
         // Act
         boolean result1 = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, getLoc(8, 'a'), getLoc(9, 'a'));
@@ -302,6 +343,25 @@ public class GameSetupTests {
         //assert
         assertEquals(false,result);
         assertEquals(Square.BATTLESHIP, model.getSquare(Board.PLAYER1_DEFENSIVE, getLoc(1,'a')));
+
+    }
+
+    @Test
+    public void whenStartingGameWith1Shiptypes_GameStartsAfterShipHasBeenPlaced(){
+        // Arrange
+        HashSet<ShipType> ships = new HashSet<>();
+        ships.add(ShipType.MINISUB2);
+        Config config = new Config(10, true, true, ships);
+        model = new BattleshipModel(config);
+
+        //act
+        model.placeShip(Player.PLAYER1, ShipType.MINISUB2, getLoc(10, 'a'), getLoc(10, 'a'));
+        model.placeShip(Player.PLAYER2, ShipType.MINISUB2, getLoc(1, 'a'), getLoc(1, 'a'));
+        boolean result = model.startGame();
+
+
+        //assert
+        assertTrue(result);
 
     }
 

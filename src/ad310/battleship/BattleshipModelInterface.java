@@ -113,6 +113,10 @@ enum Status {
     SUNK_BATTLESHIP,
     // return status, a hit, sunk aircraft carrier
     SUNK_AIRCRAFT_CARRIER,
+    // return status, a hit, sunk submarine
+    SUNK_SUBMARINE,
+    // return status, a hit, sunk minisub
+    SUNK_MINISUB,
     // return status, location was already played or invalid
     DO_OVER,
     // return status, player one wins
@@ -129,6 +133,9 @@ enum ShipType {
     BATTLESHIP,
     CRUISER,
     DESTROYER1,
+    SUBMARINE,
+    MINISUB1,
+    MINISUB2,
     DESTROYER2
 }
 
@@ -165,5 +172,5 @@ enum Square {
     BATTLESHIP,
     CRUISER,
     DESTROYER1,
-    DESTROYER2
+    SUBMARINE, MINISUB1, MINISUB2, DESTROYER2
 }

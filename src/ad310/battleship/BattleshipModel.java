@@ -1,9 +1,6 @@
 package ad310.battleship;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -25,6 +22,8 @@ public class BattleshipModel implements BattleshipModelInterface {
    private int boardDimension;
    private boolean freeTurnAfterHit;
    private boolean diagonalIsAllowed;
+   private Map<ShipType, Integer> shipLengths;
+   private HashSet<ShipType> legalShips;
 
 
    /***
@@ -39,13 +38,27 @@ public class BattleshipModel implements BattleshipModelInterface {
       playerTwoShots = new ArrayList<>();
       initializeShipTypeToStatusMap();
       initializeConfig(config);
+      initializeShipTypeToLength();
+   }
 
+   private void initializeShipTypeToLength() {
+      shipLengths = new HashMap<>();
+      shipLengths.put(ShipType.AIRCRAFT_CARRIER, 5);
+      shipLengths.put(ShipType.BATTLESHIP, 4);
+      shipLengths.put(ShipType.CRUISER, 3);
+      shipLengths.put(ShipType.SUBMARINE, 3);
+      shipLengths.put(ShipType.DESTROYER1, 2);
+      shipLengths.put(ShipType.DESTROYER2, 2);
+      shipLengths.put(ShipType.MINISUB1, 1);
+      shipLengths.put(ShipType.MINISUB2, 1);
    }
 
    private void initializeConfig(Config config) {
       boardDimension = config.BoardDimension;
       freeTurnAfterHit = config.FreeTurnAfterHit;
       diagonalIsAllowed = config.DiagonalPlacementAllowed;
+      legalShips = config.Ships;
+
    }
 
    // Sets up a map to convert from ShipType enum to Status enum.
@@ -96,7 +109,8 @@ public class BattleshipModel implements BattleshipModelInterface {
             !isCorrectShipLength(locations, shipType) ||
             isOverlappingAnotherShip(locations, otherships) ||
             !shipAngleIs45Degrees(shipStart, shipEnd) ||
-            isDiagonallyCrossingAnother(otherships, newShip))
+            isDiagonallyCrossingAnother(otherships, newShip) ||
+              !isLegalShip(shipType))
          return false;
 
       ships.clear();
@@ -104,6 +118,10 @@ public class BattleshipModel implements BattleshipModelInterface {
       ships.add(newShip);
 
       return true;
+   }
+
+   private boolean isLegalShip(ShipType shipType) {
+      return legalShips.contains(shipType);
    }
 
    private boolean isDiagonallyCrossingAnother(ArrayList<Ship> otherShips, Ship newShip) {
@@ -152,22 +170,10 @@ public class BattleshipModel implements BattleshipModelInterface {
    }
 
    private boolean isCorrectShipLength(ArrayList<ShipLocation> locations, ShipType shipType) {
-      int expectedLength = getExpectedShipLength(shipType);
+      int expectedLength = shipLengths.get(shipType);
       return locations.size() == expectedLength;
    }
 
-   private int getExpectedShipLength(ShipType shipType) {
-      switch (shipType) {
-         case AIRCRAFT_CARRIER:
-            return 5;
-         case BATTLESHIP:
-            return 4;
-         case CRUISER:
-            return 3;
-         default:
-            return 2;
-      }
-   }
 
    private boolean areWithinBoardRange(ArrayList<ShipLocation> locations) {
       for (ShipLocation location : locations) {
@@ -228,7 +234,7 @@ public class BattleshipModel implements BattleshipModelInterface {
      */
    @Override
    public int numberOfSpacesPerShip(ShipType ship) {
-      return getExpectedShipLength(ship);
+      return shipLengths.get(ship);
    }
 
    /**
@@ -239,7 +245,7 @@ public class BattleshipModel implements BattleshipModelInterface {
    @Override
    public Boolean startGame() {
 
-      if(playerOneShips.size() == 5 && playerTwoShips.size() == 5){
+      if(playerOneShips.size() == legalShips.size() && playerTwoShips.size() == legalShips.size()){
          isPlayer1Turn = true;
          mode = GameMode.PLAY;
          return true;
@@ -416,10 +422,16 @@ public class BattleshipModel implements BattleshipModelInterface {
             return Square.BATTLESHIP;
          case CRUISER:
             return Square.CRUISER;
+         case SUBMARINE:
+            return Square.SUBMARINE;
          case DESTROYER1:
             return Square.DESTROYER1;
-         default:
+         case DESTROYER2:
             return Square.DESTROYER2;
+         case MINISUB1:
+            return Square.MINISUB1;
+         default:
+            return Square.MINISUB2;
       }
    }
 
