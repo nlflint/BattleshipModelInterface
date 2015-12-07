@@ -5,12 +5,15 @@ package ad310.battleship;
  */
 public class Config {
     public final int BoardDimension;
+    public final boolean FreeTurnAfterHit;
 
-    public Config(int boardDimension) {
+    public Config(int boardDimension, boolean freeTurnAfterHit) {
         BoardDimension = boardDimension;
+        FreeTurnAfterHit = freeTurnAfterHit;
     }
     public Config (){
         BoardDimension = 10;
+        FreeTurnAfterHit = true;
     }
 
 }

@@ -23,6 +23,7 @@ public class BattleshipModel implements BattleshipModelInterface {
    private boolean isPlayer1Turn;
    private GameMode mode;
    private int boardDimension;
+   private boolean freeTurnAfterHit;
 
 
    /***
@@ -37,10 +38,12 @@ public class BattleshipModel implements BattleshipModelInterface {
       playerTwoShots = new ArrayList<>();
       initializeShipTypeToStatusMap();
       initializeConfig(config);
+
    }
 
    private void initializeConfig(Config config) {
       boardDimension = config.BoardDimension;
+      freeTurnAfterHit = config.FreeTurnAfterHit;
    }
 
    // Sets up a map to convert from ShipType enum to Status enum.
@@ -262,7 +265,6 @@ public class BattleshipModel implements BattleshipModelInterface {
       if(!shotLocationisValid(shotLocation)){
          return Status.DO_OVER;
       }
-
       ArrayList<ShipLocation> playerShots = isPlayer1Turn ? playerOneShots : playerTwoShots;
       ArrayList<Ship> playerShips = isPlayer1Turn ? playerTwoShips : playerOneShips;
 
@@ -274,15 +276,17 @@ public class BattleshipModel implements BattleshipModelInterface {
       }
 
       ship.hit();
+      if(!freeTurnAfterHit)
+         togglePlayerTurn();
+
       if (ship.isSunk()) {
          if(allShipsSunk(playerShips)){
             mode = GameMode.GAMEOVER;
-            return isPlayer1Turn ? Status.PLAYER1_WINS : Status.PLAYER2_WINS;
+            return isPlayer1Turn && freeTurnAfterHit ? Status.PLAYER1_WINS : Status.PLAYER2_WINS;
          }
          return shipTypetoStatus.get(ship.type);
       }
       return Status.HIT;
-
   }
 
    private boolean allShipsSunk(ArrayList<Ship> playerShips) {

@@ -129,7 +129,7 @@ public class GameSetupTests {
     @Test
     public void gameSetup_whenBoardIs8x8_ThenPlacingShipOutsideBoundsIsNotAllowed() {
         // Arrange
-        Config config = new Config(8);
+        Config config = new Config(8, true);
         model = new BattleshipModel(config);
         // Act
         boolean result1 = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, getLoc(8, 'a'), getLoc(9, 'a'));

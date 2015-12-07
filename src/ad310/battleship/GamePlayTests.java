@@ -35,7 +35,7 @@ public class GamePlayTests {
     @Test
     public void gamePlay_whenPlayer1ShotIsOutOfBoundsOn12x12Board_thenDoOverIsReturned_stillPlayer1sTurn(){
         //arrange
-        Config config = new Config(12);
+        Config config = new Config(12, true);
         setUpCustomGame(config);
 
         //act
@@ -78,6 +78,21 @@ public class GamePlayTests {
         assertEquals(Square.HIT, model.getSquare(Board.PLAYER2_DEFENSIVE, new Location (2,'a')));
         assertEquals(Square.HIT, model.getSquare(Board.PLAYER1_OFFENSIVE, new Location (2,'a')));
         assertEquals(Player.PLAYER1, model.whoseTurn());
+
+    }
+    @Test
+    public void gamePlay_whenFreeTurnAfterHitIsDiabledAndAHitIsMade_ThenTurnFlipsToOtherPLayer(){
+
+        //arrange
+        Config config = new Config(10, false);
+        setUpCustomGame(config);
+
+
+        //act
+        Status statusMiss = model.markShot(new Location(2, 'a'));
+
+        //assert
+        assertEquals(Player.PLAYER2, model.whoseTurn());
 
     }
 
