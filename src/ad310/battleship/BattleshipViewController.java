@@ -1,18 +1,30 @@
-import java.io.IOException;
-import java.util.Scanner;
+package ad310.battleship;
+
+import java.io.*;
+import java.util.*;
 
 /**
  * Implements Battleship game controls and display.
  * @author Duri Balat
  * @author Brad Baumel
  * @author Jeremy Duke
- * @author Nathan Flynt
+ * @author Nathan Flint
  */
 
 public class BattleshipViewController {
    //Fields
    private BattleshipModel model = new BattleshipModel();
    private boolean playerChanged = false;
+   private int     maxLength  =  10;
+   private int     minLength  =  6;
+   private int     minShips   =  1;
+   private int     maxShips   =  7;
+   private boolean toggleOnHit=  false;
+
+   //Config properties.  Loaded from default.props and overridden by user.props
+   private int     sideLength;
+   private int     numShips;
+   private ShipType[] ships;
 
    /**
     * Skeletal main method that stands up a ViewController and walks through major phases of the game
@@ -24,6 +36,8 @@ public class BattleshipViewController {
 
       //Welcome!
       bvc.printTitle();
+      bvc.getConfigs();
+      System.out.println("Finished processing configs");
 
       //Run through Ship Setup
       bvc.doSetup();
@@ -31,6 +45,114 @@ public class BattleshipViewController {
 
       //When setup is complete...
       bvc.play();
+   }
+
+   //Configs
+   private void getConfigs() {
+      Scanner in = new Scanner(System.in);
+      boolean fileFound = false;
+      FileInputStream fs;
+      Properties defaultProps = new Properties();
+      Properties userProps = new Properties(defaultProps);
+
+      //Load default properties if they exist
+      try {
+         fs = new FileInputStream("default.props");
+         defaultProps.load(fs);
+         fs.close();
+         //Parse the default.props file for sanity
+         parseConfigs(defaultProps);
+         System.out.println("Loaded default.props file");
+      } catch (IOException e) {
+         System.out.println("No default properties file found.  Moving on...\n\n");
+      }
+
+      System.out.println("Do you have a config file to load? [Y/N]: ");
+
+      while (!in.hasNext("[ynYN]")) {
+         System.out.println("Invalid response.  Please enter 'y' for yes or 'n' for no: ");
+         in.next();
+      }
+
+      char response = in.next().charAt(0);
+      if (response == 'y' || response == 'Y') {
+         while (!fileFound) {
+            System.out.println("Please enter the name of the config file (eg, config.props) or '0' to exit: ");
+            String filename = in.next();
+            //Give user an out if they can't supply a file
+            if (filename.equals("0")) {
+               break;
+            } else {
+               //Load the file if we can
+               try {
+                  fs = new FileInputStream(filename);
+                  userProps.load(fs);
+                  fs.close();
+                  fileFound = true;
+                  //Override default props if properly configured in user.props
+                  parseConfigs(userProps);
+                  System.out.println("Loaded user.props file");
+                  pressEnter();  //DEBUG - PAUSE TO VERIFY OVERRIDES
+               } catch (IOException e) {
+                  System.out.println("File not found!");
+               }
+            }
+         }
+      }
+      //default.props and (if provided) user.props loaded by this point.
+      //notifyModel();
+   }
+
+   private void parseConfigs(Properties file) {
+      //Board size
+      int value = Integer.parseInt(file.getProperty("sideLength"));
+      if (value >= minLength && value <= maxLength) {
+         setSideLength(value);
+         System.out.println("Side Length: " + value); //DEBUG
+      }
+
+      //Ships
+      int numberOfShips = Integer.parseInt(file.getProperty("numShips", "5"));
+      if (numberOfShips > minShips && numberOfShips < maxShips) {
+         setNumShips(numberOfShips);
+         System.out.println("Number of Ships: " + numberOfShips);
+      }
+
+      //Get the ships
+      String allShips = file.getProperty("ships");
+      String[] shipArray = allShips.split(", ");
+      ships = new ShipType[numShips];
+      for (int i = 0; i < numShips; i++) {
+         //TODO: Need to verify these are valid ship types.  May need work model-side
+         ships[i] = ShipType.valueOf(shipArray[i]);
+         System.out.println("ShipType: " + ships[i]); //DEBUG
+      }
+
+      //Transfer control on HIT?
+      Boolean togglePlayerOnHit = Boolean.parseBoolean(file.getProperty("toggleOnHit", "false"));
+      setPlayerToggleOnHit(togglePlayerOnHit);
+   }
+
+   //Config set methods
+   private void setSideLength(int length) {
+      sideLength = length;
+   }
+   private void setNumShips(int ships) {
+      numShips = ships;
+   }
+   private void setPlayerToggleOnHit(boolean b) {
+      toggleOnHit = b;
+   }
+
+   private void customConfig() {
+      //Stretch goal -- allow user interactive property builder, save in place.
+      //      try {
+      //         FileOutputStream out = new FileOutputStream("user.props");
+      //         userProps.store(out, "Created " + new Date().getTime());
+      //         out.close();
+      //      } catch (IOException e) {
+      //         System.out.println("There was an error writing user.props to disk.");
+      //      }
    }
 
    //Gameplay Methods
@@ -46,25 +168,21 @@ public class BattleshipViewController {
 
       //Player1 Setup
       printInterstitial(player1);
-      promptPlayerSetup(player1, ShipType.AIRCRAFT_CARRIER, p1def);
-      promptPlayerSetup(player1, ShipType.BATTLESHIP, p1def);
-      promptPlayerSetup(player1, ShipType.CRUISER, p1def);
-      promptPlayerSetup(player1, ShipType.DESTROYER1, p1def);
-      promptPlayerSetup(player1, ShipType.DESTROYER2, p1def);
+      for (ShipType ship : ships ) {
+         promptPlayerSetup(player1, ship, p1def);
+      }
       displayBoard(player1, p1def);
       try {
          Thread.sleep(time);
       } catch (InterruptedException e){
          e.printStackTrace();
       }
-      printInterstitial(player2);
 
       //Player2 Setup
-      promptPlayerSetup(player2, ShipType.AIRCRAFT_CARRIER, p2def);
-      promptPlayerSetup(player2, ShipType.BATTLESHIP, p2def);
-      promptPlayerSetup(player2, ShipType.CRUISER, p2def);
-      promptPlayerSetup(player2, ShipType.DESTROYER1, p2def);
-      promptPlayerSetup(player2, ShipType.DESTROYER2, p2def);
+      printInterstitial(player2);
+      for (ShipType ship : ships ) {
+         promptPlayerSetup(player2, ship, p1def);
+      }
       displayBoard(player2, p2def);
       sleep(time);
       playerChanged = true;
@@ -82,20 +200,20 @@ public class BattleshipViewController {
       Location loc = null;
 
       while (!validLocation) {
-         System.out.println("Enter a valid row [A-J]: ");
+         System.out.println("Enter a valid row [A-" + (char)(64 + sideLength) + "]: ");
          while (!in.hasNext("[abcdefghijABCDEFGHIJ]")) {
-            System.out.println("Invalid row.  Please enter a valid row [A-J]: ");
+            System.out.println("Invalid row.  Please enter a valid row [A-" + (char)(64 + sideLength) + "]: ");
             in.next();
          }
          row = in.next().charAt(0);
          //Handle upper casing
-         if (row >= 'A' && row <= 'J') {
+         if (row >= 'A' && row <= (char)(64 + sideLength)) {
             row = (char) (row + 32);
          }
-         while (col < 1 || col > 10) {
-            System.out.println("Enter a valid column [1-10]: ");
+         while (col < 1 || col > sideLength) {
+            System.out.println("Enter a valid column [1-" + sideLength + "]: ");
             while (!in.hasNextInt()) {
-               System.out.println("Invalid column.  Please enter a valid column [1-10]: ");
+               System.out.println("Invalid column.  Please enter a valid column [1-" + sideLength + "]: ");
                in.next();
             }
             col = in.nextInt();
@@ -255,15 +373,15 @@ public class BattleshipViewController {
       }
       board  = "    ======= " + title + " - " + p.toString() + " =======";
       //Rows
-      for (int i = 0; i <= 10; i++) {
+      for (int i = 0; i <= sideLength; i++) {
          board += "\n   -";
          //FORMATTING - Horizontal lines
-         for (int j = 1; j <= 10; j++) {
+         for (int j = 1; j <= sideLength; j++) {
             board += "---+";
          }
-         if (i != 10) {
+         if (i != sideLength) {
             board += "\n" + (char)(i + 65) + "  |";
-            for (int n = 1; n <= 10; n++) {
+            for (int n = 1; n <= sideLength; n++) {
                char row = (char)(i + 97);
                int col = n;
                Location cell = new Location(col, row);
@@ -293,6 +411,13 @@ public class BattleshipViewController {
                   case DESTROYER2:
                      val = 'd';
                      break;
+                  //COMMENTED UNTIL SUB SUPPORT IMPLEMENTED
+//                  case SUBMARINE1:
+//                     val = 'S';
+//                     break;
+//                  case SUBMARINE2:
+//                     val = 's';
+//                     break;
                   default:
                      val = ' ';
                      break;
@@ -303,11 +428,11 @@ public class BattleshipViewController {
       }
 
       board += "\n     ";
-      for (int j = 1; j <= 10; j++) {
+      for (int j = 1; j <= sideLength; j++) {
          board += j + "   ";
       }
       board += "\n\n";
-      System.out.println(board);;
+      System.out.println(board);
    }
 
    /**

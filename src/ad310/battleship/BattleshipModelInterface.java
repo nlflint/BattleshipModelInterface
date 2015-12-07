@@ -1,3 +1,5 @@
+package ad310.battleship;
+
 /**
  * The programmatic interface for the Battleship Model class.
  * This interface supports communication with both the view
@@ -69,12 +71,6 @@ public interface BattleshipModelInterface {
      * @throws IllegalStateException if !isGameOver()
      */
     Player getWinner() throws IllegalStateException;
-
-    /**
-     * Reset the board
-     */
-    void resetBoard();
-
 }
 
 /**
