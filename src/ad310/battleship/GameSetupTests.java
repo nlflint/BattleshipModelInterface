@@ -96,6 +96,22 @@ public class GameSetupTests {
         assertEquals(model.getSquare(player2, getLoc(4, 'b')), Square.AIRCRAFT_CARRIER);
         assertEquals(model.getSquare(player2, getLoc(5, 'a')), Square.AIRCRAFT_CARRIER);
     }
+    @Test
+    public void gameSetup_whenDiagonalPLacementIsDisabledAndPlacingShipDiagonally_ThenAPlacementNotAllowed() {
+        // Arrange
+        Config config = new Config(10, true, false);
+        model = new BattleshipModel(config);
+        // Act
+        boolean result = model.placeShip(Player.PLAYER2, ShipType.AIRCRAFT_CARRIER, getLoc(1, 'e'), getLoc(5, 'a'));
+
+        // Assert
+        assertFalse(result);
+        assertEquals(model.getSquare(player2, getLoc(1, 'e')), Square.NOTHING);
+        assertEquals(model.getSquare(player2, getLoc(2, 'd')), Square.NOTHING);
+        assertEquals(model.getSquare(player2, getLoc(3, 'c')), Square.NOTHING);
+        assertEquals(model.getSquare(player2, getLoc(4, 'b')), Square.NOTHING);
+        assertEquals(model.getSquare(player2, getLoc(5, 'a')), Square.NOTHING);
+    }
 
     @Test
     public void gameSetup_whenPlacingAircraftCarrierDiagonallyNEtoSW_ThenGetSquareReturnsShipAtFiveLocations() {
@@ -129,7 +145,7 @@ public class GameSetupTests {
     @Test
     public void gameSetup_whenBoardIs8x8_ThenPlacingShipOutsideBoundsIsNotAllowed() {
         // Arrange
-        Config config = new Config(8, true);
+        Config config = new Config(8, true, true);
         model = new BattleshipModel(config);
         // Act
         boolean result1 = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, getLoc(8, 'a'), getLoc(9, 'a'));

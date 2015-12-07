@@ -35,7 +35,7 @@ public class GamePlayTests {
     @Test
     public void gamePlay_whenPlayer1ShotIsOutOfBoundsOn12x12Board_thenDoOverIsReturned_stillPlayer1sTurn(){
         //arrange
-        Config config = new Config(12, true);
+        Config config = new Config(12, true, true);
         setUpCustomGame(config);
 
         //act
@@ -84,7 +84,7 @@ public class GamePlayTests {
     public void gamePlay_whenFreeTurnAfterHitIsDiabledAndAHitIsMade_ThenTurnFlipsToOtherPLayer(){
 
         //arrange
-        Config config = new Config(10, false);
+        Config config = new Config(10, false, true);
         setUpCustomGame(config);
 
 

@@ -24,6 +24,7 @@ public class BattleshipModel implements BattleshipModelInterface {
    private GameMode mode;
    private int boardDimension;
    private boolean freeTurnAfterHit;
+   private boolean diagonalIsAllowed;
 
 
    /***
@@ -44,6 +45,7 @@ public class BattleshipModel implements BattleshipModelInterface {
    private void initializeConfig(Config config) {
       boardDimension = config.BoardDimension;
       freeTurnAfterHit = config.FreeTurnAfterHit;
+      diagonalIsAllowed = config.DiagonalPlacementAllowed;
    }
 
    // Sets up a map to convert from ShipType enum to Status enum.
@@ -138,8 +140,7 @@ public class BattleshipModel implements BattleshipModelInterface {
    private boolean shipAngleIs45Degrees(ShipLocation start, ShipLocation end) {
       double rise = Math.abs(start.Row - end.Row);
       double run = Math.abs(start.Column - end.Column);
-
-      return (run == 0) || (rise == 0) || (rise / run == 1);
+      return (run == 0) || (rise == 0) || (rise / run == 1 && diagonalIsAllowed);
    }
 
    private boolean isOverlappingAnotherShip(ArrayList<ShipLocation> locations, ArrayList<Ship> ships) {
