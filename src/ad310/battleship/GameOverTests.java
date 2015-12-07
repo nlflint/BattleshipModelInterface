@@ -10,7 +10,7 @@ public class GameOverTests {
 
     @Before
     public void BeforeEachTest() {
-        model = new BattleshipModel();
+        model = new BattleshipModel(new Config());
         putModelIntoGameOverMode();
     }
 

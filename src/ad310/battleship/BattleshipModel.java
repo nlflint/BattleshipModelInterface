@@ -22,18 +22,25 @@ public class BattleshipModel implements BattleshipModelInterface {
    private Map<ShipType,Status> shipTypetoStatus;
    private boolean isPlayer1Turn;
    private GameMode mode;
+   private int boardDimension;
 
 
    /***
     * Initialized a new instance of Battleship ready for setup.
     */
-   public BattleshipModel() {
+   public BattleshipModel(Config config) {
       mode = GameMode.SETUP;
-      playerOneShips = new ArrayList<>();
+      playerOneShips = new ArrayList<
+              >();
       playerTwoShips = new ArrayList<>();
       playerOneShots = new ArrayList<>();
       playerTwoShots = new ArrayList<>();
       initializeShipTypeToStatusMap();
+      initializeConfig(config);
+   }
+
+   private void initializeConfig(Config config) {
+      boardDimension = config.BoardDimension;
    }
 
    // Sets up a map to convert from ShipType enum to Status enum.
@@ -159,12 +166,13 @@ public class BattleshipModel implements BattleshipModelInterface {
    }
 
    private boolean areWithinBoardRange(ArrayList<ShipLocation> locations) {
-      for (ShipLocation location : locations)
+      for (ShipLocation location : locations) {
          if (location.Column < 0 ||
-               location.Column > 9 ||
+               location.Column >= boardDimension ||
                location.Row < 0 ||
-               location.Row > 9)
+               location.Row >= boardDimension)
             return false;
+      }
       return true;
    }
 

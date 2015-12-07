@@ -11,7 +11,7 @@ public class GamePlayTests {
 
     @Before
     public void BeforeEachTest() {
-        model = new BattleshipModel();
+        model = new BattleshipModel(new Config());
     }
 
 
@@ -22,6 +22,24 @@ public class GamePlayTests {
 
         //act
         Status statusE = model.markShot(new Location(11, 'a'));
+        Status statusW = model.markShot(new Location(-1, 'd'));
+        Status statusS = model.markShot(new Location(5, 'm'));
+
+        //assert
+        assertEquals(Status.DO_OVER, statusE);
+        assertEquals(Status.DO_OVER, statusW);
+        assertEquals(Status.DO_OVER, statusS);
+        assertEquals(Player.PLAYER1, model.whoseTurn());
+    }
+
+    @Test
+    public void gamePlay_whenPlayer1ShotIsOutOfBoundsOn12x12Board_thenDoOverIsReturned_stillPlayer1sTurn(){
+        //arrange
+        Config config = new Config(12);
+        setUpCustomGame(config);
+
+        //act
+        Status statusE = model.markShot(new Location(13, 'a'));
         Status statusW = model.markShot(new Location(-1, 'd'));
         Status statusS = model.markShot(new Location(5, 'm'));
 
@@ -245,6 +263,11 @@ public class GamePlayTests {
         model.placeShip(Player.PLAYER2,ShipType.DESTROYER2, new Location(1, 'f'), new Location(2, 'f'));
 
         model.startGame();
+
+    }
+    private void setUpCustomGame(Config config) {
+        model = new BattleshipModel(config);
+        setUpStandardGame();
 
     }
 }

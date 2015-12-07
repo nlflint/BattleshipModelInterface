@@ -12,7 +12,7 @@ public class GameSetupTests {
 
     @Before
     public void BeforeEachTest() {
-        model = new BattleshipModel();
+        model = new BattleshipModel(new Config());
     }
 
     @Test
@@ -124,6 +124,25 @@ public class GameSetupTests {
         assertEquals(model.getSquare(Board.PLAYER1_DEFENSIVE, getLoc(10, 'a')), Square.NOTHING);
         assertEquals(model.getSquare(Board.PLAYER1_DEFENSIVE, getLoc(1, 'j')), Square.NOTHING);
         assertEquals(model.getSquare(Board.PLAYER1_DEFENSIVE, getLoc(1, 'a')), Square.NOTHING);
+    }
+
+    @Test
+    public void gameSetup_whenBoardIs8x8_ThenPlacingShipOutsideBoundsIsNotAllowed() {
+        // Arrange
+        Config config = new Config(8);
+        model = new BattleshipModel(config);
+        // Act
+        boolean result1 = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, getLoc(8, 'a'), getLoc(9, 'a'));
+        boolean result2 = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, getLoc(1, 'h'), getLoc(1, 'j'));
+        boolean result3 = model.placeShip(Player.PLAYER1, ShipType.DESTROYER2, getLoc(8, 'h'), getLoc(9, 'j'));
+
+        // Assert
+        assertFalse(result1);
+        assertFalse(result2);
+        assertFalse(result3);
+        assertEquals(model.getSquare(Board.PLAYER1_DEFENSIVE, getLoc(8, 'a')), Square.NOTHING);
+        assertEquals(model.getSquare(Board.PLAYER1_DEFENSIVE, getLoc(1, 'h')), Square.NOTHING);
+        assertEquals(model.getSquare(Board.PLAYER1_DEFENSIVE, getLoc(8, 'h')), Square.NOTHING);
     }
 
     @Test

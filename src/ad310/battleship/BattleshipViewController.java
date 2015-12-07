@@ -13,7 +13,7 @@ import java.util.*;
 
 public class BattleshipViewController {
    //Fields
-   private BattleshipModel model = new BattleshipModel();
+   private BattleshipModel model = new BattleshipModel(new Config());
    private boolean playerChanged = false;
    private int     maxLength  =  10;
    private int     minLength  =  6;
