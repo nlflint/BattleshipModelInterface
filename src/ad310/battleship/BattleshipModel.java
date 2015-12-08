@@ -69,6 +69,9 @@ public class BattleshipModel implements BattleshipModelInterface {
       shipTypetoStatus.put(ShipType.DESTROYER2,Status.SUNK_DESTROYER);
       shipTypetoStatus.put(ShipType.BATTLESHIP,Status.SUNK_BATTLESHIP);
       shipTypetoStatus.put(ShipType.CRUISER,Status.SUNK_CRUISER);
+      shipTypetoStatus.put(ShipType.MINISUB1,Status.SUNK_MINISUB);
+      shipTypetoStatus.put(ShipType.MINISUB2,Status.SUNK_MINISUB);
+      shipTypetoStatus.put(ShipType.SUBMARINE,Status.SUNK_SUBMARINE);
    }
 
    /***
@@ -499,9 +502,18 @@ public class BattleshipModel implements BattleshipModelInterface {
                return hitCount>=4;
             case CRUISER:
                return hitCount>=3;
-            default:
+            case SUBMARINE:
+               return hitCount>=3;
+            case DESTROYER1:
+               return hitCount>=2;
+            case DESTROYER2:
+               return hitCount>=2;
+            case MINISUB1:
+               return hitCount>=1;
+            case MINISUB2:
+               return hitCount>=1;
          }
-         return hitCount>=2;
+         return hitCount>=1;
       }
       public void hit(){
          hitCount++;

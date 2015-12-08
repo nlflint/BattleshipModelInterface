@@ -4,10 +4,6 @@
     <list default="true" id="99d159e6-34eb-4b65-bc56-66ff0d221ceb" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ad310/battleship/BattleshipModel.java" afterPath="$PROJECT_DIR$/src/ad310/battleship/BattleshipModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ad310/battleship/BattleshipModelInterface.java" afterPath="$PROJECT_DIR$/src/ad310/battleship/BattleshipModelInterface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ad310/battleship/Config.java" afterPath="$PROJECT_DIR$/src/ad310/battleship/Config.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ad310/battleship/GamePlayTests.java" afterPath="$PROJECT_DIR$/src/ad310/battleship/GamePlayTests.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ad310/battleship/GameSetupTests.java" afterPath="$PROJECT_DIR$/src/ad310/battleship/GameSetupTests.java" />
     </list>
     <ignored path="BattleshipModelInterface.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -42,14 +38,9 @@
       <file leaf-file-name="BattleshipModel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ad310/battleship/BattleshipModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.333333">
-              <caret line="272" column="0" selection-start-line="272" selection-start-column="0" selection-end-line="272" selection-end-column="0" />
-              <folding>
-                <element signature="e#4540#4541#0" expanded="true" />
-                <element signature="e#4589#4590#0" expanded="true" />
-                <element signature="e#8210#8211#0" expanded="true" />
-                <element signature="e#8251#8252#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="-4.5">
+              <caret line="73" column="67" selection-start-line="73" selection-start-column="67" selection-end-line="73" selection-end-column="67" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -89,12 +80,9 @@
       <file leaf-file-name="GamePlayTests.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ad310/battleship/GamePlayTests.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.53091687">
-              <caret line="132" column="13" selection-start-line="132" selection-start-column="13" selection-end-line="132" selection-end-column="13" />
-              <folding>
-                <element signature="e#251#252#0" expanded="true" />
-                <element signature="e#308#309#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.9402985">
+              <caret line="137" column="0" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -102,7 +90,7 @@
       <file leaf-file-name="GameSetupTests.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ad310/battleship/GameSetupTests.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.9259257">
+            <state vertical-scroll-proportion="0.0">
               <caret line="350" column="0" selection-start-line="350" selection-start-column="0" selection-end-line="359" selection-end-column="43" />
               <folding>
                 <element signature="e#369#370#0" expanded="true" />
@@ -152,9 +140,9 @@
         <option value="$PROJECT_DIR$/src/ad310/battleship/ConfigShip.java" />
         <option value="$PROJECT_DIR$/src/ad310/battleship/Config.java" />
         <option value="$PROJECT_DIR$/src/ad310/battleship/GameSetupTests.java" />
-        <option value="$PROJECT_DIR$/src/ad310/battleship/BattleshipModel.java" />
         <option value="$PROJECT_DIR$/src/ad310/battleship/BattleshipModelInterface.java" />
         <option value="$PROJECT_DIR$/src/ad310/battleship/GamePlayTests.java" />
+        <option value="$PROJECT_DIR$/src/ad310/battleship/BattleshipModel.java" />
       </list>
     </option>
   </component>
@@ -190,6 +178,7 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -240,32 +229,9 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BattleshipModelInterface" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BattleshipModelInterface" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="battleship" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BattleshipModelInterface.java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -277,132 +243,6 @@
     <key name="CreateClassDialog.RecentsKey">
       <recent name="ad310.battleship" />
     </key>
-  </component>
-  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
-    <UpdatedFiles>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Updated from server" />
-        <option name="myStatusName" value="Changed on server" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="CHANGED_ON_SERVER" />
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated" />
-          <option name="myStatusName" value="Changed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UPDATED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Created" />
-          <option name="myStatusName" value="Created" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/.gitignore</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/default.props</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Manifest.txt</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/ad310/battleship/BattleshipModel.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/ad310/battleship/BattleshipModelInterface.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/ad310/battleship/BattleshipViewController.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/ad310/battleship/GameOverTests.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/ad310/battleship/GamePlayTests.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/ad310/battleship/GameSetupTests.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/ad310/battleship/ReadMe.txt</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/user.props</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Deleted" />
-          <option name="myStatusName" value="Deleted" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="true" />
-          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/BattleshipModel.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/BattleshipModelInterface.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/BattleshipViewController.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/GameOverTests.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/GamePlayTests.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/GameSetupTests.java</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Restored" />
-          <option name="myStatusName" value="Will be restored" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="RESTORED" />
-        </FILE-GROUP>
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Modified" />
-        <option name="myStatusName" value="Modified" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MODIFIED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Skipped" />
-        <option name="myStatusName" value="Skipped" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SKIPPED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with conflicts" />
-        <option name="myStatusName" value="Will be merged with conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_CONFLICTS" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with tree conflicts" />
-        <option name="myStatusName" value="Merged with tree conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with property conflicts" />
-        <option name="myStatusName" value="Will be merged with property conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged" />
-        <option name="myStatusName" value="Will be merged" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Not in repository" />
-        <option name="myStatusName" value="Not in repository" />
-        <option name="mySupportsDeletion" value="true" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="UNKNOWN" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally added" />
-        <option name="myStatusName" value="Locally added" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_ADDED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally removed" />
-        <option name="myStatusName" value="Locally removed" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_REMOVED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Switched" />
-        <option name="myStatusName" value="Switched" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SWITCHED" />
-      </FILE-GROUP>
-    </UpdatedFiles>
   </component>
   <component name="RunManager" selected="JUnit.GamePlayTests.gamePlay_whenPlayer1HitsAllSpotsOnAMinisub_thenReturnSunkenShip">
     <configuration default="false" name="ad310.battleship in BattleshipModelInterface" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
@@ -847,20 +687,23 @@
       <option name="project" value="LOCAL" />
       <updated>1449456689671</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Partially implemented ship customization">
+      <created>1449463238926</created>
+      <option name="number" value="00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1449463238926</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="GamePlayTests_gamePlay_whenPlayer1HitsAllSpotsOnAMinisub_thenReturnSunkenShip - 2015.12.06 at 20h 35m 58s.xml">
+    <history-entry file="GamePlayTests_gamePlay_whenPlayer1HitsAllSpotsOnAMinisub_thenReturnSunkenShip - 2015.12.07 at 17h 44m 01s.xml">
       <configuration name="GamePlayTests.gamePlay_whenPlayer1HitsAllSpotsOnAMinisub_thenReturnSunkenShip" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="GamePlayTests_gamePlay_whenPlayer1HitsAllSpotsOnAMinisub_thenReturnSunkenShip - 2015.12.06 at 20h 36m 43s.xml">
+    <history-entry file="GamePlayTests_gamePlay_whenPlayer1HitsAllSpotsOnAMinisub_thenReturnSunkenShip - 2015.12.07 at 17h 44m 51s.xml">
       <configuration name="GamePlayTests.gamePlay_whenPlayer1HitsAllSpotsOnAMinisub_thenReturnSunkenShip" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="GamePlayTests_gamePlay_whenPlayer1HitsAllSpotsOnAMinisub_thenReturnSunkenShip - 2015.12.06 at 20h 39m 26s.xml">
-      <configuration name="GamePlayTests.gamePlay_whenPlayer1HitsAllSpotsOnAMinisub_thenReturnSunkenShip" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="GamePlayTests_gamePlay_whenPlayer1HitsAllSpotsOnAMinisub_thenReturnSunkenShip - 2015.12.06 at 20h 39m 49s.xml">
+    <history-entry file="GamePlayTests_gamePlay_whenPlayer1HitsAllSpotsOnAMinisub_thenReturnSunkenShip - 2015.12.07 at 17h 48m 01s.xml">
       <configuration name="GamePlayTests.gamePlay_whenPlayer1HitsAllSpotsOnAMinisub_thenReturnSunkenShip" configurationId="JUnit" />
     </history-entry>
     <history-entry file="GamePlayTests_gamePlay_whenPlayer1ShotIsOutOfBoundsOn12x12Board_thenDoOverIsReturned_stillPlayer1sTurn - 2015.12.06 at 20h 19m 22s.xml">
@@ -881,6 +724,9 @@
     <history-entry file="ad310_battleship_in_BattleshipModelInterface - 2015.12.06 at 20h 26m 43s.xml">
       <configuration name="ad310.battleship in BattleshipModelInterface" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="ad310_battleship_in_BattleshipModelInterface - 2015.12.07 at 17h 37m 45s.xml">
+      <configuration name="ad310.battleship in BattleshipModelInterface" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="87" y="33" width="1285" height="763" extended-state="0" />
@@ -897,7 +743,6 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24669261" sideWeight="0.4914163" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -908,6 +753,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -949,7 +795,8 @@
     <MESSAGE value="Implemented the custom board size." />
     <MESSAGE value="Finished free turn customization option" />
     <MESSAGE value="Completed implementation of diagonal placement option" />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed implementation of diagonal placement option" />
+    <MESSAGE value="Partially implemented ship customization" />
+    <option name="LAST_COMMIT_MESSAGE" value="Partially implemented ship customization" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -966,6 +813,67 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ad310/battleship/BattleshipModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="272" column="0" selection-start-line="272" selection-start-column="0" selection-end-line="272" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ad310/battleship/Config.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ad310/battleship/GameOverTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ad310/battleship/BattleshipViewController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="66" selection-start-line="15" selection-start-column="66" selection-end-line="15" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ad310/battleship/GamePlayTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="132" column="13" selection-start-line="132" selection-start-column="13" selection-end-line="132" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ad310/battleship/GameSetupTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="350" column="0" selection-start-line="350" selection-start-column="0" selection-end-line="359" selection-end-column="43" />
+          <folding>
+            <element signature="e#369#370#0" expanded="true" />
+            <element signature="e#426#427#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ad310/battleship/BattleshipModelInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -998,7 +906,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ad310/battleship/GameSetupTests.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.9259257">
+        <state vertical-scroll-proportion="0.0">
           <caret line="350" column="0" selection-start-line="350" selection-start-column="0" selection-end-line="359" selection-end-column="43" />
           <folding>
             <element signature="e#369#370#0" expanded="true" />
@@ -1015,27 +923,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/user.props">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/ad310/battleship/BattleshipModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.333333">
-          <caret line="272" column="0" selection-start-line="272" selection-start-column="0" selection-end-line="272" selection-end-column="0" />
-          <folding>
-            <element signature="e#4540#4541#0" expanded="true" />
-            <element signature="e#4589#4590#0" expanded="true" />
-            <element signature="e#8210#8211#0" expanded="true" />
-            <element signature="e#8251#8252#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="-4.5">
+          <caret line="73" column="67" selection-start-line="73" selection-start-column="67" selection-end-line="73" selection-end-column="67" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ad310/battleship/GamePlayTests.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.53091687">
-          <caret line="132" column="13" selection-start-line="132" selection-start-column="13" selection-end-line="132" selection-end-column="13" />
-          <folding>
-            <element signature="e#251#252#0" expanded="true" />
-            <element signature="e#308#309#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.9402985">
+          <caret line="137" column="0" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
