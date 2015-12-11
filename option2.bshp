@@ -14,12 +14,6 @@ toggleOnHit false
 # IS DIAGONAL SHIP PLACEMENT ALLOWED?
 diagonalsAllowed true
 
-# SHIP SIZES
-carrierSize 5
-battleshipSize 4
-destroyerSize 2
-
-
 //TODO: Document choice in write-up
 # DIAGONAL PLACEMENT ALLOWED - DEFAULT: TRUE
 allowDiagonal true
