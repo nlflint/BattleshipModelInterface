@@ -17,13 +17,10 @@ public class BattleshipViewController {
    private boolean playerChanged = false;
    private int     maxLength  =  10;
    private int     minLength  =  6;
-   private int     minShips   =  1;
-   private int     maxShips   =  7;
    private boolean toggleOnHit=  false;
 
    //Config properties.  Loaded from default.props and overridden by user.props
    private int     sideLength;
-   private int     numShips;
    private HashSet<ShipType> ships;
    private boolean diagonalsAllowed;
 
@@ -61,7 +58,7 @@ public class BattleshipViewController {
 
       //Load the properties file
       try {
-         fs = new FileInputStream("battleship.props");
+         fs = new FileInputStream("battleship.bshp");
          battleshipProps.load(fs);
          fs.close();
          parseConfigs(battleshipProps);
@@ -78,16 +75,10 @@ public class BattleshipViewController {
          System.out.println("Side Length: " + value); //DEBUG
       }
 
-      //Ships
-      int numberOfShips = Integer.parseInt(file.getProperty("numShips", "5"));
-      if (numberOfShips > minShips && numberOfShips < maxShips) {
-         setNumShips(numberOfShips);
-         System.out.println("Number of Ships: " + numberOfShips);
-      }
-
       //Get the ships
       String allShips = file.getProperty("ships");
       String[] shipArray = allShips.split(", ");
+      int numShips = shipArray.length;
       ships = new HashSet<>();
       for (int i = 0; i < numShips; i++) {
          //TODO: Need to verify these are valid ship types.  May need work model-side
@@ -113,9 +104,6 @@ public class BattleshipViewController {
    //Config set methods
    private void setSideLength(int length) {
       sideLength = length;
-   }
-   private void setNumShips(int ships) {
-      numShips = ships;
    }
    private void setPlayerToggleOnHit(boolean b) {
       toggleOnHit = b;
