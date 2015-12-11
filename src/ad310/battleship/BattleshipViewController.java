@@ -13,7 +13,7 @@ import java.util.*;
 
 public class BattleshipViewController {
    //Fields
-   private BattleshipModel model = new BattleshipModel(new Config());
+   private BattleshipModel model;
    private boolean playerChanged = false;
    private int     maxLength  =  10;
    private int     minLength  =  6;
@@ -24,7 +24,11 @@ public class BattleshipViewController {
    //Config properties.  Loaded from default.props and overridden by user.props
    private int     sideLength;
    private int     numShips;
-   private ShipType[] ships;
+   private HashSet<ShipType> ships;
+   private boolean diagonalsAllowed;
+
+   //Config object for the model
+   Config config;
 
    /**
     * Skeletal main method that stands up a ViewController and walks through major phases of the game
@@ -36,7 +40,10 @@ public class BattleshipViewController {
 
       //Welcome!
       bvc.printTitle();
+
+      //Get and parse the configs
       bvc.getConfigs();
+      bvc.model = new BattleshipModel(bvc.config);
       System.out.println("Finished processing configs");
 
       //Run through Ship Setup
@@ -49,58 +56,18 @@ public class BattleshipViewController {
 
    //Configs
    private void getConfigs() {
-      Scanner in = new Scanner(System.in);
-      boolean fileFound = false;
       FileInputStream fs;
-      Properties defaultProps = new Properties();
-      Properties userProps = new Properties(defaultProps);
+      Properties battleshipProps = new Properties();
 
-      //Load default properties if they exist
+      //Load the properties file
       try {
-         fs = new FileInputStream("default.props");
-         defaultProps.load(fs);
+         fs = new FileInputStream("battleship.props");
+         battleshipProps.load(fs);
          fs.close();
-         //Parse the default.props file for sanity
-         parseConfigs(defaultProps);
-         System.out.println("Loaded default.props file");
+         parseConfigs(battleshipProps);
       } catch (IOException e) {
-         System.out.println("No default properties file found.  Moving on...\n\n");
+         System.out.println("No properties file found.  Using hard-coded defaults...\n\n");
       }
-
-      System.out.println("Do you have a config file to load? [Y/N]: ");
-
-      while (!in.hasNext("[ynYN]")) {
-         System.out.println("Invalid response.  Please enter 'y' for yes or 'n' for no: ");
-         in.next();
-      }
-
-      char response = in.next().charAt(0);
-      if (response == 'y' || response == 'Y') {
-         while (!fileFound) {
-            System.out.println("Please enter the name of the config file (eg, config.props) or '0' to exit: ");
-            String filename = in.next();
-            //Give user an out if they can't supply a file
-            if (filename.equals("0")) {
-               break;
-            } else {
-               //Load the file if we can
-               try {
-                  fs = new FileInputStream(filename);
-                  userProps.load(fs);
-                  fs.close();
-                  fileFound = true;
-                  //Override default props if properly configured in user.props
-                  parseConfigs(userProps);
-                  System.out.println("Loaded user.props file");
-                  pressEnter();  //DEBUG - PAUSE TO VERIFY OVERRIDES
-               } catch (IOException e) {
-                  System.out.println("File not found!");
-               }
-            }
-         }
-      }
-      //default.props and (if provided) user.props loaded by this point.
-      //notifyModel();
    }
 
    private void parseConfigs(Properties file) {
@@ -121,16 +88,26 @@ public class BattleshipViewController {
       //Get the ships
       String allShips = file.getProperty("ships");
       String[] shipArray = allShips.split(", ");
-      ships = new ShipType[numShips];
+      ships = new HashSet<>();
       for (int i = 0; i < numShips; i++) {
          //TODO: Need to verify these are valid ship types.  May need work model-side
-         ships[i] = ShipType.valueOf(shipArray[i]);
-         System.out.println("ShipType: " + ships[i]); //DEBUG
+         ships.add(ShipType.valueOf(shipArray[i]));
+      }
+      //DEBUG.  TODO: Remove
+      for (ShipType s : ships) {
+         System.out.println(s);
       }
 
       //Transfer control on HIT?
       Boolean togglePlayerOnHit = Boolean.parseBoolean(file.getProperty("toggleOnHit", "false"));
       setPlayerToggleOnHit(togglePlayerOnHit);
+
+      //Diagonals allowed?
+      Boolean diagsAllowed = Boolean.parseBoolean(file.getProperty("diagonalsAllowed", "true"));
+      setDiagonalsAllowed(diagsAllowed);
+
+      //Notify Model
+      config = new Config(sideLength, toggleOnHit, diagonalsAllowed, ships);
    }
 
    //Config set methods
@@ -143,16 +120,8 @@ public class BattleshipViewController {
    private void setPlayerToggleOnHit(boolean b) {
       toggleOnHit = b;
    }
-
-   private void customConfig() {
-      //Stretch goal -- allow user interactive property builder, save in place.
-      //      try {
-      //         FileOutputStream out = new FileOutputStream("user.props");
-      //         userProps.store(out, "Created " + new Date().getTime());
-      //         out.close();
-      //      } catch (IOException e) {
-      //         System.out.println("There was an error writing user.props to disk.");
-      //      }
+   private void setDiagonalsAllowed(boolean b) {
+      diagonalsAllowed = b;
    }
 
    //Gameplay Methods
