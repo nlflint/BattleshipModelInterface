@@ -211,6 +211,16 @@ public class BattleshipViewController {
             }
          }
       }
+
+      if (model.numberOfSpacesPerShip(ship) == 1) {
+         end = start;
+         if (model.placeShip(player, ship, start, end)) {
+            validEnd = true;
+         } else {
+            System.out.println("Invalid location.  Choose another Location.");
+         }
+      }
+
       //Get end coordinate
       while (!validEnd) {
          displayBoard(player, b);
@@ -287,6 +297,16 @@ public class BattleshipViewController {
                break;
             case SUNK_CRUISER:
                System.out.println("KABOOOM!  You sunk their CRUISER!");
+               validMove = !validMove;
+               sleep(time);
+               break;
+            case SUNK_SUBMARINE:
+               System.out.println("KABOOOM!  You sunk their SUBMARINE!");
+               validMove = !validMove;
+               sleep(time);
+               break;
+            case SUNK_MINISUB:
+               System.out.println("KABOOOM!  You sunk their MINISUB!");
                validMove = !validMove;
                sleep(time);
                break;
@@ -368,13 +388,15 @@ public class BattleshipViewController {
                   case DESTROYER2:
                      val = 'd';
                      break;
-                  //COMMENTED UNTIL SUB SUPPORT IMPLEMENTED
-//                  case SUBMARINE1:
-//                     val = 'S';
-//                     break;
-//                  case SUBMARINE2:
-//                     val = 's';
-//                     break;
+                  case SUBMARINE:
+                     val = 'S';
+                     break;
+                  case MINISUB1:
+                     val = 'S';
+                     break;
+                  case MINISUB2:
+                     val = 's';
+                     break;
                   default:
                      val = ' ';
                      break;

@@ -1,6 +1,0 @@
-# OVERRIDES GO HERE (UNCOMMENT TO USE user.props VALUES)
-# sideLength 8
-# numShips 4
-# ships AIRCRAFT_CARRIER, BATTLESHIP, CRUISER, DESTROYER1, DESTROYER2
-# toggleOnHit true
-# allowDiagonal false
