@@ -64,7 +64,17 @@ public class BattleshipViewController {
          parseConfigs(battleshipProps);
       } catch (IOException e) {
          System.out.println("No properties file found.  Using hard-coded defaults...\n\n");
+         setDefaultConfigs();
+
       }
+   }
+
+   private void setDefaultConfigs() {
+      config = new Config();
+      ships = config.Ships;
+      setSideLength(config.BoardDimension);
+      setDiagonalsAllowed(config.DiagonalPlacementAllowed);
+      setPlayerToggleOnHit(config.FreeTurnAfterHit);
    }
 
    private void parseConfigs(Properties file) {
@@ -82,9 +92,16 @@ public class BattleshipViewController {
       ships = new HashSet<>();
       for (int i = 0; i < numShips; i++) {
          //TODO: Need to verify these are valid ship types.  May need work model-side
-         ships.add(ShipType.valueOf(shipArray[i]));
+         String shipType = shipArray[i];
+         if(isShipTypeValid(shipType)) {
+            ships.add(ShipType.valueOf(shipType));
+         }
+         else {
+            System.out.println("Ignoring invalid ship: " + shipType);
+         }
       }
       //DEBUG.  TODO: Remove
+
       for (ShipType s : ships) {
          System.out.println(s);
       }
@@ -99,6 +116,15 @@ public class BattleshipViewController {
 
       //Notify Model
       config = new Config(sideLength, toggleOnHit, diagonalsAllowed, ships);
+   }
+
+   private boolean isShipTypeValid(String shipType) {
+      try{ ShipType.valueOf(shipType);
+      }
+      catch(Exception e){
+         return false;
+      }
+      return true;
    }
 
    //Config set methods
