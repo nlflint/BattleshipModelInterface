@@ -6,10 +6,9 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="99d159e6-34eb-4b65-bc56-66ff0d221ceb" name="Default" comment="Implemented checking for invalid ships, also we configured the project to generate a jar">
+    <list default="true" id="99d159e6-34eb-4b65-bc56-66ff0d221ceb" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ad310/battleship/BattleshipViewController.java" afterPath="$PROJECT_DIR$/src/ad310/battleship/BattleshipViewController.java" />
     </list>
     <ignored path="BattleshipModelInterface.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -650,7 +649,13 @@
       <option name="project" value="LOCAL" />
       <updated>1449960493821</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Implemented checking for invalid ships, also we configured the project to generate a jar, finished the fix for the display">
+      <created>1449962047630</created>
+      <option name="number" value="00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1449962047630</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -755,7 +760,8 @@
     <MESSAGE value="Partially implemented ship customization" />
     <MESSAGE value="Finished implementation of ship modification, all ships are hittable and sinkable now" />
     <MESSAGE value="Implemented checking for invalid ships, also we configured the project to generate a jar" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented checking for invalid ships, also we configured the project to generate a jar" />
+    <MESSAGE value="Implemented checking for invalid ships, also we configured the project to generate a jar, finished the fix for the display" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented checking for invalid ships, also we configured the project to generate a jar, finished the fix for the display" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
