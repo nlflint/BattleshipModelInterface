@@ -164,7 +164,7 @@ public class BattleshipViewController {
       //Player2 Setup
       printInterstitial(player2);
       for (ShipType ship : ships ) {
-         promptPlayerSetup(player2, ship, p1def);
+         promptPlayerSetup(player2, ship, p2def);
       }
       displayBoard(player2, p2def);
       sleep(time);
