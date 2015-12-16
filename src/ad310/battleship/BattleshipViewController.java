@@ -283,18 +283,21 @@ public class BattleshipViewController {
     * @param p The player to prompt
     */
    private void promptPlayer(Player p) {
-      Board off;
+      Board off, def;
       int time = 1000;
       boolean validMove = false;
       Location shot;
 
       if (p.equals(Player.PLAYER1)) {
          off = Board.PLAYER1_OFFENSIVE;
+         def = Board.PLAYER1_DEFENSIVE;
       } else {
          off = Board.PLAYER2_OFFENSIVE;
+         def = Board.PLAYER2_DEFENSIVE;
       }
 
       while (!validMove) {
+         displayBoard(p, def);
          displayBoard(p, off);
          System.out.println(p + "'s Turn.  Make your move!");
          shot = promptForLocation();
