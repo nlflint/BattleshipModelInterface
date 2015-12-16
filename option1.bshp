@@ -11,7 +11,7 @@ ships AIRCRAFT_CARRIER, BATTLESHIP, CRUISER, DESTROYER1, SUBMARINE
 # TRANSFER PLAY IF PLAYER SCORES A HIT - DEFAULT: FALSE (PLAYER GOES AGAIN ON HIT).
 # Options: true, false
 # DEFAULT: false
-toggleOnHit true
+freeTurnAfterHit false
 
 # Should diagonal placement of ships be allowed?
 # Options: true, false

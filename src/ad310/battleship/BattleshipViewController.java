@@ -14,7 +14,6 @@ import java.util.*;
 public class BattleshipViewController {
    //Fields
    private BattleshipModel model;
-   private boolean playerChanged = false;
    private int     maxLength  =  10;
    private int     minLength  =  6;
    private boolean toggleOnHit=  false;
@@ -107,7 +106,7 @@ public class BattleshipViewController {
       }
 
       //Transfer control on HIT?
-      Boolean togglePlayerOnHit = Boolean.parseBoolean(file.getProperty("toggleOnHit", "false"));
+      Boolean togglePlayerOnHit = Boolean.parseBoolean(file.getProperty("freeTurnAfterHit", "true"));
       setPlayerToggleOnHit(togglePlayerOnHit);
 
       //Diagonals allowed?
@@ -168,7 +167,6 @@ public class BattleshipViewController {
       }
       displayBoard(player2, p2def);
       sleep(time);
-      playerChanged = true;
    }
 
    /**
@@ -266,13 +264,16 @@ public class BattleshipViewController {
    //Basic game flow logic. Checks with model for Game Over or current player
    private void play() {
       model.startGame();
+      printInterstitial(model.whoseTurn());
+
       while (!model.isGameOver()) {
          Player currentPlayer = model.whoseTurn();
-         if (playerChanged) {
-            printInterstitial(currentPlayer);
-            playerChanged = false;
-         }
          promptPlayer(currentPlayer);
+         Player playerAfterTurn = model.whoseTurn();
+
+         if (!currentPlayer.equals(playerAfterTurn)) {
+            printInterstitial(playerAfterTurn);
+         }
       }
    }
 
@@ -302,7 +303,6 @@ public class BattleshipViewController {
             case MISS:
                System.out.println("SPLOOOSH!  You missed!");
                validMove = !validMove;
-               playerChanged = true;
                displayBoard(p, off);
                sleep(time);
                break;
@@ -337,7 +337,7 @@ public class BattleshipViewController {
                sleep(time);
                break;
             case HIT:
-               System.out.println("KABOOOM!  You scored a hit!  Go again!");
+               System.out.println("KABOOOM!  You scored a hit!");
                validMove = !validMove;
                sleep(time);
                break;
