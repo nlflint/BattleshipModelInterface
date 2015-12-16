@@ -272,7 +272,7 @@ public class BattleshipViewController {
          promptPlayer(currentPlayer);
          Player playerAfterTurn = model.whoseTurn();
 
-         if (!currentPlayer.equals(playerAfterTurn)) {
+         if (!currentPlayer.equals(playerAfterTurn) && !model.isGameOver()) {
             printInterstitial(playerAfterTurn);
          }
       }
