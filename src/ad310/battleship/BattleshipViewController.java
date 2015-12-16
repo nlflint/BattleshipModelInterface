@@ -179,10 +179,11 @@ public class BattleshipViewController {
       char row;
       int  col = 0;
       Location loc = null;
+      String validSelection = "A-" + (char)(64 + sideLength) + "a-" + (char)(96 + sideLength);
 
       while (!validLocation) {
          System.out.println("Enter a valid row [A-" + (char)(64 + sideLength) + "]: ");
-         while (!in.hasNext("[abcdefghijABCDEFGHIJ]")) {
+         while (!in.hasNext("[" + validSelection + "]")) {
             System.out.println("Invalid row.  Please enter a valid row [A-" + (char)(64 + sideLength) + "]: ");
             in.next();
          }
